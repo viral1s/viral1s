@@ -1381,7 +1381,9 @@ const IMAGE_SIZE = VIDEO_WIDTH;
     ========================= */
 
     const hookBlob =
-      await createHookImage();
+  await createHookImage(
+    VIDEO_WIDTH
+  );
 
     hookBitmap =
       await createImageBitmap(
