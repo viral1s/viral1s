@@ -1848,3 +1848,98 @@ button {
     0 10px 28px
     rgba(86, 76, 255, 0.24);
 }
+
+
+/* ==============================
+   EXPORT PROGRESS
+============================== */
+
+.export-progress-view {
+  display: none;
+  text-align: center;
+  padding: 8px 0 2px;
+}
+
+.export-progress-view.show {
+  display: block;
+}
+
+.export-progress-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.export-spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid rgba(255,255,255,.1);
+  border-top-color: #7161ff;
+  border-radius: 50%;
+  animation: exportSpin .8s linear infinite;
+}
+
+@keyframes exportSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.export-progress-view h3 {
+  margin: 0 0 7px;
+  font-size: 19px;
+  color: #fff;
+}
+
+.export-progress-view p {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: #92929f;
+}
+
+.export-progress-track {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+}
+
+.export-progress-bar {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #704cff,
+    #536dff
+  );
+  transition: width .18s ease;
+}
+
+.export-progress-percent {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.export-stop-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 13px 16px;
+
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+
+  background: rgba(255,255,255,.04);
+  color: #d7d7df;
+
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.export-stop-btn:active {
+  transform: scale(.98);
+}
