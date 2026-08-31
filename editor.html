@@ -1729,6 +1729,10 @@ if (selectedExportQuality === 480) {
 
       /* HOOK */
 
+      
+ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingQuality = "high";
+      
       ctx.drawImage(
         hookBitmap,
         0,
