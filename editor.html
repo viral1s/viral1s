@@ -1548,6 +1548,10 @@ if (selectedExportQuality === 480) {
       frame++
     ) {
 
+      if (exportCancelled) {
+  throw new Error("EXPORT_CANCELLED");
+      }
+
       const timestamp =
         frame / FPS;
 
