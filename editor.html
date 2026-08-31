@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ReelFlow Editor</title>
+
+  <link
+    rel="stylesheet"
+    href="./style.css"
+  >
+</head>
+
+<body>
+
+  <main class="compact-editor">
+
+    <!-- TOP BAR -->
+
+    <header class="compact-topbar">
+
+      <button
+        class="compact-back"
+        type="button"
+        onclick="window.location.href='./index.html'"
+        aria-label="Back"
+      >
+        ←
+      </button>
+
+      <div class="compact-title">
+        <strong>Template 1</strong>
+        <span>Hook Reveal</span>
+      </div>
+
+      <button
+        id="exportBtn"
+        class="top-export-btn"
+        type="button"
+      >
+        Export
+      </button>
+
+    </header>
+
+
+    <!-- WORKSPACE -->
+
+    <section class="compact-workspace">
+
+      <div class="video-shell">
+
+
+        <!-- REAL 9:16 REEL -->
+
+        <div
+          id="reelPreview"
+          class="compact-reel"
+        >
+
+          <!-- TOP EMPTY SPACE -->
+
+          <div
+            class="reel-space reel-space-top"
+          ></div>
+
+
+          <!-- HOOK -->
+
+          <div
+            id="hookOutput"
+            class="compact-hook"
+          >
+            Your hook goes here
+          </div>
+
+
+          <!-- EXACT 1:1 IMAGE -->
+
+          <div class="compact-image-box">
+
+            <span id="imagePlaceholder">
+              Your image
+            </span>
+
+            <img
+              id="previewImage"
+              alt="Selected image"
+            >
+
+          </div>
+
+
+          <!-- BOTTOM EMPTY SPACE -->
+
+          <div
+            class="reel-space reel-space-bottom"
+          ></div>
+
+        </div>
+
+
+        <!-- PLAYER -->
+
+        <div class="video-player-controls">
+
+          <button
+            id="videoPlayBtn"
+            class="video-play-btn"
+            type="button"
+            aria-label="Play reel"
+          >
+            ▶
+          </button>
+
+
+          <div class="video-time">
+
+            <span id="currentTime">
+              0:00
+            </span>
+
+            <span>/</span>
+
+            <span id="totalTime">
+              0:05
+            </span>
+
+          </div>
+
+
+          <div class="mini-progress">
+
+            <div
+              id="progressFill"
+              class="mini-progress-fill"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- EDIT FIELDS -->
+
+      <div class="compact-fields">
+
+
+        <!-- HOOK INPUT -->
+
+        <div class="compact-field hook-field">
+
+          <label for="hookInput">
+            Hook
+          </label>
+
+          <textarea
+            id="hookInput"
+            rows="2"
+            maxlength="120"
+            placeholder="Write your hook..."
+          ></textarea>
+
+          <div class="hook-size-control">
+  <label for="hookSize">
+    Text Size
+    <span id="hookSizeValue">100%</span>
+  </label>
+
+  <input
+    id="hookSize"
+    type="range"
+    min="40"
+    max="150"
+    value="100"
+    step="5"
+  >
+</div>
+<div class="hook-height-control">
+  <label for="hookHeight">
+    Hook Height
+    <span id="hookHeightValue">40px</span>
+  </label>
+
+  <input
+    id="hookHeight"
+    type="range"
+    min="0"
+    max="120"
+    value="40"
+    step="5"
+  >
+</div>
+        </div>
+
+
+        <!-- IMAGE INPUT -->
+
+        <div class="compact-field image-field">
+
+          <label>Image</label>
+
+<label class="image-upload-box" id="imageUploadBox" for="imageInput">
+
+  <div class="image-upload-icon" id="imageUploadIcon">
+    +
+  </div>
+
+  <div class="image-upload-title" id="imageUploadTitle">
+    Add Image
+  </div>
+
+  <div class="image-upload-name" id="imageUploadName"></div>
+
+</label>
+
+<input
+  id="imageInput"
+  type="file"
+  accept="image/*"
+>
+        </div>
+
+      </div>
+
+
+      <p id="editorStatus"></p>
+
+    </section>
+
+
+    <!-- MUSIC -->
+
+    <audio
+      id="templateAudio"
+      src="./template1.mp3"
+      preload="auto"
+    ></audio>
+
+
+    <!-- CUSTOM POPUP -->
+
+    <div
+      id="editorPopup"
+      class="editor-popup"
+    >
+
+      <div class="editor-popup-card">
+
+        <div class="editor-popup-icon">
+          🖼️
+        </div>
+
+        <strong>
+          Choose an image first
+        </strong>
+
+        <p>
+          Add your image before playing this reel.
+        </p>
+
+        <button
+          id="popupCloseBtn"
+          class="editor-popup-btn"
+          type="button"
+        >
+          Choose Image
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <script>
+
+    /* ==============================
+       ELEMENTS
+    ============================== */
+
+    const hookInput =
+      document.getElementById("hookInput");
+
+    const hookOutput =
+      document.getElementById("hookOutput");
+
+    const hookSize =
+  document.getElementById("hookSize");
+
+const hookSizeValue =
+  document.getElementById("hookSizeValue");
+
+
+const hookHeight =
+  document.getElementById("hookHeight");
+
+const hookHeightValue =
+  document.getElementById("hookHeightValue");
+
+    
+    const imageInput =
+      document.getElementById("imageInput");
+
+    const previewImage =
+      document.getElementById("previewImage");
+
+    const imagePlaceholder =
+      document.getElementById("imagePlaceholder");
+
+    const videoPlayBtn =
+      document.getElementById("videoPlayBtn");
+
+    const exportBtn =
+      document.getElementById("exportBtn");
+
+    const templateAudio =
+      document.getElementById("templateAudio");
+
+    const currentTime =
+      document.getElementById("currentTime");
+
+    const totalTime =
+      document.getElementById("totalTime");
+
+    const progressFill =
+      document.getElementById("progressFill");
+
+    const editorStatus =
+      document.getElementById("editorStatus");
+
+    const editorPopup =
+      document.getElementById("editorPopup");
+
+    const popupCloseBtn =
+      document.getElementById("popupCloseBtn");
+
+
+    /* ==============================
+       STATE
+    ============================== */
+
+    let selectedImage = null;
+
+    let selectedImageUrl = null;
+
+    let playing = false;
+
+    let animationFrame = null;
+
+
+    /* ==============================
+       TEMPLATE TIMING
+    ============================== */
+
+    const REVEAL_START = 0.75;
+
+    const REEL_END = 5.04;
+
+    const REVEAL_DURATION =
+      REEL_END - REVEAL_START;
+
+
+    totalTime.textContent =
+      formatTime(REEL_END);
+
+
+    /* ==============================
+       ARABIC DETECTION
+    ============================== */
+
+    function containsArabic(text) {
+
+      return /[\u0600-\u06FF]/.test(text);
+
+    }
+
+
+    /* ==============================
+       HOOK
+    ============================== */
+
+    function updateHook() {
+
+      const value =
+        hookInput.value.trim();
+
+
+      if (!value) {
+
+        hookOutput.textContent =
+          "Your hook goes here";
+
+
+        hookOutput.classList.remove(
+          "arabic-hook"
+        );
+
+
+        hookOutput.dir =
+          "ltr";
+
+
+        return;
+
+      }
+
+
+      hookOutput.textContent =
+        value;
+
+
+      if (
+        containsArabic(value)
+      ) {
+
+        hookOutput.classList.add(
+          "arabic-hook"
+        );
+
+
+        hookOutput.dir =
+          "rtl";
+
+      } else {
+
+        hookOutput.classList.remove(
+          "arabic-hook"
+        );
+
+
+        hookOutput.dir =
+          "ltr";
+
+      }
+
+    }
+
+
+    hookInput.addEventListener(
+      "input",
+      updateHook
+    );
+    updateHook();
+
+const savedHookSize =
+  localStorage.getItem("reelflow_hook_size");
+
+if (savedHookSize) {
+  hookSize.value = savedHookSize;
+}
+
+function applyHookSize() {
+  const size = Number(hookSize.value);
+
+  hookOutput.style.fontSize =
+    `${size}%`;
+
+  hookSizeValue.textContent =
+    `${size}%`;
+
+  localStorage.setItem(
+    "reelflow_hook_size",
+    String(size)
+  );
+}
+
+hookSize.addEventListener(
+  "input",
+  applyHookSize
+);
+
+applyHookSize();
+
+const savedHookHeight =
+  localStorage.getItem("reelflow_hook_height");
+
+if (savedHookHeight) {
+  hookHeight.value = savedHookHeight;
+}
+
+function applyHookHeight() {
+  const height = Number(hookHeight.value);
+
+  const safePadding = 4;
+
+const adjustablePadding =
+  6 * (height / 40);
+
+const padding =
+  safePadding + adjustablePadding;
+
+  hookOutput.style.minHeight = "";
+
+  hookOutput.style.paddingTop =
+    `${padding}px`;
+
+  hookOutput.style.paddingBottom =
+    `${padding}px`;
+
+  hookHeightValue.textContent =
+    `${height}px`;
+
+  localStorage.setItem(
+    "reelflow_hook_height",
+    String(height)
+  );
+}
+
+    
+hookHeight.addEventListener(
+  "input",
+  applyHookHeight
+);
+
+applyHookHeight();
+
+    
+    /* ==============================
+       IMAGE
+    ============================== */
+
+
+const imageUploadBox =
+  document.getElementById("imageUploadBox");
+
+const imageUploadIcon =
+  document.getElementById("imageUploadIcon");
+
+const imageUploadTitle =
+  document.getElementById("imageUploadTitle");
+
+const imageUploadName =
+  document.getElementById("imageUploadName");
+
+    
+    imageInput.addEventListener(
+      "change",
+      () => {
+
+        selectedImage =
+          imageInput.files[0];
+
+
+        if (!selectedImage) {
+          return;
+        }
+imageUploadBox.classList.add("has-image");
+
+imageUploadIcon.textContent = "✓";
+
+imageUploadTitle.textContent =
+  "Change Image";
+
+imageUploadName.textContent =
+  selectedImage.name;
+
+        if (selectedImageUrl) {
+
+          URL.revokeObjectURL(
+            selectedImageUrl
+          );
+
+        }
+
+
+        selectedImageUrl =
+          URL.createObjectURL(
+            selectedImage
+          );
+
+
+        previewImage.src =
+          selectedImageUrl;
+
+
+        previewImage.style.display =
+          "block";
+
+
+        imagePlaceholder.style.display =
+          "none";
+
+
+        resetVisuals();
+
+
+        editorPopup.classList.remove(
+          "show"
+        );
+
+
+        editorStatus.textContent =
+          "";
+
+      }
+    );
+
+
+    /* ==============================
+       PLAY BUTTON
+    ============================== */
+
+    videoPlayBtn.addEventListener(
+      "click",
+      togglePreview
+    );
+
+
+    async function togglePreview() {
+
+      if (!selectedImage) {
+
+        editorPopup.classList.add(
+          "show"
+        );
+
+        return;
+
+      }
+
+
+      if (playing) {
+
+        stopPreview();
+
+      } else {
+
+        await startPreview();
+
+      }
+
+    }
+
+
+    /* ==============================
+       START PREVIEW
+    ============================== */
+
+    async function startPreview() {
+
+      playing = true;
+
+
+      videoPlayBtn.classList.add(
+        "is-playing"
+      );
+
+
+      videoPlayBtn.textContent =
+        "❚❚";
+
+
+      templateAudio.pause();
+
+
+      templateAudio.currentTime =
+        0;
+
+
+      resetVisuals();
+
+
+      try {
+
+        await templateAudio.play();
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        playing = false;
+
+
+        videoPlayBtn.classList.remove(
+          "is-playing"
+        );
+
+
+        videoPlayBtn.textContent =
+          "▶";
+
+
+        editorStatus.textContent =
+          "Music could not start.";
+
+
+        return;
+
+      }
+
+
+      previewLoop();
+
+    }
+
+
+    /* ==============================
+       STOP PREVIEW
+    ============================== */
+
+    function stopPreview() {
+
+      playing = false;
+
+
+      templateAudio.pause();
+
+
+      videoPlayBtn.classList.remove(
+        "is-playing"
+      );
+
+
+      videoPlayBtn.textContent =
+        "▶";
+
+
+      if (animationFrame) {
+
+        cancelAnimationFrame(
+          animationFrame
+        );
+
+      }
+
+    }
+
+
+    /* ==============================
+       LOOP
+    ============================== */
+
+    function previewLoop() {
+
+      if (!playing) {
+        return;
+      }
+
+
+      const time =
+        templateAudio.currentTime;
+
+
+      updatePreview(time);
+
+
+      /*
+        When image reaches 100%
+        reel starts again.
+      */
+
+      if (
+        time >=
+        REEL_END - 0.03
+      ) {
+
+        templateAudio.currentTime =
+          0;
+
+
+        resetVisuals();
+
+
+        templateAudio
+          .play()
+          .catch(() => {});
+
+      }
+
+
+      animationFrame =
+        requestAnimationFrame(
+          previewLoop
+        );
+
+    }
+
+
+    /* ==============================
+       IMAGE REVEAL
+    ============================== */
+
+    function updatePreview(time) {
+
+      currentTime.textContent =
+        formatTime(time);
+
+
+      const videoProgress =
+        Math.min(
+          time / REEL_END,
+          1
+        );
+
+
+      progressFill.style.width =
+        `${videoProgress * 100}%`;
+
+
+      /*
+        Before reveal
+      */
+
+      if (
+        time < REVEAL_START
+      ) {
+
+        previewImage.style.opacity =
+          "0";
+
+
+        previewImage.style.filter =
+          "brightness(0)";
+
+
+        return;
+
+      }
+
+
+      /*
+        Reveal from dark
+        to 100% visible.
+      */
+
+      const revealProgress =
+        Math.min(
+          (
+            time -
+            REVEAL_START
+          ) /
+          REVEAL_DURATION,
+          1
+        );
+
+
+      previewImage.style.opacity =
+        revealProgress;
+
+
+      previewImage.style.filter =
+        `brightness(${revealProgress})`;
+
+    }
+
+
+    /* ==============================
+       RESET
+    ============================== */
+
+    function resetVisuals() {
+
+      currentTime.textContent =
+        "0:00";
+
+
+      progressFill.style.width =
+        "0%";
+
+
+      if (previewImage.src) {
+
+        previewImage.style.opacity =
+          "0";
+
+
+        previewImage.style.filter =
+          "brightness(0)";
+
+      }
+
+    }
+
+
+    /* ==============================
+       POPUP
+    ============================== */
+
+    popupCloseBtn.addEventListener(
+      "click",
+      () => {
+
+        editorPopup.classList.remove(
+          "show"
+        );
+
+
+        imageInput.click();
+
+      }
+    );
+
+
+    editorPopup.addEventListener(
+      "click",
+      (event) => {
+
+        if (
+          event.target ===
+          editorPopup
+        ) {
+
+          editorPopup.classList.remove(
+            "show"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* ==============================
+       EXPORT
+    ============================== */
+
+    /* ==============================
+   EXPORT
+============================== */
+
+exportBtn.addEventListener(
+  "click",
+  exportReel
+);
+
+
+async function exportReel() {
+
+  if (!selectedImage) {
+
+    editorPopup.classList.add(
+      "show"
+    );
+
+    return;
+  }
+
+
+  const originalButtonText =
+    exportBtn.textContent;
+
+
+  exportBtn.disabled = true;
+
+  exportBtn.textContent =
+    "Exporting...";
+
+
+  editorStatus.textContent =
+    "Creating your reel...";
+
+
+  try {
+
+    /* ==========================
+       CREATE HOOK PNG
+    ========================== */
+
+    const hookBlob =
+      await createHookImage();
+
+
+    /* ==========================
+       FORM DATA
+    ========================== */
+
+    const formData =
+      new FormData();
+
+
+    formData.append(
+      "image",
+      selectedImage
+    );
+
+
+    formData.append(
+      "hookImage",
+      hookBlob,
+      "hook.png"
+    );
+
+
+    /*
+      Convert current Hook height
+      from preview scale
+      to 720px export scale.
+    */
+
+    const previewWidth =
+      reelPreview.getBoundingClientRect().width;
+
+
+    const previewHookHeight =
+      hookOutput.getBoundingClientRect().height;
+
+
+    const exportHookHeight =
+      Math.round(
+        previewHookHeight *
+        (
+          720 /
+          previewWidth
+        )
+      );
+
+
+    formData.append(
+      "hookHeight",
+      String(exportHookHeight)
+    );
+
+
+    /* ==========================
+       SEND TO RAILWAY
+    ========================== */
+
+    const response =
+      await fetch(
+        "https://mini-video-editor-production.up.railway.app/export-reel",
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+
+
+    if (!response.ok) {
+
+      const message =
+        await response.text();
+
+
+      throw new Error(
+        message ||
+        "Export failed"
+      );
+
+    }
+
+
+    /* ==========================
+       GET MP4
+    ========================== */
+
+    const videoBlob =
+      await response.blob();
+
+
+    const videoUrl =
+      URL.createObjectURL(
+        videoBlob
+      );
+
+
+    const downloadLink =
+      document.createElement(
+        "a"
+      );
+
+
+    downloadLink.href =
+      videoUrl;
+
+
+    downloadLink.download =
+      "reelflow-reel.mp4";
+
+
+    document.body.appendChild(
+      downloadLink
+    );
+
+
+    downloadLink.click();
+
+
+    downloadLink.remove();
+
+
+    setTimeout(
+      () => {
+
+        URL.revokeObjectURL(
+          videoUrl
+        );
+
+      },
+      5000
+    );
+
+
+    editorStatus.textContent =
+      "Reel exported ✓";
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    editorStatus.textContent =
+      "Export failed. Try again.";
+
+
+  } finally {
+
+    exportBtn.disabled =
+      false;
+
+
+    exportBtn.textContent =
+      originalButtonText;
+
+  }
+
+}
+
+
+/* ==============================
+   CREATE HOOK IMAGE
+============================== */
+
+
+        async function createHookImage() {
+
+  const hookRect =
+    hookOutput.getBoundingClientRect();
+
+  const exportScale =
+  2160 / hookRect.width;
+
+  const canvas =
+    await html2canvas(
+      hookOutput,
+      {
+        backgroundColor: "#ffffff",
+        scale: exportScale,
+        useCORS: true,
+        logging: false
+      }
+    );
+
+  return new Promise(
+    (resolve, reject) => {
+
+      canvas.toBlob(
+        (blob) => {
+
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(
+              new Error(
+                "Could not create hook"
+              )
+            );
+          }
+
+        },
+        "image/png"
+      );
+
+    }
+  );
+
+}
+
+/* ==============================
+   WRAP HOOK TEXT
+============================== */
+
+function drawWrappedText(
+  ctx,
+  text,
+  centerX,
+  centerY,
+  maxWidth,
+  lineHeight
+) {
+
+  const words =
+    text.split(/\s+/);
+
+
+  const lines = [];
+
+  let currentLine = "";
+
+
+  words.forEach(
+    (word) => {
+
+      const testLine =
+        currentLine
+          ? currentLine + " " + word
+          : word;
+
+
+      const width =
+        ctx.measureText(
+          testLine
+        ).width;
+
+
+      if (
+        width > maxWidth &&
+        currentLine
+      ) {
+
+        lines.push(
+          currentLine
+        );
+
+
+        currentLine =
+          word;
+
+      } else {
+
+        currentLine =
+          testLine;
+
+      }
+
+    }
+  );
+
+
+  if (currentLine) {
+
+    lines.push(
+      currentLine
+    );
+
+  }
+
+
+  const totalHeight =
+    (
+      lines.length - 1
+    ) *
+    lineHeight;
+
+
+  let y =
+    centerY -
+    totalHeight / 2;
+
+
+  lines.forEach(
+    (line) => {
+
+      ctx.fillText(
+        line,
+        centerX,
+        y
+      );
+
+
+      y +=
+        lineHeight;
+
+    }
+  );
+
+}
+
+    /* ==============================
+       TIME FORMAT
+    ============================== */
+
+    function formatTime(seconds) {
+
+      const safeSeconds =
+        Math.max(
+          0,
+          seconds || 0
+        );
+
+
+      const minutes =
+        Math.floor(
+          safeSeconds / 60
+        );
+
+
+      const secs =
+        Math.floor(
+          safeSeconds % 60
+        );
+
+
+      return (
+        minutes +
+        ":" +
+        secs
+          .toString()
+          .padStart(
+            2,
+            "0"
+          )
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
