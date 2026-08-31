@@ -1655,6 +1655,17 @@ if (selectedExportQuality === 480) {
       editorStatus.textContent =
         `Exporting on device... ${progress}%`;
 
+
+exportProgressBar.style.width =
+  `${progress}%`;
+
+exportProgressPercent.textContent =
+  `${progress}%`;
+
+exportProgressText.textContent =
+  `Exporting ${selectedExportQuality}p...`;
+
+        
     }
 
 
