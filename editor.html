@@ -1178,9 +1178,21 @@ exportConfirmBtn.addEventListener(
        VIDEO SETTINGS
     ========================= */
 
-    const VIDEO_WIDTH = 720;
-    const VIDEO_HEIGHT = 1280;
-    const IMAGE_SIZE = 720;
+    let VIDEO_WIDTH;
+let VIDEO_HEIGHT;
+
+if (selectedExportQuality === 480) {
+  VIDEO_WIDTH = 480;
+  VIDEO_HEIGHT = 854;
+} else if (selectedExportQuality === 720) {
+  VIDEO_WIDTH = 720;
+  VIDEO_HEIGHT = 1280;
+} else {
+  VIDEO_WIDTH = 1080;
+  VIDEO_HEIGHT = 1920;
+}
+
+const IMAGE_SIZE = VIDEO_WIDTH;
 
     const FPS = 30;
     const REEL_END = 5.04;
