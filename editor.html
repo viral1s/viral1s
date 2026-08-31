@@ -937,11 +937,199 @@ imageUploadName.textContent =
    EXPORT
 ============================== */
 
+const exportModal =
+  document.getElementById("exportModal");
+
+const exportModalClose =
+  document.getElementById("exportModalClose");
+
+const exportCancelBtn =
+  document.getElementById("exportCancelBtn");
+
+const exportConfirmBtn =
+  document.getElementById("exportConfirmBtn");
+
+const qualityOptions =
+  document.querySelectorAll(
+    ".export-quality-option"
+  );
+
+const size480 =
+  document.getElementById("size480");
+
+const size720 =
+  document.getElementById("size720");
+
+const size1080 =
+  document.getElementById("size1080");
+
+
+let selectedExportQuality = 1080;
+
+
+/* =========================
+   ESTIMATED FILE SIZE
+========================= */
+
+function estimateVideoSize(
+  videoBitrate
+) {
+
+  const duration = 5.04;
+
+  const audioBitrate =
+    128000;
+
+  const totalBits =
+    duration *
+    (
+      videoBitrate +
+      audioBitrate
+    );
+
+  const megaBytes =
+    totalBits /
+    8 /
+    1024 /
+    1024;
+
+  return `~${megaBytes.toFixed(1)} MB`;
+
+}
+
+
+size480.textContent =
+  estimateVideoSize(
+    1800000
+  );
+
+size720.textContent =
+  estimateVideoSize(
+    3500000
+  );
+
+size1080.textContent =
+  estimateVideoSize(
+    6500000
+  );
+
+
+/* =========================
+   OPEN EXPORT MODAL
+========================= */
+
 exportBtn.addEventListener(
   "click",
-  exportReel
+  () => {
+
+    if (!selectedImage) {
+
+      editorPopup.classList.add(
+        "show"
+      );
+
+      return;
+    }
+
+    exportModal.classList.add(
+      "show"
+    );
+
+  }
 );
 
+
+/* =========================
+   QUALITY SELECT
+========================= */
+
+qualityOptions.forEach(
+  (option) => {
+
+    option.addEventListener(
+      "click",
+      () => {
+
+        qualityOptions.forEach(
+          (item) => {
+            item.classList.remove(
+              "selected"
+            );
+          }
+        );
+
+        option.classList.add(
+          "selected"
+        );
+
+        selectedExportQuality =
+          Number(
+            option.dataset.quality
+          );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+function closeExportModal() {
+
+  exportModal.classList.remove(
+    "show"
+  );
+
+}
+
+
+exportModalClose.addEventListener(
+  "click",
+  closeExportModal
+);
+
+
+exportCancelBtn.addEventListener(
+  "click",
+  closeExportModal
+);
+
+
+exportModal.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target ===
+      exportModal
+    ) {
+
+      closeExportModal();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   CONFIRM EXPORT
+========================= */
+
+exportConfirmBtn.addEventListener(
+  "click",
+  () => {
+
+    closeExportModal();
+
+    exportReel();
+
+  }
+);
 
 
 
