@@ -1741,7 +1741,21 @@ exportProgressText.textContent =
 
 
   } catch (error) {
+if (error.message === "EXPORT_CANCELLED") {
 
+  editorStatus.textContent =
+    "Export cancelled";
+
+  exportProgressText.textContent =
+    "Export cancelled";
+
+  exportProgressView.classList.remove("show");
+
+  exportConfirmBtn.style.display = "";
+  exportCancelBtn.style.display = "";
+
+  return;
+}
     console.error(
       "Client export error:",
       error
