@@ -1137,11 +1137,20 @@ exportModal.addEventListener(
 
 exportConfirmBtn.addEventListener(
   "click",
-  () => {
+  async () => {
 
-    closeExportModal();
+    exportCancelled = false;
 
-    exportReel();
+    exportProgressView.classList.add("show");
+
+    exportConfirmBtn.style.display = "none";
+    exportCancelBtn.style.display = "none";
+
+    exportProgressBar.style.width = "0%";
+    exportProgressPercent.textContent = "0%";
+    exportProgressText.textContent = "Preparing...";
+
+    await exportReel();
 
   }
 );
