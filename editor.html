@@ -1739,7 +1739,20 @@ exportProgressText.textContent =
     editorStatus.textContent =
       "Reel exported ✓";
 
+exportProgressBar.style.width = "100%";
+exportProgressPercent.textContent = "100%";
+exportProgressText.textContent = "Export complete ✓";
 
+setTimeout(() => {
+
+  closeExportModal();
+
+  exportProgressView.classList.remove("show");
+
+  exportConfirmBtn.style.display = "";
+  exportCancelBtn.style.display = "";
+
+}, 800);
   } catch (error) {
 if (error.message === "EXPORT_CANCELLED") {
 
