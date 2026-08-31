@@ -1312,7 +1312,17 @@ const IMAGE_SIZE = VIDEO_WIDTH;
     /* =========================
        VIDEO ENCODER
     ========================= */
+let videoBitrate;
 
+if (selectedExportQuality === 480) {
+  videoBitrate = 1800000;
+} else if (selectedExportQuality === 720) {
+  videoBitrate = 3500000;
+} else {
+  videoBitrate = 6500000;
+          }
+
+    
     const videoSource =
       new CanvasSource(
         canvas,
@@ -1320,9 +1330,9 @@ const IMAGE_SIZE = VIDEO_WIDTH;
           codec: "avc",
 
           quality:
-            new Quality(
-              "high"
-            )
+  new Quality({
+    bitrate: videoBitrate
+  })
         }
       );
 
