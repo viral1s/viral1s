@@ -1,181 +1,868 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
 
-  <title>ReelFlow</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-  <link rel="stylesheet" href="./style.css">
+  <title>Viral1s — Create Viral Reels in Seconds</title>
+
+  <meta
+    name="description"
+    content="Create scroll-stopping reels in seconds with ready-made Viral1s templates. Add your content, customize your reel and export directly from your device."
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070711;
+      --card: #11111d;
+      --card-2: #151523;
+      --border: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --muted: #9696aa;
+      --purple: #7c5cff;
+      --blue: #3f8cff;
+      --green: #27d980;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(124,92,255,0.20),
+          transparent 34%
+        ),
+        var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+
+      margin: 0 auto;
+
+      padding:
+        calc(18px + env(safe-area-inset-top))
+        16px
+        28px;
+    }
+
+    /* HEADER */
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      text-decoration: none;
+      color: white;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--blue)
+        );
+
+      font-size: 18px;
+      font-weight: 900;
+
+      box-shadow:
+        0 8px 24px rgba(89,76,255,0.28);
+    }
+
+    .logo-name {
+      font-size: 21px;
+      font-weight: 850;
+      letter-spacing: -0.8px;
+    }
+
+    .beta {
+      padding: 5px 8px;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background: rgba(255,255,255,0.04);
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+    }
+
+    /* HERO */
+
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      margin-bottom: 12px;
+
+      color: #b9adff;
+
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--purple);
+
+      box-shadow:
+        0 0 14px rgba(124,92,255,0.8);
+    }
+
+    h1 {
+      max-width: 430px;
+
+      margin-bottom: 10px;
+
+      font-size: clamp(31px, 9vw, 43px);
+      line-height: 1.02;
+      letter-spacing: -1.8px;
+
+      font-weight: 900;
+    }
+
+    .gradient-text {
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff 0%,
+          #aa9aff 50%,
+          #6aa5ff 100%
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 420px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    /* SECTION */
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+
+      margin-bottom: 13px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+
+    .section-count {
+      color: var(--muted);
+
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    /* TEMPLATE GRID */
+
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      gap: 11px;
+    }
+
+    .template-card {
+      position: relative;
+
+      min-width: 0;
+
+      overflow: hidden;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          160deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.018)
+        ),
+        var(--card);
+
+      text-decoration: none;
+      color: white;
+    }
+
+    .template-card.active {
+      transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+    }
+
+    .template-card.active:active {
+      transform: scale(0.975);
+    }
+
+    /* PREVIEW */
+
+    .preview {
+      position: relative;
+
+      width: 100%;
+      aspect-ratio: 4 / 5;
+
+      overflow: hidden;
+
+      background: #0c0c15;
+    }
+
+    .preview-one {
+      display: flex;
+      flex-direction: column;
+
+      padding: 14px 11px 11px;
+    }
+
+    .fake-video {
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+
+      overflow: hidden;
+
+      border-radius: 12px;
+
+      background: #050505;
+
+      box-shadow:
+        0 14px 32px rgba(0,0,0,0.35);
+    }
+
+    .fake-top {
+      flex: 0.42;
+      background: #080808;
+    }
+
+    .fake-hook {
+      padding: 8px 7px;
+
+      background: white;
+      color: #080808;
+
+      text-align: center;
+
+      font-size: 8px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .fake-image {
+      position: relative;
+
+      flex: 1;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 68% 33%,
+          rgba(117,90,255,0.65),
+          transparent 27%
+        ),
+        linear-gradient(
+          135deg,
+          #17172a,
+          #292058 55%,
+          #10101c
+        );
+    }
+
+    .fake-image::before {
+      content: "";
+
+      position: absolute;
+      width: 58%;
+      height: 58%;
+
+      top: 20%;
+      left: 21%;
+
+      border-radius: 50% 50% 45% 45%;
+
+      background:
+        linear-gradient(
+          140deg,
+          rgba(255,255,255,0.20),
+          rgba(255,255,255,0.03)
+        );
+
+      filter: blur(0.3px);
+    }
+
+    .fake-bottom {
+      flex: 0.43;
+      background: #080808;
+    }
+
+    .free-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+
+      z-index: 3;
+
+      padding: 6px 8px;
+
+      border:
+        1px solid rgba(67,255,161,0.25);
+
+      border-radius: 999px;
+
+      background:
+        rgba(13,45,31,0.90);
+
+      color: #61f2aa;
+
+      font-size: 9px;
+      line-height: 1;
+      font-weight: 850;
+      letter-spacing: 0.25px;
+
+      backdrop-filter: blur(8px);
+    }
+
+    /* LOCKED CARDS */
+
+    .coming-preview {
+      display: grid;
+      place-items: center;
+
+      background:
+        radial-gradient(
+          circle at 50% 30%,
+          rgba(124,92,255,0.13),
+          transparent 42%
+        ),
+        #0d0d18;
+    }
+
+    .coming-shape {
+      width: 58%;
+      aspect-ratio: 9 / 12;
+
+      border:
+        1px solid rgba(255,255,255,0.07);
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          150deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.012)
+        );
+
+      transform: rotate(3deg);
+
+      box-shadow:
+        0 18px 30px rgba(0,0,0,0.35);
+    }
+
+    .coming-overlay {
+      position: absolute;
+      inset: 0;
+
+      display: grid;
+      place-items: center;
+
+      background:
+        rgba(5,5,11,0.38);
+
+      backdrop-filter: blur(2px);
+    }
+
+    .coming-pill {
+      padding: 7px 10px;
+
+      border:
+        1px solid rgba(255,255,255,0.10);
+
+      border-radius: 999px;
+
+      background:
+        rgba(15,15,27,0.88);
+
+      color: #c4c4d0;
+
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+
+    /* CARD INFO */
+
+    .card-info {
+      padding: 11px 11px 12px;
+    }
+
+    .card-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 7px;
+    }
+
+    .template-name {
+      overflow: hidden;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .arrow {
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      width: 23px;
+      height: 23px;
+
+      border-radius: 7px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--blue)
+        );
+
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .template-status {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 550;
+    }
+
+    /* HOW IT WORKS */
+
+    .how {
+      margin-top: 28px;
+
+      padding: 17px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      background:
+        rgba(255,255,255,0.025);
+    }
+
+    .how-title {
+      margin-bottom: 14px;
+
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 8px;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-number {
+      width: 30px;
+      height: 30px;
+
+      display: grid;
+      place-items: center;
+
+      margin: 0 auto 7px;
+
+      border:
+        1px solid rgba(124,92,255,0.22);
+
+      border-radius: 9px;
+
+      background:
+        rgba(124,92,255,0.10);
+
+      color: #b9adff;
+
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .step-text {
+      color: #b1b1c0;
+
+      font-size: 10px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    /* FOOTER */
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      margin-top: 26px;
+
+      color: #666678;
+
+      font-size: 10px;
+    }
+
+    footer span {
+      width: 3px;
+      height: 3px;
+
+      border-radius: 50%;
+
+      background: #444455;
+    }
+
+    @media (min-width: 520px) {
+      .app {
+        padding-left: 22px;
+        padding-right: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <main class="landing-page">
+  <main class="app">
 
-    <header class="site-header">
-      <div class="brand">
-        <div class="brand-mark">R</div>
+    <header class="topbar">
+      <a class="logo" href="index.html">
+        <div class="logo-icon">V</div>
+        <div class="logo-name">Viral1s</div>
+      </a>
 
-        <div class="brand-copy">
-          <strong>ReelFlow</strong>
-          <span>Ready-made reel templates</span>
-        </div>
-      </div>
+      <div class="beta">BETA</div>
     </header>
 
 
-    <section class="hero-section">
+    <section class="hero">
 
-      <div class="hero-badge">
-        Fast Reel Creator
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Ready-made reel templates
       </div>
 
       <h1>
-        Create Reels From
-        <span>Ready-Made Templates</span>
+        Create reels
+        <span class="gradient-text">
+          that stop the scroll.
+        </span>
       </h1>
 
       <p>
-        Change the text. Add your image.
-        Export your reel.
+        Pick a proven format, add your content
+        and export your reel in seconds.
+        No editing skills needed.
       </p>
 
     </section>
 
 
-    <section class="template-section">
+    <section>
 
-      <div class="section-heading">
-        <div>
-          <span class="section-kicker">
-            Templates
-          </span>
-
-          <h2>
-            Choose your reel style
-          </h2>
+      <div class="section-header">
+        <div class="section-title">
+          Templates
         </div>
 
-        <p>
-          Pick a template and customize only what matters.
-        </p>
+        <div class="section-count">
+          1 available
+        </div>
       </div>
 
 
-      <div class="template-grid">
+      <div class="templates">
 
-        <article class="new-template-card">
 
-          <div class="template-visual">
+        <!-- TEMPLATE 1 -->
 
-            <div class="template-phone">
+        <a
+          class="template-card active"
+          href="editor.html"
+        >
 
-              <div class="template-hook">
-                POV:<br>
-                Your hook goes here
+          <div class="preview preview-one">
+
+            <div class="free-badge">
+              100% FREE
+            </div>
+
+            <div class="fake-video">
+
+              <div class="fake-top"></div>
+
+              <div class="fake-hook">
+                YOUR HOOK GOES HERE
               </div>
 
-              <div class="template-image">
+              <div class="fake-image"></div>
 
-                <span>
-                  Your image
-                </span>
-
-              </div>
-
-              <div class="template-play">
-                ▶
-              </div>
+              <div class="fake-bottom"></div>
 
             </div>
 
           </div>
 
+          <div class="card-info">
 
-          <div class="template-content">
+            <div class="card-row">
 
-            <div class="template-meta">
-              <span class="template-number">
-                Template 01
-              </span>
+              <div class="template-name">
+                Hook Reveal
+              </div>
 
-              <span class="template-duration">
-                5 sec
-              </span>
-            </div>
-
-            <h3>
-              Hook Reveal
-            </h3>
-
-            <p>
-              Text + image reveal synced to music.
-            </p>
-
-            <div class="template-features">
-
-              <span>Hook text</span>
-              <span>Square image</span>
-              <span>Music sync</span>
+              <div class="arrow">
+                →
+              </div>
 
             </div>
 
-            <button
-              class="use-template-btn"
-              onclick="window.location.href='./editor.html'"
-            >
-              Use Template
-              <span>→</span>
-            </button>
+            <div class="template-status">
+              Image + Hook · 5 sec
+            </div>
 
           </div>
 
-        </article>
+        </a>
+
+
+        <!-- TEMPLATE 2 -->
+
+        <div class="template-card">
+
+          <div class="preview coming-preview">
+
+            <div class="coming-shape"></div>
+
+            <div class="coming-overlay">
+              <div class="coming-pill">
+                COMING SOON
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-info">
+
+            <div class="template-name">
+              Story Reveal
+            </div>
+
+            <div class="template-status">
+              Coming soon
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- TEMPLATE 3 -->
+
+        <div class="template-card">
+
+          <div class="preview coming-preview">
+
+            <div
+              class="coming-shape"
+              style="transform: rotate(-3deg);"
+            ></div>
+
+            <div class="coming-overlay">
+              <div class="coming-pill">
+                COMING SOON
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-info">
+
+            <div class="template-name">
+              Fast Facts
+            </div>
+
+            <div class="template-status">
+              Coming soon
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- TEMPLATE 4 -->
+
+        <div class="template-card">
+
+          <div class="preview coming-preview">
+
+            <div
+              class="coming-shape"
+              style="transform: rotate(2deg);"
+            ></div>
+
+            <div class="coming-overlay">
+              <div class="coming-pill">
+                COMING SOON
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-info">
+
+            <div class="template-name">
+              Viral List
+            </div>
+
+            <div class="template-status">
+              Coming soon
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </section>
+
+
+    <section class="how">
+
+      <div class="how-title">
+        Create in 3 steps
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-text">
+            Pick a template
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-text">
+            Add your content
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-text">
+            Export your reel
+          </div>
+        </div>
 
       </div>
 
     </section>
 
 
-    <section class="how-it-works">
-
-      <div class="section-heading">
-        <div>
-          <span class="section-kicker">
-            How it works
-          </span>
-
-          <h2>
-            Your reel in 3 steps
-          </h2>
-        </div>
-      </div>
-
-
-      <div class="steps-grid">
-
-        <div class="step-card">
-          <span>01</span>
-          <strong>Choose</strong>
-          <p>Select a ready-made template.</p>
-        </div>
-
-        <div class="step-card">
-          <span>02</span>
-          <strong>Customize</strong>
-          <p>Change the hook and add your image.</p>
-        </div>
-
-        <div class="step-card">
-          <span>03</span>
-          <strong>Export</strong>
-          <p>Preview and download your reel.</p>
-        </div>
-
-      </div>
-
-    </section>
+    <footer>
+      Viral1s
+      <span></span>
+      Create viral reels in seconds
+    </footer>
 
   </main>
 
