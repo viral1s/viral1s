@@ -27,11 +27,11 @@
 
 <script type="module">
   import * as Mediabunny
-    from "https://cdn.jsdelivr.net/npm/mediabunny@1/+esm";
+    from "https://cdn.jsdelivr.net/npm/mediabunny@1.55.4/+esm";
 
   import {
     registerAacEncoder
-  } from "https://cdn.jsdelivr.net/npm/@mediabunny/aac-encoder/+esm";
+  } from "https://cdn.jsdelivr.net/npm/@mediabunny/aac-encoder@1.55.4/+esm";
 
   if (!(await Mediabunny.canEncodeAudio("aac"))) {
     registerAacEncoder();
