@@ -1740,17 +1740,55 @@ ctx.fillRect(
   exportHookHeight
 );
       
-ctx.imageSmoothingEnabled = true;
-ctx.imageSmoothingQuality = "high";
-      
-      ctx.drawImage(
-        hookBitmap,
-        0,
-        hookY,
-        VIDEO_WIDTH,
-        exportHookHeight
-      );
+const hookText =
+  hookInput.value.trim() ||
+  "Your hook goes here";
 
+const hookStyle =
+  getComputedStyle(hookOutput);
+
+const hookScale =
+  VIDEO_WIDTH / previewWidth;
+
+const hookFontSize =
+  parseFloat(hookStyle.fontSize) *
+  hookScale;
+
+const hookLineHeight =
+  parseFloat(hookStyle.lineHeight) *
+  hookScale;
+
+const hookPaddingLeft =
+  parseFloat(hookStyle.paddingLeft) *
+  hookScale;
+
+const hookPaddingRight =
+  parseFloat(hookStyle.paddingRight) *
+  hookScale;
+
+ctx.fillStyle = "#080808";
+
+ctx.font =
+  `${hookStyle.fontWeight} ${hookFontSize}px ${hookStyle.fontFamily}`;
+
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+ctx.direction =
+  containsArabic(hookText)
+    ? "rtl"
+    : "ltr";
+
+drawWrappedText(
+  ctx,
+  hookText,
+  VIDEO_WIDTH / 2,
+  hookY + exportHookHeight / 2,
+  VIDEO_WIDTH -
+    hookPaddingLeft -
+    hookPaddingRight,
+  hookLineHeight
+);
 
       /* IMAGE REVEAL */
 
