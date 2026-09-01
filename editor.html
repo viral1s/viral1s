@@ -33,9 +33,7 @@
     registerAacEncoder
   } from "https://cdn.jsdelivr.net/npm/@mediabunny/aac-encoder@1.55.4/+esm";
 
-  if (!(await Mediabunny.canEncodeAudio("aac"))) {
-    registerAacEncoder();
-  }
+  registerAacEncoder();
 
   window.Mediabunny = Mediabunny;
 </script>
