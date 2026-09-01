@@ -1848,7 +1848,9 @@ drawWrappedText(
 
 
       /* SEND FRAME TO ENCODER */
-
+if (exportCancelled) {
+  throw new Error("EXPORT_CANCELLED");
+    }
       await videoSource.add(
         timestamp,
         duration
