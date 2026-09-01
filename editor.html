@@ -1975,7 +1975,7 @@ if (error.message === "EXPORT_CANCELLED") {
     hookOutput.getBoundingClientRect();
 
   const exportScale =
-  (targetWidth * 2) / hookRect.width;
+  targetWidth / hookRect.width;
 
   const canvas =
     await html2canvas(
