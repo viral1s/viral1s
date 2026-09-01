@@ -650,6 +650,38 @@ hookSize.addEventListener(
 
 applyHookSize();
 
+function applyHookFont() {
+  const fonts = {
+    system: 'Arial, Helvetica, sans-serif',
+    inter: 'Inter, Arial, sans-serif',
+    georgia: 'Georgia, serif',
+    courier: '"Courier New", monospace'
+  };
+
+  hookOutput.style.fontFamily =
+    fonts[hookFont.value] || fonts.system;
+
+  localStorage.setItem(
+    "reelflow_hook_font",
+    hookFont.value
+  );
+}
+
+const savedHookFont =
+  localStorage.getItem("reelflow_hook_font");
+
+if (savedHookFont) {
+  hookFont.value = savedHookFont;
+}
+
+hookFont.addEventListener(
+  "change",
+  applyHookFont
+);
+
+applyHookFont();
+
+    
 const savedHookHeight =
   localStorage.getItem("reelflow_hook_height");
 
