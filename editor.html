@@ -1301,7 +1301,8 @@ exportConfirmBtn.addEventListener(
   async () => {
 
     exportCancelled = false;
-
+exportStopBtn.disabled = false;
+exportStopBtn.textContent = "Cancel Export";
     exportProgressView.classList.add("show");
 
     exportConfirmBtn.style.display = "none";
