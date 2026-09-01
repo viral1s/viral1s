@@ -1128,6 +1128,18 @@ const exportStopBtn =
   document.getElementById("exportStopBtn");
 
 let exportCancelled = false;
+    exportStopBtn.addEventListener(
+  "click",
+  () => {
+    exportCancelled = true;
+
+    exportStopBtn.disabled = true;
+    exportStopBtn.textContent = "Cancelling...";
+
+    exportProgressText.textContent =
+      "Stopping export...";
+  }
+);
 let selectedExportQuality = 1080;
 
 
