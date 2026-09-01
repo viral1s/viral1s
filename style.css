@@ -2103,15 +2103,23 @@ button {
   padding: 0;
   margin: 0;
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 0;
   border-radius: 12px;
 
-  background: rgba(8, 8, 13, 0.72);
-  color: transparent;
+  background:
+    linear-gradient(
+      135deg,
+      #765cff,
+      #527cff
+    );
 
+  color: transparent;
   font-size: 0;
 
   cursor: pointer;
+
+  box-shadow:
+    0 8px 22px rgba(104, 80, 255, 0.20);
 
   appearance: none;
   -webkit-appearance: none;
@@ -2124,7 +2132,10 @@ button {
   left: 50%;
   top: 50%;
 
-  transform: translate(-50%, -50%);
+  transform: translate(
+    -50%,
+    calc(-50% - 2px)
+  );
 
   color: #ffffff;
 
