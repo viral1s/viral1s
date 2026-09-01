@@ -671,11 +671,23 @@ applyHookSize();
 
 function applyHookFont() {
   const fonts = {
-    system: 'Arial, Helvetica, sans-serif',
-    inter: 'Inter, Arial, sans-serif',
-    georgia: 'Georgia, serif',
-    courier: '"Courier New", monospace'
-  };
+  system: 'Arial, Helvetica, sans-serif',
+  inter: 'Inter, Arial, sans-serif',
+  georgia: 'Georgia, serif',
+  courier: '"Courier New", monospace',
+
+  "arabic-system":
+    '"Segoe UI", Tahoma, Arial, sans-serif',
+
+  tahoma:
+    'Tahoma, Arial, sans-serif',
+
+  "arial-arabic":
+    'Arial, Tahoma, sans-serif',
+
+  "segoe-arabic":
+    '"Segoe UI", Tahoma, Arial, sans-serif'
+};
 
   hookOutput.style.fontFamily =
     fonts[hookFont.value] || fonts.system;
