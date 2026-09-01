@@ -2062,6 +2062,7 @@ if (error.message === "EXPORT_CANCELLED") {
    WRAP HOOK TEXT
 ============================== */
 
+
 function drawWrappedText(
   ctx,
   text,
@@ -2072,92 +2073,94 @@ function drawWrappedText(
 ) {
 
   const paragraphs =
-  text.split(/\n/);
-
+    text.split("\n");
 
   const lines = [];
 
-  let currentLine = "";
+  paragraphs.forEach(
+    (paragraph) => {
 
+      if (!paragraph.trim()) {
+        lines.push("");
+        return;
+      }
 
-  words.forEach(
-    (word) => {
+      const words =
+        paragraph.trim().split(/\s+/);
 
-      const testLine =
-        currentLine
-          ? currentLine + " " + word
-          : word;
+      let currentLine = "";
 
+      words.forEach(
+        (word) => {
 
-      const width =
-        ctx.measureText(
-          testLine
-        ).width;
+          const testLine =
+            currentLine
+              ? currentLine + " " + word
+              : word;
 
+          const width =
+            ctx.measureText(
+              testLine
+            ).width;
 
-      if (
-        width > maxWidth &&
-        currentLine
-      ) {
+          if (
+            width > maxWidth &&
+            currentLine
+          ) {
 
+            lines.push(
+              currentLine
+            );
+
+            currentLine =
+              word;
+
+          } else {
+
+            currentLine =
+              testLine;
+
+          }
+
+        }
+      );
+
+      if (currentLine) {
         lines.push(
           currentLine
         );
-
-
-        currentLine =
-          word;
-
-      } else {
-
-        currentLine =
-          testLine;
-
       }
 
     }
   );
 
-
-  if (currentLine) {
-
-    lines.push(
-      currentLine
-    );
-
-  }
-
-
   const totalHeight =
-    (
-      lines.length - 1
-    ) *
+    (lines.length - 1) *
     lineHeight;
-
 
   let y =
     centerY -
     totalHeight / 2;
 
-
   lines.forEach(
     (line) => {
 
-      ctx.fillText(
-        line,
-        centerX,
-        y
-      );
-
+      if (line) {
+        ctx.fillText(
+          line,
+          centerX,
+          y
+        );
+      }
 
       y +=
         lineHeight;
 
     }
   );
-
 }
 
+    
     /* ==============================
        TIME FORMAT
     ============================== */
