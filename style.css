@@ -1996,3 +1996,62 @@ button {
   border-color: #665cff;
   box-shadow: 0 0 0 3px rgba(102, 92, 255, 0.12);
 }
+
+
+/* Image + Font compact card */
+
+.image-field {
+  min-height: 0;
+  gap: 10px;
+}
+
+.image-upload-box {
+  min-height: 82px;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.image-upload-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.image-upload-title {
+  font-size: 12px;
+}
+
+.image-upload-name {
+  margin-top: 4px;
+  font-size: 10px;
+}
+
+.hook-font-control {
+  width: 100%;
+  margin: 0;
+}
+
+.hook-font-control label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #92929b;
+}
+
+.hook-font-control select {
+  display: block;
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #29292f;
+  border-radius: 10px;
+  outline: none;
+  background: #0d0d0f;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
