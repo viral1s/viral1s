@@ -2320,6 +2320,24 @@ function drawWrappedText(
 
     }
 
+
+const appLoader =
+  document.getElementById("appLoader");
+
+window.addEventListener(
+  "load",
+  () => {
+    if (!appLoader) return;
+
+    requestAnimationFrame(() => {
+      appLoader.classList.add("is-hidden");
+    });
+  }
+);
+
+
+
+    
   </script>
 
 
