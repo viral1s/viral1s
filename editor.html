@@ -1656,19 +1656,73 @@ if (selectedExportQuality === 480) {
        AUDIO ENCODER
     ========================= */
 
-    const audioSource =
-      new AudioBufferSource({
-        codec: "aac",
+    /* =======================
+   READY AAC AUDIO
+======================= */
 
-        quality:
-          new Quality({
-            bitrate: 128000
-          })
-      });
+const musicResponse =
+  await fetch("./template1.m4a");
 
-    output.addAudioTrack(
-      audioSource
-    );
+if (!musicResponse.ok) {
+  throw new Error(
+    "Could not load AAC music"
+  );
+}
+
+const musicArrayBuffer =
+  await musicResponse.arrayBuffer();
+
+const audioInput =
+  new Input({
+    formats: ALL_FORMATS,
+    source:
+      new BufferSource(
+        musicArrayBuffer
+      )
+  });
+
+const audioTrack =
+  await audioInput
+    .getPrimaryAudioTrack();
+
+if (!audioTrack) {
+  throw new Error(
+    "No audio track found"
+  );
+}
+
+const audioCodec =
+  await audioTrack.getCodec();
+
+if (audioCodec !== "aac") {
+  throw new Error(
+    "Audio file is not AAC"
+  );
+}
+
+const audioDecoderConfig =
+  await audioTrack
+    .getDecoderConfig();
+
+if (!audioDecoderConfig) {
+  throw new Error(
+    "AAC decoder config missing"
+  );
+}
+
+const audioPacketSink =
+  new EncodedPacketSink(
+    audioTrack
+  );
+
+const audioSource =
+  new EncodedAudioPacketSource(
+    "aac"
+  );
+
+output.addAudioTrack(
+  audioSource
+);
 
 
     /* =========================
@@ -1688,84 +1742,13 @@ if (selectedExportQuality === 480) {
        LOAD MUSIC
     ========================= */
 
-    const musicResponse =
-      await fetch(
-        "./template1.mp3"
-      );
-
-    if (!musicResponse.ok) {
-      throw new Error(
-        "Could not load music"
-      );
-    }
-
-    const musicArrayBuffer =
-      await musicResponse
-        .arrayBuffer();
-
-    const AudioContextClass =
-      window.AudioContext ||
-      window.webkitAudioContext;
-
-    audioContext =
-      new AudioContextClass();
-
-    const fullAudio =
-      await audioContext
-        .decodeAudioData(
-          musicArrayBuffer
-        );
-
+    
 
     /* =========================
        CUT MUSIC TO 5.04s
     ========================= */
 
-    const audioDuration =
-      Math.min(
-        REEL_END,
-        fullAudio.duration
-      );
-
-    const audioFrames =
-      Math.floor(
-        audioDuration *
-        fullAudio.sampleRate
-      );
-
-    const reelAudio =
-      audioContext.createBuffer(
-        fullAudio
-          .numberOfChannels,
-
-        audioFrames,
-
-        fullAudio.sampleRate
-      );
-
-    for (
-      let channel = 0;
-      channel <
-      fullAudio.numberOfChannels;
-      channel++
-    ) {
-
-      const sourceData =
-        fullAudio
-          .getChannelData(
-            channel
-          );
-
-      reelAudio.copyToChannel(
-        sourceData.subarray(
-          0,
-          audioFrames
-        ),
-        channel
-      );
-
-    }
-
+    
 
     /* =========================
        IMAGE CROP
@@ -1808,15 +1791,46 @@ if (selectedExportQuality === 480) {
     ========================= */
 
     const audioPromise =
-      audioSource
-        .add(
-          reelAudio
-        )
-        .then(
-          () => {
-            audioSource.close();
+  (async () => {
+
+    let firstPacket = true;
+
+    for await (
+      const packet
+      of audioPacketSink.packets()
+    ) {
+
+      if (
+        packet.timestamp >=
+        REEL_END
+      ) {
+        break;
+      }
+
+      if (firstPacket) {
+
+        await audioSource.add(
+          packet,
+          {
+            decoderConfig:
+              audioDecoderConfig
           }
         );
+
+        firstPacket = false;
+
+      } else {
+
+        await audioSource.add(
+          packet
+        );
+
+      }
+    }
+
+    audioSource.close();
+
+  })();
 
 
     /* =========================
