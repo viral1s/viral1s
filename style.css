@@ -2098,8 +2098,7 @@ button {
   height: 44px;
   flex: 0 0 44px;
 
-  display: grid;
-  place-items: center;
+  position: relative;
 
   padding: 0;
   margin: 0;
@@ -2108,16 +2107,32 @@ button {
   border-radius: 12px;
 
   background: rgba(8, 8, 13, 0.72);
+  color: transparent;
+
+  font-size: 0;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.compact-back::before {
+  content: "←";
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
   color: #ffffff;
 
+  font-family: Arial, sans-serif;
   font-size: 19px;
   font-weight: 600;
   line-height: 1;
-  text-align: center;
-
-  cursor: pointer;
 }
-
 /* TITLE */
 
 .compact-title {
