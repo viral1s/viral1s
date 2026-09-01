@@ -644,11 +644,26 @@ const hookHeightValue =
     }
 
 
-    hookInput.addEventListener(
-      "input",
-      updateHook
-    );
+    const savedHook =
+  localStorage.getItem("viral1s_hook_text");
+
+if (savedHook !== null) {
+  hookInput.value = savedHook;
+}
+
+hookInput.addEventListener(
+  "input",
+  () => {
     updateHook();
+
+    localStorage.setItem(
+      "viral1s_hook_text",
+      hookInput.value
+    );
+  }
+);
+
+updateHook();
 
 const savedHookSize =
   localStorage.getItem("reelflow_hook_size");
