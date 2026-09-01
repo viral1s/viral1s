@@ -983,18 +983,30 @@
 
   <script>
   const appLoader =
-    document.getElementById("appLoader");
+  document.getElementById("appLoader");
 
-  window.addEventListener(
-    "load",
-    () => {
-      if (!appLoader) return;
+const loaderStartTime = performance.now();
+const minimumLoaderTime = 400;
 
-      requestAnimationFrame(() => {
-        appLoader.classList.add("is-hidden");
-      });
-    }
-  );
+window.addEventListener(
+  "load",
+  () => {
+    if (!appLoader) return;
+
+    const elapsedTime =
+      performance.now() - loaderStartTime;
+
+    const remainingTime =
+      Math.max(
+        0,
+        minimumLoaderTime - elapsedTime
+      );
+
+    setTimeout(() => {
+      appLoader.classList.add("is-hidden");
+    }, remainingTime);
+  }
+);
 </script>
 
   
