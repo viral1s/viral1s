@@ -118,6 +118,24 @@
       letter-spacing: -0.8px;
     }
 
+
+.brand-logo {
+  display: block;
+  width: 170px;
+  max-width: 42vw;
+  height: auto;
+  object-fit: contain;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+
+    
     .beta {
       padding: 5px 8px;
 
@@ -732,11 +750,13 @@
   <main class="app">
 
     <header class="topbar">
-      <a class="logo" href="index.html">
-        <div class="logo-icon">V</div>
-        <div class="logo-name">Viral1s</div>
-      </a>
-
+      <a class="logo" href="index.html" aria-label="Viral1s Home">
+  <img
+    src="viral1s-logo.webp"
+    alt="Viral1s"
+    class="brand-logo"
+  >
+</a>
       <div class="beta">BETA</div>
     </header>
 
