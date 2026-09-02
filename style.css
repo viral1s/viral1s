@@ -2310,7 +2310,6 @@ button {
 }
 
 
-
 /* =========================================
    DESKTOP EDITOR LAYOUT ONLY
    Mobile layout stays unchanged
@@ -2319,13 +2318,13 @@ button {
 @media (min-width: 900px) {
 
   .compact-editor {
-    width: min(calc(100% - 48px), 980px);
+    width: min(calc(100% - 48px), 1050px);
     margin: 0 auto;
   }
 
   .compact-topbar {
     width: 100%;
-    max-width: 980px;
+    max-width: 1050px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 24px;
@@ -2333,21 +2332,30 @@ button {
 
   .compact-workspace {
     width: 100%;
-    max-width: 980px;
-
+    max-width: 1050px;
     margin: 0 auto;
 
     display: grid;
-    grid-template-columns: 360px minmax(0, 1fr);
-    gap: 28px;
+
+    grid-template-columns:
+      380px
+      minmax(0, 1fr);
+
+    grid-template-areas:
+      "preview fields"
+      "player  fields";
+
+    column-gap: 34px;
+    row-gap: 14px;
 
     align-items: start;
   }
 
   .video-shell {
-    width: 100%;
+    grid-area: preview;
 
-    padding: 22px;
+    width: 100%;
+    padding: 20px;
 
     border: 1px solid #232329;
     border-radius: 20px;
@@ -2360,20 +2368,22 @@ button {
   }
 
   .compact-reel {
-    width: 240px;
+    width: 270px;
     margin: 0 auto;
   }
 
   .video-player-controls {
-    width: 100%;
-    max-width: 300px;
+    grid-area: player;
 
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 16px;
+    width: 100%;
+    max-width: 340px;
+
+    margin: 0 auto;
   }
 
   .compact-fields {
+    grid-area: fields;
+
     width: 100%;
 
     grid-template-columns:
