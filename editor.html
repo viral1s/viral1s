@@ -25,17 +25,21 @@
 >
  
 
-<script type="module">
-  import * as Mediabunny
-    from "https://cdn.jsdelivr.net/npm/mediabunny@1.55.4/+esm";
+<script>
+  window.loadMediabunny = async function () {
+    if (window.Mediabunny) {
+      return window.Mediabunny;
+    }
 
-  import {
-    registerAacEncoder
-  } from "https://cdn.jsdelivr.net/npm/@mediabunny/aac-encoder@1.55.4/+esm";
+    const Mediabunny =
+      await import(
+        "https://cdn.jsdelivr.net/npm/mediabunny@1.55.4/+esm"
+      );
 
-  registerAacEncoder();
+    window.Mediabunny = Mediabunny;
 
-  window.Mediabunny = Mediabunny;
+    return Mediabunny;
+  };
 </script>
 
 
