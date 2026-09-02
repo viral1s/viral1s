@@ -1464,13 +1464,8 @@ exportStopBtn.textContent = "Cancel Export";
 
   try {
 
-    const M = window.Mediabunny;
-
-    if (!M) {
-      throw new Error(
-        "Video engine is still loading. Try again."
-      );
-    }
+    const M =
+  await window.loadMediabunny();
 
     const {
   Output,
