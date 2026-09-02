@@ -1794,14 +1794,27 @@ output.addAudioTrack(
   (async () => {
 
     let firstPacket = true;
+    let audioStartTime = null;
 
     for await (
       const packet
       of audioPacketSink.packets()
     ) {
 
+      if (audioStartTime === null) {
+        audioStartTime =
+          packet.timestamp;
+      }
+
+      const fixedPacket =
+        packet.clone({
+          timestamp:
+            packet.timestamp -
+            audioStartTime
+        });
+
       if (
-        packet.timestamp >=
+        fixedPacket.timestamp >=
         REEL_END
       ) {
         break;
@@ -1810,7 +1823,7 @@ output.addAudioTrack(
       if (firstPacket) {
 
         await audioSource.add(
-          packet,
+          fixedPacket,
           {
             decoderConfig:
               audioDecoderConfig
@@ -1822,7 +1835,7 @@ output.addAudioTrack(
       } else {
 
         await audioSource.add(
-          packet
+          fixedPacket
         );
 
       }
@@ -1831,7 +1844,6 @@ output.addAudioTrack(
     audioSource.close();
 
   })();
-
 
     /* =========================
        CREATE VIDEO FRAMES
