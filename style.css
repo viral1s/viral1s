@@ -2309,44 +2309,67 @@ button {
   }
 }
 
-
 /* =========================================
-   DESKTOP EDITOR LAYOUT ONLY
-   Mobile layout stays unchanged
+   STRONG DESKTOP EDITOR LAYOUT
+   Mobile stays unchanged
 ========================================= */
 
 @media (min-width: 900px) {
 
+  body {
+    overflow-x: hidden;
+  }
+
   .compact-editor {
-    width: min(calc(100% - 48px), 1050px);
+    width: min(calc(100% - 64px), 1180px);
     margin: 0 auto;
   }
 
   .compact-topbar {
     width: 100%;
-    max-width: 1050px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 24px;
+    max-width: 1180px;
+
+    margin:
+      20px auto
+      28px;
+
+    padding:
+      14px 18px;
+
+    border: 1px solid #25252d;
+    border-radius: 18px;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(124, 92, 255, 0.08),
+        rgba(79, 140, 255, 0.025)
+      ),
+      #111116;
+
+    box-shadow:
+      0 14px 35px
+      rgba(0, 0, 0, 0.22);
   }
 
   .compact-workspace {
     width: 100%;
-    max-width: 1050px;
+    max-width: 1180px;
+
     margin: 0 auto;
 
     display: grid;
 
     grid-template-columns:
-      380px
+      430px
       minmax(0, 1fr);
 
     grid-template-areas:
       "preview fields"
       "player  fields";
 
-    column-gap: 34px;
-    row-gap: 14px;
+    column-gap: 42px;
+    row-gap: 16px;
 
     align-items: start;
   }
@@ -2355,30 +2378,61 @@ button {
     grid-area: preview;
 
     width: 100%;
-    padding: 20px;
 
-    border: 1px solid #232329;
-    border-radius: 20px;
+    padding:
+      28px 26px
+      24px;
 
-    background: #111116;
+    border:
+      1px solid
+      #272730;
+
+    border-radius:
+      24px;
+
+    background:
+      linear-gradient(
+        180deg,
+        #15151b,
+        #0f0f14
+      );
 
     box-shadow:
-      0 18px 45px
-      rgba(0, 0, 0, 0.32);
+      0 24px 60px
+      rgba(0, 0, 0, 0.42);
   }
 
   .compact-reel {
-    width: 270px;
+    width: 320px;
     margin: 0 auto;
+
+    border-radius: 16px;
+
+    box-shadow:
+      0 18px 40px
+      rgba(0, 0, 0, 0.45);
   }
 
   .video-player-controls {
     grid-area: player;
 
     width: 100%;
-    max-width: 340px;
+    max-width: 390px;
 
     margin: 0 auto;
+
+    padding:
+      12px 14px;
+
+    border:
+      1px solid
+      #25252d;
+
+    border-radius:
+      16px;
+
+    background:
+      #111116;
   }
 
   .compact-fields {
@@ -2386,23 +2440,111 @@ button {
 
     width: 100%;
 
+    display: grid;
+
     grid-template-columns:
       minmax(0, 1.15fr)
       minmax(0, 0.85fr);
 
-    gap: 14px;
+    gap: 18px;
+
+    padding:
+      22px;
+
+    border:
+      1px solid
+      #25252d;
+
+    border-radius:
+      24px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.008)
+      ),
+      #101015;
+
+    box-shadow:
+      0 22px 55px
+      rgba(0, 0, 0, 0.30);
   }
 
   .compact-field {
-    padding: 14px;
+    padding:
+      16px;
 
-    border-radius: 16px;
+    border:
+      1px solid
+      #292932;
 
-    background: #151517;
+    border-radius:
+      18px;
+
+    background:
+      #17171d;
+  }
+
+  .compact-field label {
+    font-size: 12px;
   }
 
   .compact-field textarea {
-    height: 58px;
+    height: 72px;
+
+    padding:
+      12px;
+
+    border-radius:
+      12px;
+
+    font-size:
+      14px;
+  }
+
+  .image-upload-box {
+    min-height:
+      132px;
+
+    border-radius:
+      14px;
+  }
+
+  .hook-font-control {
+    margin-top:
+      4px;
+  }
+
+  .hook-font-control select {
+    min-height:
+      42px;
+
+    border-radius:
+      11px;
+  }
+
+  .hook-size-control,
+  .hook-height-control {
+    margin-top:
+      16px;
+  }
+
+  #hookSize,
+  #hookHeight {
+    height:
+      6px;
+  }
+
+  .top-export-btn {
+    min-height:
+      44px;
+
+    padding:
+      0 20px;
+
+    border-radius:
+      13px;
   }
 
 }
