@@ -190,6 +190,42 @@
         padding: 22px 18px;
       }
     }
+
+
+/* Footer */
+
+footer {
+  margin-top: 38px;
+  padding: 24px 10px 10px;
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.footer-links a {
+  color: #a3a3b3;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.footer-links a:active {
+  color: #ffffff;
+}
+
+.footer-brand {
+  margin-top: 20px;
+  color: #6f6f80;
+  font-size: 14px;
+}
+
+    
   </style>
 </head>
 
@@ -399,8 +435,17 @@
     </section>
 
     <footer>
-      © Viral1s
-    </footer>
+  <nav class="footer-links" aria-label="Footer navigation">
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div class="footer-brand">
+    © Viral1s
+  </div>
+</footer>
 
   </main>
 </body>
