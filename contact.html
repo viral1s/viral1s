@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Contact Viral1s for questions, feedback, support or business inquiries related to our reel creation tools and templates."
+    content="Contact Viral1s for support, feedback, technical questions or business inquiries."
   />
 
   <link rel="canonical" href="https://viral1s.com/contact.html" />
@@ -19,7 +19,7 @@
   <meta property="og:title" content="Contact Viral1s" />
   <meta
     property="og:description"
-    content="Get in touch with Viral1s for support, feedback or business inquiries."
+    content="Send a message to Viral1s for support, feedback or business inquiries."
   />
   <meta property="og:url" content="https://viral1s.com/contact.html" />
 
@@ -36,11 +36,14 @@
       --muted: #a7a9bb;
       --purple: #7c5cff;
       --blue: #4f8cff;
+      --success: #56d98d;
+      --error: #ff7373;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
+
       background:
         radial-gradient(
           circle at top,
@@ -48,7 +51,9 @@
           transparent 32%
         ),
         var(--bg);
+
       color: var(--text);
+
       font-family:
         Inter,
         -apple-system,
@@ -67,12 +72,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       margin-bottom: 34px;
     }
 
     .brand {
       color: var(--text);
       text-decoration: none;
+
       font-size: 22px;
       font-weight: 850;
       letter-spacing: -0.7px;
@@ -81,6 +88,7 @@
     .back {
       color: var(--muted);
       text-decoration: none;
+
       font-size: 14px;
       font-weight: 650;
     }
@@ -95,97 +103,241 @@
 
     .eyebrow {
       margin: 0 0 10px;
+
       color: #9b8cff;
+
       font-size: 13px;
       font-weight: 750;
+
       text-transform: uppercase;
       letter-spacing: 0.8px;
     }
 
     h1 {
       margin: 0;
+
       font-size: clamp(36px, 8vw, 56px);
       line-height: 1.04;
       letter-spacing: -2px;
     }
 
     .gradient {
-      background: linear-gradient(
-        90deg,
-        var(--purple),
-        var(--blue)
-      );
+      background:
+        linear-gradient(
+          90deg,
+          var(--purple),
+          var(--blue)
+        );
+
       -webkit-background-clip: text;
       background-clip: text;
+
       color: transparent;
     }
 
     .intro {
       max-width: 650px;
+
       margin: 18px 0 0;
+
       color: var(--muted);
+
       font-size: 16px;
       line-height: 1.7;
     }
 
-    .content {
+    .contact-card {
       margin-top: 30px;
+
       padding: 26px 22px;
+
       border: 1px solid var(--border);
-      border-radius: 20px;
-      background: rgba(14, 16, 32, 0.82);
+      border-radius: 22px;
+
+      background:
+        rgba(14, 16, 32, 0.88);
+
+      box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.24);
     }
 
-    .section + .section {
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top: 1px solid var(--border);
+    .form-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 16px;
     }
 
-    h2 {
-      margin: 0 0 10px;
-      font-size: 21px;
-      letter-spacing: -0.4px;
+    .field {
+      min-width: 0;
     }
 
-    p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.72;
+    .field.full {
+      grid-column: 1 / -1;
     }
 
-    p + p {
-      margin-top: 12px;
+    label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #c9cad5;
+
+      font-size: 13px;
+      font-weight: 700;
     }
 
-    .email-box {
+    input,
+    textarea {
+      display: block;
+
+      width: 100%;
+
+      border: 1px solid #2a2c3a;
+      outline: none;
+
+      border-radius: 12px;
+
+      background: #10121c;
+
+      color: #ffffff;
+
+      font: inherit;
+
+      transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+    }
+
+    input {
+      min-height: 48px;
+
+      padding: 0 13px;
+    }
+
+    textarea {
+      min-height: 150px;
+
+      padding: 13px;
+
+      resize: vertical;
+
+      line-height: 1.55;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #686b7d;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #725fff;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(124, 92, 255, 0.12);
+    }
+
+    .send-button {
+      width: 100%;
+
+      min-height: 50px;
+
+      margin-top: 18px;
+
+      border: 0;
+      border-radius: 13px;
+
+      cursor: pointer;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--purple),
+          var(--blue)
+        );
+
+      color: white;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      box-shadow:
+        0 12px 32px
+        rgba(96, 91, 255, 0.22);
+    }
+
+    .send-button:disabled {
+      cursor: default;
+
+      opacity: 0.58;
+    }
+
+    #formStatus {
+      display: none;
+
       margin-top: 14px;
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.025);
+
+      padding: 12px 14px;
+
+      border-radius: 11px;
+
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    .email-box a {
-      color: #9b8cff;
-      font-weight: 750;
-      text-decoration: none;
-      word-break: break-word;
+    #formStatus.success {
+      display: block;
+
+      border:
+        1px solid
+        rgba(86, 217, 141, 0.22);
+
+      background:
+        rgba(86, 217, 141, 0.08);
+
+      color: var(--success);
     }
 
-    .email-box a:hover {
-      text-decoration: underline;
+    #formStatus.error {
+      display: block;
+
+      border:
+        1px solid
+        rgba(255, 115, 115, 0.22);
+
+      background:
+        rgba(255, 115, 115, 0.08);
+
+      color: var(--error);
+    }
+
+    .note {
+      margin: 16px 0 0;
+
+      color: #74778c;
+
+      font-size: 12px;
+      line-height: 1.6;
+
+      text-align: center;
     }
 
     footer {
       margin-top: 34px;
+
       text-align: center;
+
       color: #707286;
+
       font-size: 12px;
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 600px) {
       .page {
         width: min(100% - 24px, 760px);
         padding-top: 18px;
@@ -195,86 +347,350 @@
         margin-bottom: 28px;
       }
 
-      .content {
-        padding: 22px 18px;
+      .contact-card {
+        padding: 20px 17px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      textarea {
+        min-height: 135px;
       }
     }
   </style>
 </head>
 
 <body>
+
   <main class="page">
 
     <header class="topbar">
       <a class="brand" href="/">Viral1s</a>
-      <a class="back" href="/">← Back to home</a>
+
+      <a class="back" href="/">
+        ← Back to home
+      </a>
     </header>
 
+
     <section class="hero">
-      <p class="eyebrow">Contact</p>
+
+      <p class="eyebrow">
+        Contact
+      </p>
 
       <h1>
         Get in touch with
-        <span class="gradient">Viral1s.</span>
+        <span class="gradient">
+          Viral1s.
+        </span>
       </h1>
 
       <p class="intro">
         Have a question, found a problem or want to share feedback?
-        You can contact Viral1s using the information below.
+        Send us a message using the form below.
       </p>
+
     </section>
 
-    <section class="content">
 
-      <div class="section">
-        <h2>Support & feedback</h2>
+    <section class="contact-card">
 
-        <p>
-          If you experience a technical issue, have feedback about
-          a template or need help using Viral1s, send us a message
-          with as much detail as possible.
-        </p>
-      </div>
+      <form id="contactForm">
 
-      <div class="section">
-        <h2>Business inquiries</h2>
+        <div class="form-grid">
 
-        <p>
-          For partnerships, collaborations or other business-related
-          inquiries, you can contact us using the same email address.
-        </p>
-      </div>
+          <div class="field">
+            <label for="name">
+              Name
+            </label>
 
-      <div class="section">
-        <h2>Email</h2>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Your name"
+              minlength="2"
+              maxlength="80"
+              required
+            />
+          </div>
 
-        <p>
-          Contact Viral1s at:
-        </p>
 
-        <div class="email-box">
-          <a href="mailto:contact@viral1s.com">
-            contact@viral1s.com
-          </a>
+          <div class="field">
+            <label for="email">
+              Email
+            </label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              maxlength="150"
+              required
+            />
+          </div>
+
+
+          <div class="field full">
+            <label for="subject">
+              Subject
+            </label>
+
+            <input
+              id="subject"
+              name="subject"
+              type="text"
+              placeholder="How can we help?"
+              maxlength="150"
+            />
+          </div>
+
+
+          <div class="field full">
+            <label for="message">
+              Message
+            </label>
+
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Write your message..."
+              minlength="5"
+              maxlength="3000"
+              required
+            ></textarea>
+          </div>
+
         </div>
-      </div>
 
-      <div class="section">
-        <h2>Response time</h2>
 
-        <p>
-          We aim to review messages as soon as reasonably possible.
-          Response times may vary depending on the type of request
-          and message volume.
-        </p>
-      </div>
+        <button
+          class="send-button"
+          id="sendButton"
+          type="submit"
+        >
+          Send Message
+        </button>
+
+
+        <div
+          id="formStatus"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+      </form>
+
+
+      <p class="note">
+        Please provide accurate contact information so we can
+        identify your request if follow-up is needed.
+      </p>
 
     </section>
+
 
     <footer>
       © Viral1s
     </footer>
 
   </main>
+
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4Qp_MUcky6di-rWBBCmBiRICaYsNXi0w",
+      authDomain: "viral1s.firebaseapp.com",
+      projectId: "viral1s",
+      storageBucket: "viral1s.firebasestorage.app",
+      messagingSenderId: "1064452367802",
+      appId: "1:1064452367802:web:80dd7e24cd78d2cb55a983"
+    };
+
+
+    const app =
+      initializeApp(firebaseConfig);
+
+
+    const db =
+      getFirestore(app);
+
+
+    const contactForm =
+      document.getElementById("contactForm");
+
+
+    const sendButton =
+      document.getElementById("sendButton");
+
+
+    const formStatus =
+      document.getElementById("formStatus");
+
+
+    function showStatus(
+      message,
+      type
+    ) {
+
+      formStatus.textContent =
+        message;
+
+      formStatus.className =
+        type;
+
+    }
+
+
+    contactForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+
+        if (!contactForm.checkValidity()) {
+          contactForm.reportValidity();
+          return;
+        }
+
+
+        const name =
+          document
+            .getElementById("name")
+            .value
+            .trim();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const subject =
+          document
+            .getElementById("subject")
+            .value
+            .trim();
+
+
+        const message =
+          document
+            .getElementById("message")
+            .value
+            .trim();
+
+
+        if (
+          name.length < 2 ||
+          email.length < 5 ||
+          message.length < 5
+        ) {
+
+          showStatus(
+            "Please complete all required fields.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        sendButton.disabled =
+          true;
+
+
+        sendButton.textContent =
+          "Sending...";
+
+
+        formStatus.className =
+          "";
+
+
+        formStatus.textContent =
+          "";
+
+
+        try {
+
+          await addDoc(
+            collection(
+              db,
+              "contact_messages"
+            ),
+            {
+              name,
+              email,
+              subject,
+              message,
+              createdAt:
+                serverTimestamp()
+            }
+          );
+
+
+          contactForm.reset();
+
+
+          showStatus(
+            "Your message was sent successfully. Thank you!",
+            "success"
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Contact form error:",
+            error
+          );
+
+
+          showStatus(
+            "We couldn't send your message. Please try again.",
+            "error"
+          );
+
+        } finally {
+
+          sendButton.disabled =
+            false;
+
+
+          sendButton.textContent =
+            "Send Message";
+
+        }
+
+      }
+    );
+
+  </script>
+
 </body>
 </html>
