@@ -218,7 +218,17 @@
 
           const user =
             result.user;
+const adminUIDs = [
+  "JQkYiVQ1bhgc4i4FYAWomFkAioG3",
+  "wzylH7v0wwasLo4YguCVOKsIB2v2"
+];
 
+if (!adminUIDs.includes(user.uid)) {
+  status.textContent = "Access denied. Admins only.";
+  googleLogin.textContent = "Access denied";
+  await auth.signOut();
+  return;
+}
           status.textContent =
             "Signed in successfully.";
 
