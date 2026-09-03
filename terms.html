@@ -228,11 +228,124 @@ footer {
   color: inherit;
   text-decoration: none;
 }
+
+
+/* VIRAL1S APP LOADER */
+
+.app-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(118, 92, 255, 0.14),
+      transparent 34%
+    ),
+    #070711;
+
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
+}
+
+.app-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-brand {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.loader-brand span {
+  background:
+    linear-gradient(
+      135deg,
+      #765cff,
+      #527cff
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.loader-line {
+  width: 92px;
+  height: 3px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+.loader-line-fill {
+  width: 42%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #765cff,
+      #527cff
+    );
+
+  animation:
+    viralLoaderMove
+    0.85s
+    ease-in-out
+    infinite;
+}
+
+@keyframes viralLoaderMove {
+  0% {
+    transform: translateX(-130%);
+  }
+
+  100% {
+    transform: translateX(330%);
+  }
+}
+
     
   </style>
 </head>
 
 <body>
+
+
+
+<div id="appLoader" class="app-loader">
+  <div class="loader-brand">
+    Viral<span>1s</span>
+  </div>
+
+  <div class="loader-line">
+    <div class="loader-line-fill"></div>
+  </div>
+</div>
+
+  
   <main class="page">
 
     <header class="topbar">
@@ -451,5 +564,39 @@ footer {
 </footer>
 
   </main>
+
+
+
+<script>
+  const appLoader =
+    document.getElementById("appLoader");
+
+  const loaderStartTime =
+    performance.now();
+
+  const minimumLoaderTime =
+    400;
+
+  window.addEventListener(
+    "load",
+    () => {
+      if (!appLoader) return;
+
+      const elapsedTime =
+        performance.now() - loaderStartTime;
+
+      const remainingTime =
+        Math.max(
+          0,
+          minimumLoaderTime - elapsedTime
+        );
+
+      setTimeout(() => {
+        appLoader.classList.add("is-hidden");
+      }, remainingTime);
+    }
+  );
+</script>
+  
 </body>
 </html>
