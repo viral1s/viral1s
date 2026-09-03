@@ -158,104 +158,166 @@
 
   </main>
 
+<script type="module">
 
-  <script type="module">
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC4Qp_MUcky6di-rWBBCmBiRICaYsNXi0w",
-      authDomain: "viral1s.firebaseapp.com",
-      projectId: "viral1s",
-      storageBucket: "viral1s.firebasestorage.app",
-      messagingSenderId: "1064452367802",
-      appId: "1:1064452367802:web:80dd7e24cd78d2cb55a983"
-    };
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    setPersistence,
+    browserLocalPersistence,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
-    const app =
-      initializeApp(firebaseConfig);
-
-    const auth =
-      getAuth(app);
-
-    const provider =
-      new GoogleAuthProvider();
-
-
-    const googleLogin =
-      document.getElementById("googleLogin");
-
-    const status =
-      document.getElementById("status");
+  const firebaseConfig = {
+    apiKey: "AIzaSyC4Qp_MUcky6di-rWBBCmBiRICaYsNXi0w",
+    authDomain: "viral1s.firebaseapp.com",
+    projectId: "viral1s",
+    storageBucket: "viral1s.firebasestorage.app",
+    messagingSenderId: "1064452367802",
+    appId: "1:1064452367802:web:80dd7e24cd78d2cb55a983"
+  };
 
 
-    googleLogin.addEventListener(
-      "click",
-      async () => {
+  const app =
+    initializeApp(firebaseConfig);
 
-        googleLogin.disabled = true;
+  const auth =
+    getAuth(app);
 
-        status.textContent =
-          "Opening Google sign in...";
+  const provider =
+    new GoogleAuthProvider();
 
-        try {
 
-          const result =
-            await signInWithPopup(
-              auth,
-              provider
-            );
+  const adminUIDs = [
+    "JQkYiVQ1bhgc4i4FYAWomFkAioG3",
+    "wzylH7v0wwasLo4YguCVOKsIB2v2"
+  ];
 
-          const user =
-            result.user;
-const adminUIDs = [
-  "JQkYiVQ1bhgc4i4FYAWomFkAioG3",
-  "wzylH7v0wwasLo4YguCVOKsIB2v2"
-];
 
-if (!adminUIDs.includes(user.uid)) {
-  status.textContent = "Access denied. Admins only.";
-  googleLogin.textContent = "Access denied";
-  await auth.signOut();
-  return;
-}
-          status.textContent =
-            "Signed in successfully.";
+  const googleLogin =
+    document.getElementById("googleLogin");
 
-          googleLogin.textContent =
-            "Signed in ✓";
+  const status =
+    document.getElementById("status");
 
-          console.log(
-            "Admin UID:",
-            user.uid
+
+  await setPersistence(
+    auth,
+    browserLocalPersistence
+  );
+
+
+  function showAuthorizedUser(user) {
+
+    status.textContent =
+      "Signed in successfully.";
+
+    googleLogin.textContent =
+      "Signed in ✓";
+
+    googleLogin.disabled =
+      true;
+  }
+
+
+  async function rejectUser() {
+
+    status.textContent =
+      "Access denied. Admins only.";
+
+    googleLogin.textContent =
+      "Continue with Google";
+
+    googleLogin.disabled =
+      false;
+
+    await signOut(auth);
+  }
+
+
+  onAuthStateChanged(
+    auth,
+    async (user) => {
+
+      if (!user) {
+        return;
+      }
+
+      if (
+        adminUIDs.includes(user.uid)
+      ) {
+
+        showAuthorizedUser(user);
+
+      } else {
+
+        await rejectUser();
+
+      }
+
+    }
+  );
+
+
+  googleLogin.addEventListener(
+    "click",
+    async () => {
+
+      googleLogin.disabled =
+        true;
+
+      status.textContent =
+        "Opening Google sign in...";
+
+      try {
+
+        const result =
+          await signInWithPopup(
+            auth,
+            provider
           );
 
-        } catch (error) {
+        const user =
+          result.user;
 
-          console.error(error);
 
-          status.textContent =
-            "Sign in failed: " +
-            error.message;
+        if (
+          !adminUIDs.includes(user.uid)
+        ) {
 
-          googleLogin.disabled = false;
+          await rejectUser();
+          return;
 
         }
 
+
+        showAuthorizedUser(user);
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+          "Sign in failed: " +
+          error.message;
+
+        googleLogin.disabled =
+          false;
+
       }
-    );
 
-  </script>
+    }
+  );
 
+</script>
+  
 </body>
 </html>
