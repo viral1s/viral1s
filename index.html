@@ -808,7 +808,61 @@
   margin-top: 10px;
 }
     
-   
+
+
+/* =========================
+   MOBILE FOOTER LINKS
+========================= */
+
+footer {
+  margin-top: 30px;
+  padding: 20px 0 10px;
+
+  text-align: center;
+
+  color: #707286;
+  font-size: 12px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+.footer-brand span {
+  color: #4f5162;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 10px 14px;
+
+  margin-top: 12px;
+}
+
+.footer-links a {
+  color: #8d90a3;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.footer-links a:active {
+  color: #ffffff;
+}
+
+
+    
   </style>
 </head>
 
@@ -1089,14 +1143,19 @@
 
 
 <footer>
-      Viral1s
-      <span></span>
-      Create viral reels in seconds
-    </footer>
+  <div class="footer-brand">
+    Viral1s
+    <span>•</span>
+    Create viral reels in seconds
+  </div>
 
-    
-  </main>
-
+  <nav class="footer-links" aria-label="Footer navigation">
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</footer>
 
 
 
