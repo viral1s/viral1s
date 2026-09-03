@@ -2548,3 +2548,207 @@ button {
   }
 
 }
+
+
+/* =========================================
+   DESKTOP EDITOR LAYOUT
+   Mobile stays unchanged
+========================================= */
+
+@media (min-width: 900px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .compact-editor {
+    width: min(calc(100% - 56px), 1120px);
+    margin: 0 auto;
+  }
+
+  .compact-topbar {
+    width: 100%;
+    max-width: 1120px;
+
+    margin: 12px auto 18px;
+
+    padding: 10px 16px;
+
+    border: 1px solid #25252d;
+    border-radius: 17px;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(124, 92, 255, 0.08),
+        rgba(79, 140, 255, 0.025)
+      ),
+      #111116;
+
+    box-shadow:
+      0 12px 30px
+      rgba(0, 0, 0, 0.22);
+  }
+
+  .compact-workspace {
+    width: 100%;
+    max-width: 1120px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+      400px
+      minmax(0, 1fr);
+
+    grid-template-areas:
+      "preview fields"
+      "player  fields";
+
+    column-gap: 34px;
+    row-gap: 12px;
+
+    align-items: start;
+  }
+
+  .video-shell {
+    grid-area: preview;
+
+    width: 100%;
+
+    padding: 18px 20px;
+
+    border: 1px solid #272730;
+    border-radius: 22px;
+
+    background:
+      linear-gradient(
+        180deg,
+        #15151b,
+        #0f0f14
+      );
+
+    box-shadow:
+      0 20px 50px
+      rgba(0, 0, 0, 0.38);
+  }
+
+  .compact-reel {
+    width: 285px;
+    margin: 0 auto;
+
+    border-radius: 15px;
+
+    box-shadow:
+      0 16px 34px
+      rgba(0, 0, 0, 0.42);
+  }
+
+  .video-player-controls {
+    grid-area: player;
+
+    width: 100%;
+    max-width: 370px;
+
+    margin: 0 auto;
+
+    padding: 9px 12px;
+
+    border: 1px solid #25252d;
+    border-radius: 15px;
+
+    background: #111116;
+  }
+
+  .compact-fields {
+    grid-area: fields;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1.15fr)
+      minmax(0, 0.85fr);
+
+    gap: 14px;
+
+    padding: 16px;
+
+    border: 1px solid #25252d;
+    border-radius: 22px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.008)
+      ),
+      #101015;
+
+    box-shadow:
+      0 18px 45px
+      rgba(0, 0, 0, 0.28);
+  }
+
+  .compact-field {
+    padding: 12px;
+
+    border: 1px solid #292932;
+    border-radius: 16px;
+
+    background: #17171d;
+  }
+
+  .compact-field label {
+    font-size: 12px;
+  }
+
+  .compact-field textarea {
+    height: 60px;
+
+    padding: 10px;
+
+    border-radius: 11px;
+
+    font-size: 13px;
+  }
+
+  .image-upload-box {
+    min-height: 110px;
+
+    border-radius: 13px;
+  }
+
+  .hook-font-control {
+    margin-top: 4px;
+  }
+
+  .hook-font-control select {
+    min-height: 40px;
+
+    border-radius: 10px;
+  }
+
+  .hook-size-control,
+  .hook-height-control {
+    margin-top: 13px;
+  }
+
+  #hookSize,
+  #hookHeight {
+    height: 6px;
+  }
+
+  .top-export-btn {
+    min-height: 42px;
+
+    padding: 0 18px;
+
+    border-radius: 12px;
+  }
+
+}
+
+
