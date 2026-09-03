@@ -327,7 +327,17 @@ footer {
   }
 }
 
-    
+    .page-brand-logo {
+  display: block;
+  width: 120px;
+  height: auto;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
   </style>
 </head>
 
@@ -349,7 +359,13 @@ footer {
   <main class="page">
 
     <header class="topbar">
-      <a class="brand" href="/">Viral1s</a>
+      <a class="brand" href="/" aria-label="Viral1s Home">
+  <img
+    src="viral1s-logo.webp"
+    alt="Viral1s"
+    class="page-brand-logo"
+  />
+</a>
       <a class="back" href="/">← Back to home</a>
     </header>
 
