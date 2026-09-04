@@ -16,9 +16,7 @@
     href="viral1s-icon.png"
   >
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"
-  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 
   <style>
     * {
@@ -31,33 +29,30 @@
       --bg: #070711;
       --panel: #11111d;
       --panel-2: #151523;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-strong: rgba(255, 255, 255, 0.13);
-      --text: #ffffff;
-      --muted: #9696aa;
+      --panel-3: #0f0f19;
+      --border: rgba(255,255,255,.08);
+      --border-strong: rgba(255,255,255,.14);
+      --text: #fff;
+      --muted: #9898aa;
       --purple: #7c5cff;
-      --blue: #3f8cff;
-      --danger: #ff5b70;
-      --green: #27d980;
+      --blue: #4387ff;
+      --danger: #ff6074;
+      --green: #28d98b;
     }
 
-    html {
-      color-scheme: dark;
-    }
-
+    html,
     body {
-      min-height: 100vh;
-
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       background:
         radial-gradient(
-          circle at 50% -10%,
-          rgba(124, 92, 255, 0.20),
-          transparent 34%
+          circle at 50% -8%,
+          rgba(124,92,255,.2),
+          transparent 32%
         ),
         var(--bg);
-
       color: var(--text);
-
       font-family:
         Inter,
         -apple-system,
@@ -65,7 +60,6 @@
         "Segoe UI",
         Arial,
         sans-serif;
-
       -webkit-font-smoothing: antialiased;
       overscroll-behavior: none;
     }
@@ -80,176 +74,154 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .page {
-      width: 100%;
-      max-width: 1180px;
-
-      margin: 0 auto;
-
+    .app-shell {
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
       padding:
-        calc(14px + env(safe-area-inset-top))
-        14px
-        calc(30px + env(safe-area-inset-bottom));
+        calc(10px + env(safe-area-inset-top))
+        10px
+        calc(10px + env(safe-area-inset-bottom));
+      gap: 9px;
     }
-
-
-    /* HEADER */
 
     .topbar {
+      flex: 0 0 auto;
+      min-height: 52px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(17,17,29,.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 36px rgba(0,0,0,.24);
+    }
+
+    .topbar-left,
+    .topbar-right {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-
-      margin-bottom: 16px;
-      padding: 12px 14px;
-
-      border: 1px solid var(--border);
-      border-radius: 18px;
-
-      background:
-        rgba(17, 17, 29, 0.88);
-
-      backdrop-filter: blur(18px);
-
-      box-shadow:
-        0 14px 40px rgba(0, 0, 0, 0.22);
+      gap: 7px;
     }
 
-    .brand {
+    .topbar-right {
+      justify-content: flex-end;
+    }
+
+    .logo-link {
       display: inline-flex;
       align-items: center;
-
-      min-width: 0;
     }
 
-    .brand img {
-      display: block;
-
-      width: 118px;
-      max-width: 38vw;
+    .logo-link img {
+      width: 105px;
       height: auto;
+      display: block;
     }
 
-    .page-title {
-      flex: 1;
-
-      color: #b9adff;
-
-      font-size: 11px;
-      font-weight: 850;
-      letter-spacing: 0.6px;
-
+    .page-name {
+      min-width: 0;
       text-align: center;
+      color: #b9adff;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .7px;
       text-transform: uppercase;
     }
 
-    .back-button {
-      min-height: 38px;
+    .icon-btn,
+    .top-btn {
+      min-height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #ddddea;
+      background: rgba(255,255,255,.035);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 850;
+    }
 
+    .icon-btn {
+      width: 38px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
-      padding: 0 12px;
-
-      border: 1px solid var(--border);
-      border-radius: 11px;
-
-      color: #d9d9e6;
-      background: rgba(255, 255, 255, 0.035);
-
-      font-size: 11px;
-      font-weight: 800;
-
-      text-decoration: none;
+      font-size: 16px;
     }
 
-
-    /* MAIN LAYOUT */
-
-    .workspace {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
+    .top-btn {
+      padding: 0 10px;
     }
 
-    .editor-column,
-    .tools-column {
-      min-width: 0;
-    }
-
-
-    /* CANVAS CARD */
-
-    .canvas-card {
-      padding: 12px;
-
-      border: 1px solid var(--border);
-      border-radius: 20px;
-
-      background:
-        linear-gradient(
-          160deg,
-          rgba(255, 255, 255, 0.045),
-          rgba(255, 255, 255, 0.015)
-        ),
-        var(--panel);
-
-      box-shadow:
-        0 20px 55px rgba(0, 0, 0, 0.24);
-    }
-
-    .canvas-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-
-      margin-bottom: 10px;
-    }
-
-    .canvas-title {
-      font-size: 13px;
-      font-weight: 850;
-    }
-
-    .size-badge {
-      padding: 5px 8px;
-
-      border: 1px solid rgba(124, 92, 255, 0.22);
-      border-radius: 999px;
-
-      color: #b9adff;
-      background: rgba(124, 92, 255, 0.08);
-
-      font-size: 9px;
-      font-weight: 850;
-    }
-
-    .canvas-stage {
-      position: relative;
-
-      width: 100%;
-      max-width: 620px;
-      aspect-ratio: 1 / 1;
-
-      margin: 0 auto;
-
-      overflow: hidden;
-
-      border:
-        1px solid rgba(255, 255, 255, 0.10);
-
-      border-radius: 16px;
-
+    .top-btn.primary {
+      border-color: rgba(124,92,255,.25);
+      color: #fff;
       background:
         linear-gradient(
           135deg,
-          #171723,
-          #101019
+          rgba(124,92,255,.26),
+          rgba(67,135,255,.18)
         );
+    }
 
+    .main-layout {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0,1fr);
+      gap: 9px;
+    }
+
+    .canvas-panel {
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          160deg,
+          rgba(255,255,255,.045),
+          rgba(255,255,255,.012)
+        ),
+        var(--panel);
+      padding: 10px;
+      box-shadow: 0 18px 48px rgba(0,0,0,.23);
+    }
+
+    .canvas-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .canvas-title {
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .canvas-size {
+      padding: 4px 7px;
+      border: 1px solid rgba(124,92,255,.22);
+      border-radius: 999px;
+      color: #b8adff;
+      background: rgba(124,92,255,.08);
+      font-size: 8px;
+      font-weight: 850;
+    }
+
+    .canvas-wrap {
+      width: min(78vw, 360px);
+      aspect-ratio: 1/1;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      background: #101018;
       touch-action: none;
     }
 
@@ -263,370 +235,477 @@
       height: 100% !important;
     }
 
-    .canvas-empty-tip {
+    .empty-tip {
       position: absolute;
       inset: 0;
-
       z-index: 0;
-
+      pointer-events: none;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
-      padding: 24px;
-
-      color: #69697b;
-
+      padding: 20px;
       text-align: center;
-
-      pointer-events: none;
+      color: #777789;
     }
 
-    .canvas-empty-tip strong {
+    .empty-tip strong {
+      color: #a0a0b0;
       margin-bottom: 5px;
-
-      color: #9999aa;
-
-      font-size: 13px;
+      font-size: 12px;
     }
 
-    .canvas-empty-tip span {
-      max-width: 220px;
-
-      font-size: 10px;
+    .empty-tip span {
+      font-size: 9px;
       line-height: 1.5;
+      max-width: 210px;
     }
 
-    .canvas-empty-tip.hidden {
+    .empty-tip.hidden {
       display: none;
     }
 
-
-    /* MAIN ACTIONS */
-
-    .main-actions {
+    .quick-actions {
       display: grid;
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-      gap: 8px;
-
-      margin-top: 11px;
+      grid-template-columns: repeat(3,1fr);
+      gap: 7px;
+      margin-top: 8px;
     }
 
-    .tool-button {
-      min-height: 48px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-
-      padding: 8px;
-
+    .quick-btn {
+      min-height: 42px;
       border: 1px solid var(--border);
-      border-radius: 13px;
-
+      border-radius: 11px;
+      color: #dedee9;
+      background: rgba(255,255,255,.035);
+      font-size: 9px;
+      font-weight: 850;
       cursor: pointer;
-
-      color: #d8d8e5;
-
-      background:
-        rgba(255, 255, 255, 0.035);
-
-      font-size: 10px;
-      font-weight: 800;
-
-      transition:
-        border-color 0.16s ease,
-        background 0.16s ease,
-        transform 0.16s ease;
     }
 
-    .tool-button:active {
-      transform: scale(0.98);
-    }
-
-    .tool-button.primary {
-      border-color:
-        rgba(124, 92, 255, 0.24);
-
+    .quick-btn.primary {
+      border-color: rgba(124,92,255,.24);
       color: #fff;
-
       background:
         linear-gradient(
           135deg,
-          rgba(124, 92, 255, 0.19),
-          rgba(63, 140, 255, 0.13)
+          rgba(124,92,255,.2),
+          rgba(67,135,255,.13)
         );
     }
 
+    .controls-panel {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      padding-right: 2px;
+    }
 
-    /* TOOLS */
+    .controls-panel::-webkit-scrollbar {
+      width: 4px;
+    }
 
-    .tools-card {
-      padding: 15px;
+    .controls-panel::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.12);
+      border-radius: 999px;
+    }
 
+    .selected-summary {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 11px;
+      margin-bottom: 8px;
       border: 1px solid var(--border);
-      border-radius: 18px;
-
-      background:
-        rgba(17, 17, 29, 0.9);
+      border-radius: 14px;
+      background: rgba(17,17,29,.97);
+      backdrop-filter: blur(14px);
     }
 
-    .tools-card + .tools-card {
-      margin-top: 12px;
-    }
-
-    .tools-heading {
-      margin-bottom: 13px;
-
-      font-size: 13px;
+    .selected-name {
+      min-width: 0;
+      font-size: 10px;
       font-weight: 850;
     }
 
-    .field {
-      margin-top: 13px;
+    .selected-sub {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 8px;
     }
 
-    .field:first-of-type {
-      margin-top: 0;
+    .lock-chip {
+      min-width: 70px;
+      min-height: 32px;
+      padding: 0 9px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: #cccbd8;
+      background: rgba(255,255,255,.035);
+      font-size: 9px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .lock-chip.locked {
+      border-color: rgba(124,92,255,.28);
+      color: #c8bfff;
+      background: rgba(124,92,255,.10);
+    }
+
+    .no-selection {
+      padding: 18px 12px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      color: #777789;
+      background: rgba(255,255,255,.018);
+      text-align: center;
+      font-size: 9px;
+      line-height: 1.5;
+    }
+
+    .accordion {
+      margin-bottom: 7px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(17,17,29,.92);
+    }
+
+    .accordion-head {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border: 0;
+      color: #e7e7ef;
+      background: transparent;
+      font-size: 10px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .accordion-head span:last-child {
+      color: #7f7f90;
+      transition: transform .18s ease;
+    }
+
+    .accordion.open .accordion-head span:last-child {
+      transform: rotate(180deg);
+    }
+
+    .accordion-body {
+      display: none;
+      padding: 0 11px 11px;
+      border-top: 1px solid rgba(255,255,255,.055);
+    }
+
+    .accordion.open .accordion-body {
+      display: block;
+    }
+
+    .field {
+      margin-top: 11px;
     }
 
     .field label {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-
-      margin-bottom: 7px;
-
-      color: #b4b4c2;
-
-      font-size: 10px;
+      gap: 8px;
+      margin-bottom: 6px;
+      color: #b7b7c5;
+      font-size: 9px;
       font-weight: 750;
     }
 
     .field-value {
-      color: #868698;
-
-      font-size: 9px;
+      color: #89899a;
+      font-size: 8px;
     }
 
     input[type="range"] {
       width: 100%;
-
       accent-color: var(--purple);
     }
 
     input[type="color"] {
       width: 100%;
-      height: 40px;
-
-      padding: 4px;
-
+      height: 38px;
+      padding: 3px;
       border: 1px solid var(--border);
-      border-radius: 11px;
-
-      background: #101019;
-
-      cursor: pointer;
+      border-radius: 10px;
+      background: #0f0f18;
     }
 
-    select {
+    select,
+    .text-input {
       width: 100%;
-      min-height: 42px;
-
-      padding: 0 11px;
-
+      min-height: 39px;
+      padding: 0 10px;
       border: 1px solid var(--border);
-      border-radius: 11px;
-
+      border-radius: 10px;
       outline: none;
-
-      color: #ededf5;
-      background: #101019;
-
-      font-size: 11px;
+      color: #eeeef5;
+      background: #0f0f18;
+      font-size: 10px;
       font-weight: 700;
     }
 
-    .object-actions {
+    .move-step-row {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-
-      margin-top: 13px;
+      grid-template-columns: 1fr 68px;
+      gap: 7px;
+      align-items: center;
     }
 
-    .small-button {
-      min-height: 40px;
-
-      border: 1px solid var(--border);
-      border-radius: 11px;
-
-      cursor: pointer;
-
-      color: #c7c7d3;
-      background: rgba(255, 255, 255, 0.035);
-
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .small-button.danger {
-      border-color:
-        rgba(255, 91, 112, 0.20);
-
-      color: #ff8090;
-
-      background:
-        rgba(255, 91, 112, 0.055);
-    }
-
-    .selection-status {
-      padding: 12px;
-
-      border: 1px dashed var(--border);
-      border-radius: 12px;
-
-      color: #777789;
-
-      background:
-        rgba(255, 255, 255, 0.018);
-
-      font-size: 10px;
-      line-height: 1.5;
-
-      text-align: center;
-    }
-
-
-    /* SAVE */
-
-    .save-button {
+    .step-number {
       width: 100%;
-      min-height: 52px;
+      min-height: 38px;
+      padding: 0 7px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: #fff;
+      background: #0f0f18;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 850;
+    }
 
-      border: 0;
-      border-radius: 14px;
+    .arrows {
+      width: 158px;
+      margin: 10px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      grid-template-rows: repeat(3,42px);
+      gap: 6px;
+    }
 
+    .arrow-btn {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #f3f3f8;
+      background: rgba(255,255,255,.04);
+      font-size: 17px;
+      font-weight: 900;
       cursor: pointer;
+      touch-action: manipulation;
+    }
 
-      color: white;
+    .arrow-btn:active {
+      background: rgba(124,92,255,.15);
+      border-color: rgba(124,92,255,.26);
+    }
 
+    .arrow-up {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .arrow-left {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .arrow-center {
+      grid-column: 2;
+      grid-row: 2;
+      border-style: dashed;
+      color: #777789;
+      font-size: 9px;
+    }
+
+    .arrow-right {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .arrow-down {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    .button-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .small-btn {
+      min-height: 38px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #d0d0dc;
+      background: rgba(255,255,255,.035);
+      font-size: 9px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .small-btn.active {
+      border-color: rgba(124,92,255,.28);
+      color: #c9c1ff;
+      background: rgba(124,92,255,.09);
+    }
+
+    .small-btn.danger {
+      border-color: rgba(255,96,116,.2);
+      color: #ff8190;
+      background: rgba(255,96,116,.055);
+    }
+
+    .align-row {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 6px;
+    }
+
+    .color-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .save-area {
+      position: sticky;
+      bottom: 0;
+      z-index: 5;
+      padding-top: 7px;
+      background:
+        linear-gradient(
+          to top,
+          var(--bg) 78%,
+          transparent
+        );
+    }
+
+    .save-btn {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-radius: 13px;
+      color: #fff;
       background:
         linear-gradient(
           135deg,
           var(--purple),
           var(--blue)
         );
+      box-shadow: 0 12px 30px rgba(84,70,255,.22);
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+    }
 
-      box-shadow:
-        0 12px 34px
-        rgba(89, 76, 255, 0.22);
+    .save-note {
+      margin-top: 6px;
+      padding-bottom: 3px;
+      color: #737385;
+      font-size: 8px;
+      line-height: 1.45;
+      text-align: center;
+    }
 
+    .hidden {
+      display: none !important;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(0,0,0,.68);
+      backdrop-filter: blur(7px);
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(100%, 460px);
+      max-height: min(82dvh, 720px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--border-strong);
+      border-radius: 18px;
+      background: #11111d;
+      box-shadow: 0 25px 70px rgba(0,0,0,.45);
+    }
+
+    .modal-head {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
       font-size: 12px;
       font-weight: 900;
     }
 
-    .save-button:disabled {
-      opacity: 0.55;
-      cursor: default;
+    .modal-close {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: #d7d7e2;
+      background: rgba(255,255,255,.035);
+      cursor: pointer;
     }
 
-    .save-note {
-      margin-top: 9px;
-
-      color: #737386;
-
-      font-size: 9px;
-      line-height: 1.5;
-
-      text-align: center;
-    }
-
-
-    /* MY IMAGES */
-
-    .library-section {
-      margin-top: 20px;
-    }
-
-    .library-header {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
-
-      margin-bottom: 11px;
-    }
-
-    .library-title {
-      font-size: 15px;
-      font-weight: 850;
-    }
-
-    .library-count {
-      color: var(--muted);
-
-      font-size: 10px;
-      font-weight: 700;
+    .modal-body {
+      min-height: 0;
+      overflow-y: auto;
+      padding: 12px;
     }
 
     .saved-grid {
       display: grid;
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-      gap: 10px;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 9px;
     }
 
     .saved-card {
-      min-width: 0;
-
-      padding: 8px;
-
-      overflow: hidden;
-
+      padding: 7px;
       border: 1px solid var(--border);
-      border-radius: 15px;
-
-      background:
-        rgba(17, 17, 29, 0.88);
+      border-radius: 12px;
+      background: rgba(255,255,255,.02);
     }
 
     .saved-preview {
       width: 100%;
-      aspect-ratio: 1 / 1;
-
+      aspect-ratio: 1/1;
       display: block;
-
       object-fit: cover;
-
-      border-radius: 10px;
-
-      background: #0e0e16;
+      border-radius: 9px;
+      background: #0d0d15;
     }
 
-    .saved-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-
-      margin-top: 8px;
-    }
-
-    .saved-name {
-      min-width: 0;
-
-      color: #cfcfda;
-
-      font-size: 9px;
-      font-weight: 750;
-
+    .saved-title {
+      margin-top: 7px;
+      color: #d2d2dc;
+      font-size: 8px;
+      font-weight: 800;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -634,466 +713,661 @@
 
     .saved-actions {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr 34px;
       gap: 6px;
-
       margin-top: 7px;
     }
 
-    .open-project,
-    .delete-project {
+    .saved-open,
+    .saved-delete {
       min-height: 34px;
-
-      border-radius: 9px;
-
-      cursor: pointer;
-
-      font-size: 9px;
+      border-radius: 8px;
+      font-size: 8px;
       font-weight: 850;
+      cursor: pointer;
     }
 
-    .open-project {
+    .saved-open {
       border: 0;
-
-      color: white;
-
+      color: #fff;
       background:
         linear-gradient(
           135deg,
-          rgba(124, 92, 255, 0.95),
-          rgba(63, 140, 255, 0.95)
+          rgba(124,92,255,.96),
+          rgba(67,135,255,.96)
         );
     }
 
-    .delete-project {
-      min-width: 38px;
-
-      border: 1px solid
-        rgba(255, 91, 112, 0.18);
-
-      color: #ff7c8c;
-
-      background:
-        rgba(255, 91, 112, 0.05);
+    .saved-delete {
+      border: 1px solid rgba(255,96,116,.18);
+      color: #ff8392;
+      background: rgba(255,96,116,.05);
     }
 
     .empty-library {
-      grid-column: 1 / -1;
-
-      padding: 28px 15px;
-
+      grid-column: 1/-1;
+      padding: 26px 12px;
       border: 1px dashed var(--border);
-      border-radius: 15px;
-
-      color: #717184;
-
+      border-radius: 12px;
+      color: #777789;
       text-align: center;
+      font-size: 9px;
+    }
 
-      font-size: 10px;
+    .confirm-modal {
+      width: min(100%, 370px);
+      padding: 17px;
+      border: 1px solid var(--border-strong);
+      border-radius: 17px;
+      background: #11111d;
+      box-shadow: 0 25px 70px rgba(0,0,0,.45);
+    }
+
+    .confirm-modal h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .confirm-modal p {
+      color: var(--muted);
+      font-size: 9px;
       line-height: 1.55;
     }
 
-
-    /* TOAST */
+    .confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 15px;
+    }
 
     .toast {
       position: fixed;
-
       left: 50%;
-      bottom:
-        calc(18px + env(safe-area-inset-bottom));
-
-      z-index: 9999;
-
-      max-width: calc(100vw - 32px);
-
-      padding: 11px 15px;
-
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      z-index: 20000;
+      max-width: calc(100vw - 30px);
+      padding: 10px 14px;
       border: 1px solid var(--border-strong);
       border-radius: 999px;
-
-      color: #efeff6;
-      background: rgba(20, 20, 31, 0.96);
-
-      box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.38);
-
-      font-size: 10px;
-      font-weight: 750;
-
+      color: #efeff5;
+      background: rgba(18,18,29,.97);
+      box-shadow: 0 14px 40px rgba(0,0,0,.38);
+      font-size: 9px;
+      font-weight: 800;
       opacity: 0;
       visibility: hidden;
-
-      transform:
-        translate(-50%, 12px);
-
-      transition:
-        opacity 0.2s ease,
-        transform 0.2s ease,
-        visibility 0.2s ease;
+      transform: translate(-50%,12px);
+      transition: .2s ease;
     }
 
     .toast.show {
       opacity: 1;
       visibility: visible;
-
-      transform:
-        translate(-50%, 0);
+      transform: translate(-50%,0);
     }
-
-
-    /* FILE INPUTS */
 
     .hidden-input {
       display: none;
     }
 
-
-    /* DESKTOP */
-
-    @media (min-width: 860px) {
-
-      .page {
-        padding:
-          24px
-          28px
-          50px;
+    @media (min-width: 900px) {
+      .app-shell {
+        padding: 18px 22px;
+        gap: 14px;
       }
 
       .topbar {
-        margin-bottom: 22px;
-
-        padding: 14px 18px;
+        max-width: 1180px;
+        width: 100%;
+        margin: 0 auto;
+        min-height: 60px;
+        padding: 10px 14px;
       }
 
-      .brand img {
-        width: 138px;
+      .logo-link img {
+        width: 132px;
       }
 
-      .page-title {
-        font-size: 12px;
+      .main-layout {
+        width: 100%;
+        max-width: 1180px;
+        margin: 0 auto;
+        grid-template-columns: minmax(0,1.08fr) minmax(340px,.72fr);
+        grid-template-rows: minmax(0,1fr);
+        align-items: stretch;
       }
 
-      .workspace {
-        grid-template-columns:
-          minmax(0, 1.2fr)
-          minmax(300px, 0.8fr);
-
-        align-items: start;
-
-        gap: 18px;
+      .canvas-panel {
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 15px;
       }
 
-      .canvas-card {
-        padding: 17px;
-
-        border-radius: 22px;
+      .canvas-wrap {
+        width: min(62vh, 620px);
+        max-width: 100%;
       }
 
-      .canvas-stage {
-        max-width: 650px;
+      .quick-actions {
+        width: min(62vh,620px);
+        max-width: 100%;
+        margin: 10px auto 0;
       }
 
-      .main-actions {
-        max-width: 650px;
-
-        margin:
-          13px auto
-          0;
-      }
-
-      .tool-button {
-        min-height: 52px;
-
-        font-size: 11px;
-      }
-
-      .tools-column {
-        position: sticky;
-        top: 20px;
-      }
-
-      .tools-card {
-        padding: 18px;
-
-        border-radius: 20px;
+      .controls-panel {
+        height: 100%;
+        padding-right: 4px;
       }
 
       .saved-grid {
-        grid-template-columns:
-          repeat(4, minmax(0, 1fr));
-
-        gap: 12px;
+        grid-template-columns: repeat(3,minmax(0,1fr));
       }
-
-      .library-section {
-        margin-top: 28px;
-      }
-
-      .library-title {
-        font-size: 18px;
-      }
-
     }
 
-
     @media (max-width: 380px) {
-
-      .page-title {
+      .page-name {
         display: none;
       }
 
-      .main-actions {
-        gap: 6px;
+      .logo-link img {
+        width: 95px;
       }
 
-      .tool-button {
-        padding: 6px 4px;
-
+      .top-btn {
+        padding: 0 8px;
         font-size: 9px;
       }
 
+      .canvas-wrap {
+        width: min(75vw,330px);
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <main class="page">
+<div class="app-shell">
 
-    <header class="topbar">
+  <header class="topbar">
 
-      <a
-        href="index.html"
-        class="brand"
-        aria-label="Viral1s Home"
-      >
-        <img
-          src="viral1s-logo.webp"
-          alt="Viral1s"
-        >
+    <div class="topbar-left">
+      <a href="index.html" class="logo-link" aria-label="Viral1s Home">
+        <img src="viral1s-logo.webp" alt="Viral1s">
       </a>
+    </div>
 
-      <div class="page-title">
-        Image Creator
+    <div class="page-name">
+      Image Creator
+    </div>
+
+    <div class="topbar-right">
+      <button id="undoBtn" class="icon-btn" type="button" title="Undo">↶</button>
+      <button id="redoBtn" class="icon-btn" type="button" title="Redo">↷</button>
+      <button id="newBtn" class="top-btn" type="button">New</button>
+      <button id="myImagesBtn" class="top-btn primary" type="button">My Images</button>
+    </div>
+
+  </header>
+
+
+  <main class="main-layout">
+
+    <section class="canvas-panel">
+
+      <div class="canvas-panel-head">
+        <div class="canvas-title">Create your image</div>
+        <div class="canvas-size">1:1 · 1080×1080</div>
       </div>
 
-      <a
-        href="index.html"
-        class="back-button"
-      >
-        ← Back
-      </a>
+      <div id="canvasWrap" class="canvas-wrap">
 
-    </header>
+        <div id="emptyTip" class="empty-tip">
+          <strong>Start creating</strong>
+          <span>Add a background, image or text.</span>
+        </div>
+
+        <canvas
+          id="imageCanvas"
+          width="1080"
+          height="1080"
+        ></canvas>
+
+      </div>
+
+      <div class="quick-actions">
+
+        <button id="backgroundBtn" class="quick-btn primary" type="button">
+          + Background
+        </button>
+
+        <button id="imageBtn" class="quick-btn" type="button">
+          + Image / PNG
+        </button>
+
+        <button id="textBtn" class="quick-btn" type="button">
+          + Text
+        </button>
+
+      </div>
+
+    </section>
 
 
-    <section class="workspace">
+    <section id="controlsPanel" class="controls-panel">
 
-      <div class="editor-column">
+      <div id="noSelection" class="no-selection">
+        Select an element on the image to show its controls.
+      </div>
 
-        <div class="canvas-card">
 
-          <div class="canvas-header">
+      <div id="selectedUI" class="hidden">
 
-            <div class="canvas-title">
-              Create your image
+        <div class="selected-summary">
+
+          <div>
+            <div id="selectedName" class="selected-name">
+              Selected element
             </div>
 
-            <div class="size-badge">
-              1:1 · 1080 × 1080
+            <div id="selectedSub" class="selected-sub">
+              Tap outside to deselect
             </div>
-
           </div>
 
-
-          <div
-            id="canvasStage"
-            class="canvas-stage"
+          <button
+            id="lockBtn"
+            class="lock-chip"
+            type="button"
           >
+            🔓 Unlocked
+          </button>
 
-            <div
-              id="emptyTip"
-              class="canvas-empty-tip"
-            >
-              <strong>
-                Start with a background
-              </strong>
+        </div>
 
-              <span>
-                Add a photo, PNG or text and create your reel image.
-              </span>
+
+        <div class="accordion" data-accordion="move">
+
+          <button class="accordion-head" type="button">
+            <span>Move</span>
+            <span>⌄</span>
+          </button>
+
+          <div class="accordion-body">
+
+            <div class="field">
+
+              <label>
+                Move step
+                <span id="moveStepText" class="field-value">
+                  8px
+                </span>
+              </label>
+
+              <div class="move-step-row">
+
+                <input
+                  id="moveStepRange"
+                  type="range"
+                  min="1"
+                  max="30"
+                  value="8"
+                >
+
+                <input
+                  id="moveStepNumber"
+                  class="step-number"
+                  type="number"
+                  min="1"
+                  max="30"
+                  value="8"
+                >
+
+              </div>
+
             </div>
 
-            <canvas
-              id="imageCanvas"
-              width="1080"
-              height="1080"
-            ></canvas>
 
-          </div>
+            <div class="arrows">
 
+              <button
+                class="arrow-btn arrow-up"
+                data-move="up"
+                type="button"
+              >
+                ↑
+              </button>
 
-          <div class="main-actions">
+              <button
+                class="arrow-btn arrow-left"
+                data-move="left"
+                type="button"
+              >
+                ←
+              </button>
 
-            <button
-              id="backgroundButton"
-              class="tool-button primary"
-              type="button"
-            >
-              + Background
-            </button>
+              <button
+                class="arrow-btn arrow-center"
+                type="button"
+                disabled
+              >
+                MOVE
+              </button>
 
-            <button
-              id="imageButton"
-              class="tool-button"
-              type="button"
-            >
-              + Image / PNG
-            </button>
+              <button
+                class="arrow-btn arrow-right"
+                data-move="right"
+                type="button"
+              >
+                →
+              </button>
 
-            <button
-              id="textButton"
-              class="tool-button"
-              type="button"
-            >
-              + Text
-            </button>
+              <button
+                class="arrow-btn arrow-down"
+                data-move="down"
+                type="button"
+              >
+                ↓
+              </button>
+
+            </div>
 
           </div>
 
         </div>
 
-      </div>
+
+        <div class="accordion" data-accordion="size">
+
+          <button class="accordion-head" type="button">
+            <span>Size & Rotate</span>
+            <span>⌄</span>
+          </button>
+
+          <div class="accordion-body">
+
+            <div class="field">
+
+              <label>
+                Scale
+                <span id="scaleText" class="field-value">
+                  100%
+                </span>
+              </label>
+
+              <input
+                id="scaleRange"
+                type="range"
+                min="10"
+                max="300"
+                value="100"
+              >
+
+            </div>
 
 
-      <aside class="tools-column">
+            <div class="field">
 
+              <label>
+                Rotation
+                <span id="rotationText" class="field-value">
+                  0°
+                </span>
+              </label>
 
-        <div class="tools-card">
+              <input
+                id="rotationRange"
+                type="range"
+                min="-180"
+                max="180"
+                value="0"
+              >
 
-          <div class="tools-heading">
-            Selected element
+            </div>
+
           </div>
 
-          <div
-            id="noSelection"
-            class="selection-status"
-          >
-            Tap an image or text on the canvas to edit it.
-          </div>
+        </div>
 
 
-          <div
-            id="selectionControls"
-            class="hidden"
-          >
+        <div
+          id="textAccordion"
+          class="accordion"
+          data-accordion="text"
+        >
 
-            <div
-              id="textControls"
-              class="hidden"
-            >
+          <button class="accordion-head" type="button">
+            <span>Text</span>
+            <span>⌄</span>
+          </button>
 
-              <div class="field">
+          <div class="accordion-body">
 
-                <label for="fontSize">
-                  Text size
-                  <span
-                    id="fontSizeValue"
-                    class="field-value"
-                  >
-                    72
-                  </span>
-                </label>
+            <div class="field">
 
-                <input
-                  id="fontSize"
-                  type="range"
-                  min="20"
-                  max="220"
-                  value="72"
+              <label>
+                Font
+              </label>
+
+              <select id="fontFamily">
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Impact">Impact</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Trebuchet MS">Trebuchet</option>
+              </select>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Font size
+                <span id="fontSizeText" class="field-value">
+                  72
+                </span>
+              </label>
+
+              <input
+                id="fontSizeRange"
+                type="range"
+                min="18"
+                max="240"
+                value="72"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Style
+              </label>
+
+              <div class="button-grid-2">
+
+                <button
+                  id="boldBtn"
+                  class="small-btn"
+                  type="button"
                 >
+                  Bold
+                </button>
 
-              </div>
-
-
-              <div class="field">
-
-                <label for="fontFamily">
-                  Font
-                </label>
-
-                <select id="fontFamily">
-                  <option value="Arial">
-                    Arial
-                  </option>
-
-                  <option value="Georgia">
-                    Georgia
-                  </option>
-
-                  <option value="Impact">
-                    Impact
-                  </option>
-
-                  <option value="Courier New">
-                    Courier New
-                  </option>
-
-                  <option value="Trebuchet MS">
-                    Trebuchet
-                  </option>
-                </select>
-
-              </div>
-
-
-              <div class="field">
-
-                <label for="textColor">
-                  Text color
-                </label>
-
-                <input
-                  id="textColor"
-                  type="color"
-                  value="#ffffff"
+                <button
+                  id="italicBtn"
+                  class="small-btn"
+                  type="button"
                 >
+                  Italic
+                </button>
 
               </div>
 
             </div>
 
 
-            <div class="object-actions">
+            <div class="field">
+
+              <label>
+                Alignment
+              </label>
+
+              <div class="align-row">
+
+                <button
+                  class="small-btn align-btn"
+                  data-align="left"
+                  type="button"
+                >
+                  Left
+                </button>
+
+                <button
+                  class="small-btn align-btn"
+                  data-align="center"
+                  type="button"
+                >
+                  Center
+                </button>
+
+                <button
+                  class="small-btn align-btn"
+                  data-align="right"
+                  type="button"
+                >
+                  Right
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="field color-row">
+
+              <div>
+                <label>Text color</label>
+                <input
+                  id="textColor"
+                  type="color"
+                  value="#ffffff"
+                >
+              </div>
+
+              <div>
+                <label>Stroke color</label>
+                <input
+                  id="strokeColor"
+                  type="color"
+                  value="#000000"
+                >
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Stroke width
+                <span id="strokeWidthText" class="field-value">
+                  0
+                </span>
+              </label>
+
+              <input
+                id="strokeWidthRange"
+                type="range"
+                min="0"
+                max="12"
+                step="1"
+                value="0"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="accordion" data-accordion="style">
+
+          <button class="accordion-head" type="button">
+            <span>Opacity</span>
+            <span>⌄</span>
+          </button>
+
+          <div class="accordion-body">
+
+            <div class="field">
+
+              <label>
+                Opacity
+                <span id="opacityText" class="field-value">
+                  100%
+                </span>
+              </label>
+
+              <input
+                id="opacityRange"
+                type="range"
+                min="0"
+                max="100"
+                value="100"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="accordion" data-accordion="layer">
+
+          <button class="accordion-head" type="button">
+            <span>Layer & Actions</span>
+            <span>⌄</span>
+          </button>
+
+          <div class="accordion-body">
+
+            <div class="button-grid-2">
 
               <button
-                id="forwardButton"
-                class="small-button"
+                id="bringForwardBtn"
+                class="small-btn"
                 type="button"
               >
                 Bring forward
               </button>
 
               <button
-                id="backwardButton"
-                class="small-button"
+                id="sendBackwardBtn"
+                class="small-btn"
                 type="button"
               >
                 Send backward
               </button>
 
               <button
-                id="duplicateButton"
-                class="small-button"
+                id="duplicateBtn"
+                class="small-btn"
                 type="button"
               >
                 Duplicate
               </button>
 
               <button
-                id="deleteObjectButton"
-                class="small-button danger"
+                id="deleteBtn"
+                class="small-btn danger"
                 type="button"
               >
                 Delete
@@ -1105,1631 +1379,2907 @@
 
         </div>
 
-
-        <div class="tools-card">
-
-          <div class="tools-heading">
-            Save
-          </div>
-
-          <button
-            id="saveButton"
-            class="save-button"
-            type="button"
-          >
-            Save Image
-          </button>
-
-          <div class="save-note">
-            Saved inside Viral1s on this device. You can reopen it and continue editing later.
-          </div>
-
-        </div>
+      </div>
 
 
-      </aside>
+      <div class="save-area">
 
-    </section>
-
-
-    <section class="library-section">
-
-      <div class="library-header">
-
-        <div class="library-title">
-          My Images
-        </div>
-
-        <div
-          id="libraryCount"
-          class="library-count"
+        <button
+          id="saveBtn"
+          class="save-btn"
+          type="button"
         >
-          0 saved
+          Save Image
+        </button>
+
+        <div class="save-note">
+          Saved inside Viral1s on this device.
         </div>
 
       </div>
 
+    </section>
+
+  </main>
+
+</div>
+
+
+<input
+  id="backgroundInput"
+  class="hidden-input"
+  type="file"
+  accept="image/*"
+>
+
+<input
+  id="imageInput"
+  class="hidden-input"
+  type="file"
+  accept="image/*"
+>
+
+
+<div
+  id="libraryModal"
+  class="modal-backdrop"
+>
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <div class="modal-title">
+        My Images
+      </div>
+
+      <button
+        id="closeLibraryBtn"
+        class="modal-close"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div class="modal-body">
 
       <div
         id="savedGrid"
         class="saved-grid"
       ></div>
 
-    </section>
+    </div>
 
-  </main>
+  </div>
 
-
-  <input
-    id="backgroundInput"
-    class="hidden-input"
-    type="file"
-    accept="image/*"
-  >
-
-  <input
-    id="imageInput"
-    class="hidden-input"
-    type="file"
-    accept="image/*"
-  >
+</div>
 
 
-  <div
-    id="toast"
-    class="toast"
-  ></div>
+<div
+  id="confirmBackdrop"
+  class="modal-backdrop"
+>
+
+  <div class="confirm-modal">
+
+    <h3 id="confirmTitle">
+      Start a new image?
+    </h3>
+
+    <p id="confirmText">
+      Unsaved changes will be lost.
+    </p>
+
+    <div class="confirm-actions">
+
+      <button
+        id="confirmCancelBtn"
+        class="small-btn"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        id="confirmOkBtn"
+        class="small-btn danger"
+        type="button"
+      >
+        Continue
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 
-  <script>
-    const LOGICAL_SIZE = 1080;
-
-    const canvasStage =
-      document.getElementById("canvasStage");
-
-    const emptyTip =
-      document.getElementById("emptyTip");
-
-    const backgroundButton =
-      document.getElementById("backgroundButton");
-
-    const imageButton =
-      document.getElementById("imageButton");
-
-    const textButton =
-      document.getElementById("textButton");
-
-    const backgroundInput =
-      document.getElementById("backgroundInput");
-
-    const imageInput =
-      document.getElementById("imageInput");
-
-    const noSelection =
-      document.getElementById("noSelection");
-
-    const selectionControls =
-      document.getElementById("selectionControls");
-
-    const textControls =
-      document.getElementById("textControls");
-
-    const fontSize =
-      document.getElementById("fontSize");
-
-    const fontSizeValue =
-      document.getElementById("fontSizeValue");
-
-    const fontFamily =
-      document.getElementById("fontFamily");
-
-    const textColor =
-      document.getElementById("textColor");
-
-    const forwardButton =
-      document.getElementById("forwardButton");
-
-    const backwardButton =
-      document.getElementById("backwardButton");
-
-    const duplicateButton =
-      document.getElementById("duplicateButton");
-
-    const deleteObjectButton =
-      document.getElementById("deleteObjectButton");
-
-    const saveButton =
-      document.getElementById("saveButton");
-
-    const savedGrid =
-      document.getElementById("savedGrid");
-
-    const libraryCount =
-      document.getElementById("libraryCount");
-
-    const toast =
-      document.getElementById("toast");
+<div id="toast" class="toast"></div>
 
 
-    let currentProjectId = null;
+<script>
+  const LOGICAL_SIZE = 1080;
 
-    let database = null;
+  const canvasWrap =
+    document.getElementById("canvasWrap");
+
+  const emptyTip =
+    document.getElementById("emptyTip");
+
+  const noSelection =
+    document.getElementById("noSelection");
+
+  const selectedUI =
+    document.getElementById("selectedUI");
+
+  const selectedName =
+    document.getElementById("selectedName");
+
+  const selectedSub =
+    document.getElementById("selectedSub");
+
+  const lockBtn =
+    document.getElementById("lockBtn");
+
+  const textAccordion =
+    document.getElementById("textAccordion");
+
+  const backgroundBtn =
+    document.getElementById("backgroundBtn");
+
+  const imageBtn =
+    document.getElementById("imageBtn");
+
+  const textBtn =
+    document.getElementById("textBtn");
+
+  const backgroundInput =
+    document.getElementById("backgroundInput");
+
+  const imageInput =
+    document.getElementById("imageInput");
+
+  const moveStepRange =
+    document.getElementById("moveStepRange");
+
+  const moveStepNumber =
+    document.getElementById("moveStepNumber");
+
+  const moveStepText =
+    document.getElementById("moveStepText");
+
+  const scaleRange =
+    document.getElementById("scaleRange");
+
+  const scaleText =
+    document.getElementById("scaleText");
+
+  const rotationRange =
+    document.getElementById("rotationRange");
+
+  const rotationText =
+    document.getElementById("rotationText");
+
+  const fontFamily =
+    document.getElementById("fontFamily");
+
+  const fontSizeRange =
+    document.getElementById("fontSizeRange");
+
+  const fontSizeText =
+    document.getElementById("fontSizeText");
+
+  const boldBtn =
+    document.getElementById("boldBtn");
+
+  const italicBtn =
+    document.getElementById("italicBtn");
+
+  const textColor =
+    document.getElementById("textColor");
+
+  const strokeColor =
+    document.getElementById("strokeColor");
+
+  const strokeWidthRange =
+    document.getElementById("strokeWidthRange");
+
+  const strokeWidthText =
+    document.getElementById("strokeWidthText");
+
+  const opacityRange =
+    document.getElementById("opacityRange");
+
+  const opacityText =
+    document.getElementById("opacityText");
+
+  const bringForwardBtn =
+    document.getElementById("bringForwardBtn");
+
+  const sendBackwardBtn =
+    document.getElementById("sendBackwardBtn");
+
+  const duplicateBtn =
+    document.getElementById("duplicateBtn");
+
+  const deleteBtn =
+    document.getElementById("deleteBtn");
+
+  const undoBtn =
+    document.getElementById("undoBtn");
+
+  const redoBtn =
+    document.getElementById("redoBtn");
+
+  const newBtn =
+    document.getElementById("newBtn");
+
+  const myImagesBtn =
+    document.getElementById("myImagesBtn");
+
+  const saveBtn =
+    document.getElementById("saveBtn");
+
+  const libraryModal =
+    document.getElementById("libraryModal");
+
+  const closeLibraryBtn =
+    document.getElementById("closeLibraryBtn");
+
+  const savedGrid =
+    document.getElementById("savedGrid");
+
+  const confirmBackdrop =
+    document.getElementById("confirmBackdrop");
+
+  const confirmTitle =
+    document.getElementById("confirmTitle");
+
+  const confirmText =
+    document.getElementById("confirmText");
+
+  const confirmCancelBtn =
+    document.getElementById("confirmCancelBtn");
+
+  const confirmOkBtn =
+    document.getElementById("confirmOkBtn");
+
+  const toast =
+    document.getElementById("toast");
 
 
-    const canvas =
-      new fabric.Canvas(
-        "imageCanvas",
-        {
-          width: LOGICAL_SIZE,
-          height: LOGICAL_SIZE,
+  let currentProjectId = null;
 
-          preserveObjectStacking: true,
+  let database = null;
 
-          selectionColor:
-            "rgba(124, 92, 255, 0.12)",
+  let isDirty = false;
 
-          selectionBorderColor:
-            "#7c5cff",
+  let history = [];
 
-          selectionLineWidth: 2
+  let historyIndex = -1;
+
+  let restoringHistory = false;
+
+  let confirmAction = null;
+
+  let moveHoldTimeout = null;
+
+  let moveHoldInterval = null;
+
+
+  const canvas =
+    new fabric.Canvas(
+      "imageCanvas",
+      {
+        width: LOGICAL_SIZE,
+        height: LOGICAL_SIZE,
+        preserveObjectStacking: true,
+        selectionColor:
+          "rgba(124,92,255,.12)",
+        selectionBorderColor:
+          "#7c5cff",
+        selectionLineWidth: 2
+      }
+    );
+
+
+  canvas.backgroundColor =
+    "#101018";
+
+
+  fabric.Object.prototype.set({
+    transparentCorners: false,
+    cornerColor: "#7c5cff",
+    cornerStrokeColor: "#ffffff",
+    borderColor: "#7c5cff",
+    cornerSize: 24,
+    padding: 4,
+    rotatingPointOffset: 34
+  });
+
+
+  function resizeCanvasDisplay() {
+
+    const size =
+      canvasWrap.clientWidth;
+
+    canvas.setDimensions(
+      {
+        width: size,
+        height: size
+      },
+      {
+        cssOnly: true
+      }
+    );
+
+    canvas.setZoom(
+      size / LOGICAL_SIZE
+    );
+
+    canvas.requestRenderAll();
+
+  }
+
+
+  window.addEventListener(
+    "resize",
+    resizeCanvasDisplay
+  );
+
+
+  requestAnimationFrame(
+    resizeCanvasDisplay
+  );
+
+
+  function showToast(message) {
+
+    toast.textContent =
+      message;
+
+    toast.classList.add("show");
+
+    clearTimeout(
+      showToast.timer
+    );
+
+    showToast.timer =
+      setTimeout(
+        () => {
+          toast.classList.remove(
+            "show"
+          );
+        },
+        2100
+      );
+
+  }
+
+
+  function getActive() {
+    return canvas.getActiveObject();
+  }
+
+
+  function isTextObject(object) {
+
+    if (!object) return false;
+
+    return (
+      object.type === "i-text" ||
+      object.type === "text" ||
+      object.type === "textbox"
+    );
+
+  }
+
+
+  function isBackgroundObject(object) {
+    return Boolean(
+      object &&
+      object.isViralBackground
+    );
+  }
+
+
+  function updateEmptyState() {
+
+    emptyTip.classList.toggle(
+      "hidden",
+      canvas.getObjects().length > 0
+    );
+
+  }
+
+
+  function setDirty(value = true) {
+    isDirty = value;
+  }
+
+
+  function serializeCanvas() {
+
+    return JSON.stringify(
+      canvas.toJSON([
+        "isViralBackground",
+        "viralLocked"
+      ])
+    );
+
+  }
+
+
+  function pushHistory() {
+
+    if (restoringHistory) {
+      return;
+    }
+
+    const snapshot =
+      serializeCanvas();
+
+    if (
+      history[historyIndex] ===
+      snapshot
+    ) {
+      return;
+    }
+
+    history =
+      history.slice(
+        0,
+        historyIndex + 1
+      );
+
+    history.push(snapshot);
+
+    if (history.length > 60) {
+      history.shift();
+    }
+
+    historyIndex =
+      history.length - 1;
+
+    updateUndoRedo();
+
+  }
+
+
+  function updateUndoRedo() {
+
+    undoBtn.disabled =
+      historyIndex <= 0;
+
+    redoBtn.disabled =
+      historyIndex >=
+      history.length - 1;
+
+    undoBtn.style.opacity =
+      undoBtn.disabled
+        ? ".4"
+        : "1";
+
+    redoBtn.style.opacity =
+      redoBtn.disabled
+        ? ".4"
+        : "1";
+
+  }
+
+
+  function restoreSnapshot(snapshot) {
+
+    if (!snapshot) {
+      return;
+    }
+
+    restoringHistory = true;
+
+    canvas.loadFromJSON(
+      snapshot,
+      () => {
+
+        normalizeLoadedObjects();
+
+        canvas.renderAll();
+
+        restoringHistory = false;
+
+        updateEmptyState();
+
+        updateSelectionUI();
+
+        setDirty(true);
+
+      }
+    );
+
+  }
+
+
+  undoBtn.addEventListener(
+    "click",
+    () => {
+
+      if (historyIndex <= 0) {
+        return;
+      }
+
+      historyIndex--;
+
+      restoreSnapshot(
+        history[historyIndex]
+      );
+
+      updateUndoRedo();
+
+    }
+  );
+
+
+  redoBtn.addEventListener(
+    "click",
+    () => {
+
+      if (
+        historyIndex >=
+        history.length - 1
+      ) {
+        return;
+      }
+
+      historyIndex++;
+
+      restoreSnapshot(
+        history[historyIndex]
+      );
+
+      updateUndoRedo();
+
+    }
+  );
+
+
+  function normalizeLoadedObjects() {
+
+    canvas.getObjects().forEach(
+      (object) => {
+
+        const locked =
+          Boolean(
+            object.viralLocked
+          );
+
+        applyLockState(
+          object,
+          locked,
+          false
+        );
+
+      }
+    );
+
+  }
+
+
+  function initializeHistory() {
+
+    history = [
+      serializeCanvas()
+    ];
+
+    historyIndex = 0;
+
+    updateUndoRedo();
+
+  }
+
+
+  canvas.on(
+    "object:modified",
+    () => {
+
+      setDirty();
+
+      pushHistory();
+
+      updateSelectionUI();
+
+    }
+  );
+
+
+  canvas.on(
+    "object:added",
+    () => {
+
+      updateEmptyState();
+
+    }
+  );
+
+
+  canvas.on(
+    "object:removed",
+    () => {
+
+      updateEmptyState();
+
+    }
+  );
+
+
+  canvas.on(
+    "selection:created",
+    updateSelectionUI
+  );
+
+  canvas.on(
+    "selection:updated",
+    updateSelectionUI
+  );
+
+  canvas.on(
+    "selection:cleared",
+    updateSelectionUI
+  );
+
+
+  canvas.on(
+    "mouse:down",
+    event => {
+
+      if (!event.target) {
+        canvas.discardActiveObject();
+        canvas.requestRenderAll();
+        updateSelectionUI();
+      }
+
+    }
+  );
+
+
+  function updateSelectionUI() {
+
+    const object =
+      getActive();
+
+    if (!object) {
+
+      noSelection.classList.remove(
+        "hidden"
+      );
+
+      selectedUI.classList.add(
+        "hidden"
+      );
+
+      return;
+    }
+
+    noSelection.classList.add(
+      "hidden"
+    );
+
+    selectedUI.classList.remove(
+      "hidden"
+    );
+
+    if (isBackgroundObject(object)) {
+
+      selectedName.textContent =
+        "Background";
+
+    } else if (isTextObject(object)) {
+
+      selectedName.textContent =
+        "Text";
+
+    } else {
+
+      selectedName.textContent =
+        "Image / PNG";
+
+    }
+
+    selectedSub.textContent =
+      object.viralLocked
+        ? "Locked element"
+        : "Tap outside to deselect";
+
+    updateLockButton(object);
+
+    updateSizeControls(object);
+
+    updateOpacityControl(object);
+
+    updateTextControls(object);
+
+  }
+
+
+  function updateSizeControls(object) {
+
+    const scalePercent =
+      Math.round(
+        (
+          (
+            object.scaleX +
+            object.scaleY
+          ) / 2
+        ) *
+        100
+      );
+
+    scaleRange.value =
+      Math.max(
+        10,
+        Math.min(
+          300,
+          scalePercent
+        )
+      );
+
+    scaleText.textContent =
+      `${scaleRange.value}%`;
+
+    rotationRange.value =
+      Math.round(
+        object.angle || 0
+      );
+
+    rotationText.textContent =
+      `${rotationRange.value}°`;
+
+  }
+
+
+  function updateOpacityControl(object) {
+
+    const value =
+      Math.round(
+        (object.opacity ?? 1) *
+        100
+      );
+
+    opacityRange.value =
+      value;
+
+    opacityText.textContent =
+      `${value}%`;
+
+  }
+
+
+  function updateTextControls(object) {
+
+    const textMode =
+      isTextObject(object);
+
+    textAccordion.classList.toggle(
+      "hidden",
+      !textMode
+    );
+
+    if (!textMode) {
+      return;
+    }
+
+    fontFamily.value =
+      object.fontFamily ||
+      "Arial";
+
+    fontSizeRange.value =
+      Math.round(
+        object.fontSize || 72
+      );
+
+    fontSizeText.textContent =
+      fontSizeRange.value;
+
+    boldBtn.classList.toggle(
+      "active",
+      object.fontWeight === "bold" ||
+      Number(object.fontWeight) >= 700
+    );
+
+    italicBtn.classList.toggle(
+      "active",
+      object.fontStyle === "italic"
+    );
+
+    document
+      .querySelectorAll(".align-btn")
+      .forEach(
+        button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.align ===
+            object.textAlign
+          );
+
         }
       );
 
+    if (
+      typeof object.fill === "string" &&
+      object.fill.startsWith("#")
+    ) {
+      textColor.value =
+        object.fill;
+    }
+
+    if (
+      typeof object.stroke === "string" &&
+      object.stroke.startsWith("#")
+    ) {
+      strokeColor.value =
+        object.stroke;
+    }
+
+    strokeWidthRange.value =
+      object.strokeWidth || 0;
+
+    strokeWidthText.textContent =
+      strokeWidthRange.value;
+
+  }
+
+
+  function updateLockButton(object) {
+
+    const locked =
+      Boolean(
+        object.viralLocked
+      );
+
+    lockBtn.classList.toggle(
+      "locked",
+      locked
+    );
+
+    lockBtn.textContent =
+      locked
+        ? "🔒 Locked"
+        : "🔓 Unlocked";
+
+  }
+
+
+  function applyLockState(
+    object,
+    locked,
+    markDirty = true
+  ) {
+
+    object.viralLocked =
+      locked;
+
+    object.set({
+      lockMovementX: locked,
+      lockMovementY: locked,
+      lockScalingX: locked,
+      lockScalingY: locked,
+      lockRotation: locked,
+      hasControls: !locked
+    });
+
+    if (markDirty) {
+      setDirty();
+      pushHistory();
+    }
+
+    canvas.requestRenderAll();
+
+    updateSelectionUI();
+
+  }
+
+
+  lockBtn.addEventListener(
+    "click",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!object) {
+        return;
+      }
+
+      applyLockState(
+        object,
+        !object.viralLocked
+      );
+
+    }
+  );
+
+
+  function readFileAsDataURL(file) {
+
+    return new Promise(
+      (resolve, reject) => {
+
+        const reader =
+          new FileReader();
+
+        reader.onload =
+          () => resolve(
+            reader.result
+          );
+
+        reader.onerror =
+          reject;
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+    );
+
+  }
+
+
+  function loadFabricImage(dataUrl) {
+
+    return new Promise(
+      (resolve, reject) => {
+
+        fabric.Image.fromURL(
+          dataUrl,
+          image => {
+
+            if (!image) {
+              reject(
+                new Error(
+                  "Image load failed"
+                )
+              );
+
+              return;
+            }
+
+            resolve(image);
+
+          },
+          {
+            crossOrigin: "anonymous"
+          }
+        );
+
+      }
+    );
+
+  }
+
+
+  async function addBackground(file) {
+
+    try {
+
+      const dataUrl =
+        await readFileAsDataURL(
+          file
+        );
+
+      const image =
+        await loadFabricImage(
+          dataUrl
+        );
+
+      const scale =
+        Math.max(
+          LOGICAL_SIZE /
+          image.width,
+          LOGICAL_SIZE /
+          image.height
+        );
+
+      image.set({
+        left: LOGICAL_SIZE / 2,
+        top: LOGICAL_SIZE / 2,
+        originX: "center",
+        originY: "center",
+        scaleX: scale,
+        scaleY: scale,
+        angle: 0,
+        isViralBackground: true,
+        viralLocked: false
+      });
+
+      const oldBackground =
+        canvas
+          .getObjects()
+          .find(
+            object =>
+              isBackgroundObject(
+                object
+              )
+          );
+
+      if (oldBackground) {
+        canvas.remove(
+          oldBackground
+        );
+      }
+
+      canvas.add(image);
+
+      canvas.sendToBack(image);
+
+      canvas.setActiveObject(
+        image
+      );
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+      updateSelectionUI();
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Could not add background."
+      );
+
+    }
+
+  }
+
+
+  async function addImage(file) {
+
+    try {
+
+      const dataUrl =
+        await readFileAsDataURL(
+          file
+        );
+
+      const image =
+        await loadFabricImage(
+          dataUrl
+        );
+
+      const maxSize =
+        LOGICAL_SIZE * .58;
+
+      const scale =
+        Math.min(
+          maxSize /
+          image.width,
+          maxSize /
+          image.height,
+          1
+        );
+
+      image.set({
+        left: LOGICAL_SIZE / 2,
+        top: LOGICAL_SIZE / 2,
+        originX: "center",
+        originY: "center",
+        scaleX: scale,
+        scaleY: scale,
+        angle: 0,
+        viralLocked: false
+      });
+
+      canvas.add(image);
+
+      ensureBackgroundAtBack();
+
+      canvas.setActiveObject(
+        image
+      );
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+      updateSelectionUI();
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Could not add image."
+      );
+
+    }
+
+  }
+
+
+  function addText() {
+
+    const text =
+      new fabric.IText(
+        "Your text",
+        {
+          left: LOGICAL_SIZE / 2,
+          top: LOGICAL_SIZE / 2,
+          originX: "center",
+          originY: "center",
+          fill: "#ffffff",
+          fontFamily: "Arial",
+          fontSize: 72,
+          fontWeight: "bold",
+          textAlign: "center",
+          stroke: "#000000",
+          strokeWidth: 0,
+          viralLocked: false
+        }
+      );
+
+    canvas.add(text);
+
+    ensureBackgroundAtBack();
+
+    canvas.setActiveObject(
+      text
+    );
+
+    canvas.requestRenderAll();
+
+    setDirty();
+
+    pushHistory();
+
+    updateSelectionUI();
+
+    setTimeout(
+      () => {
+
+        text.enterEditing();
+        text.selectAll();
+        canvas.requestRenderAll();
+
+      },
+      70
+    );
+
+  }
+
+
+  function ensureBackgroundAtBack() {
+
+    const background =
+      canvas
+        .getObjects()
+        .find(
+          object =>
+            isBackgroundObject(
+              object
+            )
+        );
+
+    if (background) {
+      canvas.sendToBack(
+        background
+      );
+    }
+
+  }
+
+
+  backgroundBtn.addEventListener(
+    "click",
+    () => {
+      backgroundInput.click();
+    }
+  );
+
+
+  imageBtn.addEventListener(
+    "click",
+    () => {
+      imageInput.click();
+    }
+  );
+
+
+  textBtn.addEventListener(
+    "click",
+    addText
+  );
+
+
+  backgroundInput.addEventListener(
+    "change",
+    async () => {
+
+      const file =
+        backgroundInput.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      await addBackground(
+        file
+      );
+
+      backgroundInput.value = "";
+
+    }
+  );
+
+
+  imageInput.addEventListener(
+    "change",
+    async () => {
+
+      const file =
+        imageInput.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      await addImage(
+        file
+      );
+
+      imageInput.value = "";
+
+    }
+  );
+
+
+  function syncMoveStep(value) {
+
+    const normalized =
+      Math.max(
+        1,
+        Math.min(
+          30,
+          Number(value) || 8
+        )
+      );
+
+    moveStepRange.value =
+      normalized;
+
+    moveStepNumber.value =
+      normalized;
+
+    moveStepText.textContent =
+      `${normalized}px`;
+
+    localStorage.setItem(
+      "viral1s_image_move_step",
+      String(normalized)
+    );
+
+  }
+
+
+  const savedMoveStep =
+    Number(
+      localStorage.getItem(
+        "viral1s_image_move_step"
+      )
+    ) || 8;
+
+
+  syncMoveStep(
+    savedMoveStep
+  );
+
+
+  moveStepRange.addEventListener(
+    "input",
+    () => {
+      syncMoveStep(
+        moveStepRange.value
+      );
+    }
+  );
+
+
+  moveStepNumber.addEventListener(
+    "input",
+    () => {
+      syncMoveStep(
+        moveStepNumber.value
+      );
+    }
+  );
+
+
+  function moveSelected(direction) {
+
+    const object =
+      getActive();
+
+    if (
+      !object ||
+      object.viralLocked
+    ) {
+      return;
+    }
+
+    const step =
+      Number(
+        moveStepRange.value
+      );
+
+    let left =
+      object.left || 0;
+
+    let top =
+      object.top || 0;
+
+    if (direction === "up") {
+      top -= step;
+    }
+
+    if (direction === "down") {
+      top += step;
+    }
+
+    if (direction === "left") {
+      left -= step;
+    }
+
+    if (direction === "right") {
+      left += step;
+    }
+
+    object.set({
+      left,
+      top
+    });
+
+    object.setCoords();
+
+    canvas.requestRenderAll();
+
+    setDirty();
+
+  }
+
+
+  function stopMoveHold() {
+
+    clearTimeout(
+      moveHoldTimeout
+    );
+
+    clearInterval(
+      moveHoldInterval
+    );
+
+    moveHoldTimeout = null;
+    moveHoldInterval = null;
+
+    if (getActive()) {
+      pushHistory();
+    }
+
+  }
+
+
+  document
+    .querySelectorAll(
+      "[data-move]"
+    )
+    .forEach(
+      button => {
+
+        const direction =
+          button.dataset.move;
+
+        button.addEventListener(
+          "pointerdown",
+          event => {
+
+            event.preventDefault();
+
+            moveSelected(
+              direction
+            );
+
+            moveHoldTimeout =
+              setTimeout(
+                () => {
+
+                  moveHoldInterval =
+                    setInterval(
+                      () => {
+                        moveSelected(
+                          direction
+                        );
+                      },
+                      70
+                    );
+
+                },
+                320
+              );
+
+          }
+        );
+
+        [
+          "pointerup",
+          "pointercancel",
+          "pointerleave"
+        ].forEach(
+          eventName => {
+
+            button.addEventListener(
+              eventName,
+              stopMoveHold
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+  scaleRange.addEventListener(
+    "input",
+    () => {
+
+      const object =
+        getActive();
+
+      if (
+        !object ||
+        object.viralLocked
+      ) {
+        return;
+      }
+
+      const scale =
+        Number(
+          scaleRange.value
+        ) / 100;
+
+      object.scale(scale);
+
+      object.setCoords();
+
+      scaleText.textContent =
+        `${scaleRange.value}%`;
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+    }
+  );
+
+
+  scaleRange.addEventListener(
+    "change",
+    pushHistory
+  );
+
+
+  rotationRange.addEventListener(
+    "input",
+    () => {
+
+      const object =
+        getActive();
+
+      if (
+        !object ||
+        object.viralLocked
+      ) {
+        return;
+      }
+
+      object.rotate(
+        Number(
+          rotationRange.value
+        )
+      );
+
+      object.setCoords();
+
+      rotationText.textContent =
+        `${rotationRange.value}°`;
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+    }
+  );
+
+
+  rotationRange.addEventListener(
+    "change",
+    pushHistory
+  );
+
+
+  opacityRange.addEventListener(
+    "input",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!object) {
+        return;
+      }
+
+      object.set(
+        "opacity",
+        Number(
+          opacityRange.value
+        ) / 100
+      );
+
+      opacityText.textContent =
+        `${opacityRange.value}%`;
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+    }
+  );
+
+
+  opacityRange.addEventListener(
+    "change",
+    pushHistory
+  );
+
+
+  fontFamily.addEventListener(
+    "change",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!isTextObject(object)) {
+        return;
+      }
+
+      object.set(
+        "fontFamily",
+        fontFamily.value
+      );
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+    }
+  );
+
+
+  fontSizeRange.addEventListener(
+    "input",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!isTextObject(object)) {
+        return;
+      }
+
+      object.set(
+        "fontSize",
+        Number(
+          fontSizeRange.value
+        )
+      );
+
+      fontSizeText.textContent =
+        fontSizeRange.value;
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+    }
+  );
+
+
+  fontSizeRange.addEventListener(
+    "change",
+    pushHistory
+  );
+
+
+  boldBtn.addEventListener(
+    "click",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!isTextObject(object)) {
+        return;
+      }
+
+      const isBold =
+        object.fontWeight === "bold" ||
+        Number(object.fontWeight) >= 700;
+
+      object.set(
+        "fontWeight",
+        isBold
+          ? "normal"
+          : "bold"
+      );
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+      updateSelectionUI();
+
+    }
+  );
+
+
+  italicBtn.addEventListener(
+    "click",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!isTextObject(object)) {
+        return;
+      }
+
+      object.set(
+        "fontStyle",
+        object.fontStyle ===
+        "italic"
+          ? "normal"
+          : "italic"
+      );
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+      updateSelectionUI();
+
+    }
+  );
+
+
+  document
+    .querySelectorAll(
+      ".align-btn"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const object =
+              getActive();
+
+            if (
+              !isTextObject(
+                object
+              )
+            ) {
+              return;
+            }
+
+            object.set(
+              "textAlign",
+              button.dataset.align
+            );
+
+            canvas.requestRenderAll();
+
+            setDirty();
+
+            pushHistory();
+
+            updateSelectionUI();
+
+          }
+        );
+
+      }
+    );
+
+
+  textColor.addEventListener(
+    "input",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!isTextObject(object)) {
+        return;
+      }
+
+      object.set(
+        "fill",
+        textColor.value
+      );
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+    }
+  );
+
+
+  textColor.addEventListener(
+    "change",
+    pushHistory
+  );
+
+
+  strokeColor.addEventListener(
+    "input",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!isTextObject(object)) {
+        return;
+      }
+
+      object.set(
+        "stroke",
+        strokeColor.value
+      );
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+    }
+  );
+
+
+  strokeColor.addEventListener(
+    "change",
+    pushHistory
+  );
+
+
+  strokeWidthRange.addEventListener(
+    "input",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!isTextObject(object)) {
+        return;
+      }
+
+      object.set(
+        "strokeWidth",
+        Number(
+          strokeWidthRange.value
+        )
+      );
+
+      strokeWidthText.textContent =
+        strokeWidthRange.value;
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+    }
+  );
+
+
+  strokeWidthRange.addEventListener(
+    "change",
+    pushHistory
+  );
+
+
+  bringForwardBtn.addEventListener(
+    "click",
+    () => {
+
+      const object =
+        getActive();
+
+      if (
+        !object ||
+        isBackgroundObject(
+          object
+        )
+      ) {
+        return;
+      }
+
+      canvas.bringForward(
+        object
+      );
+
+      ensureBackgroundAtBack();
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+    }
+  );
+
+
+  sendBackwardBtn.addEventListener(
+    "click",
+    () => {
+
+      const object =
+        getActive();
+
+      if (
+        !object ||
+        isBackgroundObject(
+          object
+        )
+      ) {
+        return;
+      }
+
+      canvas.sendBackwards(
+        object
+      );
+
+      ensureBackgroundAtBack();
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+    }
+  );
+
+
+  duplicateBtn.addEventListener(
+    "click",
+    () => {
+
+      const object =
+        getActive();
+
+      if (
+        !object ||
+        isBackgroundObject(
+          object
+        )
+      ) {
+        return;
+      }
+
+      object.clone(
+        clone => {
+
+          clone.set({
+            left:
+              (object.left || 0) + 45,
+            top:
+              (object.top || 0) + 45,
+            isViralBackground: false,
+            viralLocked: false
+          });
+
+          applyLockState(
+            clone,
+            false,
+            false
+          );
+
+          canvas.add(clone);
+
+          ensureBackgroundAtBack();
+
+          canvas.setActiveObject(
+            clone
+          );
+
+          canvas.requestRenderAll();
+
+          setDirty();
+
+          pushHistory();
+
+          updateSelectionUI();
+
+        }
+      );
+
+    }
+  );
+
+
+  deleteBtn.addEventListener(
+    "click",
+    () => {
+
+      const object =
+        getActive();
+
+      if (!object) {
+        return;
+      }
+
+      canvas.remove(
+        object
+      );
+
+      canvas.discardActiveObject();
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+      updateSelectionUI();
+
+    }
+  );
+
+
+  function loadAccordionPreferences() {
+
+    let saved = [];
+
+    try {
+
+      saved =
+        JSON.parse(
+          localStorage.getItem(
+            "viral1s_image_open_controls"
+          ) || "[]"
+        );
+
+    } catch {
+      saved = [];
+    }
+
+    document
+      .querySelectorAll(
+        ".accordion"
+      )
+      .forEach(
+        accordion => {
+
+          if (
+            saved.includes(
+              accordion.dataset.accordion
+            )
+          ) {
+            accordion.classList.add(
+              "open"
+            );
+          }
+
+        }
+      );
+
+  }
+
+
+  function saveAccordionPreferences() {
+
+    const open =
+      Array.from(
+        document.querySelectorAll(
+          ".accordion.open"
+        )
+      ).map(
+        accordion =>
+          accordion.dataset.accordion
+      );
+
+    localStorage.setItem(
+      "viral1s_image_open_controls",
+      JSON.stringify(open)
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".accordion-head"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const accordion =
+              button.closest(
+                ".accordion"
+              );
+
+            accordion.classList.toggle(
+              "open"
+            );
+
+            saveAccordionPreferences();
+
+          }
+        );
+
+      }
+    );
+
+
+  loadAccordionPreferences();
+
+
+  function openConfirm(
+    title,
+    text,
+    action
+  ) {
+
+    confirmTitle.textContent =
+      title;
+
+    confirmText.textContent =
+      text;
+
+    confirmAction =
+      action;
+
+    confirmBackdrop.classList.add(
+      "show"
+    );
+
+  }
+
+
+  function closeConfirm() {
+
+    confirmBackdrop.classList.remove(
+      "show"
+    );
+
+    confirmAction = null;
+
+  }
+
+
+  confirmCancelBtn.addEventListener(
+    "click",
+    closeConfirm
+  );
+
+
+  confirmOkBtn.addEventListener(
+    "click",
+    () => {
+
+      const action =
+        confirmAction;
+
+      closeConfirm();
+
+      if (action) {
+        action();
+      }
+
+    }
+  );
+
+
+  confirmBackdrop.addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target ===
+        confirmBackdrop
+      ) {
+        closeConfirm();
+      }
+
+    }
+  );
+
+
+  function resetProject() {
+
+    canvas.clear();
 
     canvas.backgroundColor =
       "#101018";
 
     canvas.renderAll();
 
+    currentProjectId = null;
 
-    fabric.Object.prototype.set({
-      transparentCorners: false,
+    isDirty = false;
 
-      cornerColor: "#7c5cff",
+    saveBtn.textContent =
+      "Save Image";
 
-      cornerStrokeColor: "#ffffff",
+    initializeHistory();
 
-      borderColor: "#7c5cff",
+    updateEmptyState();
 
-      cornerSize: 24,
+    updateSelectionUI();
 
-      padding: 4,
+    showToast(
+      "New image started"
+    );
 
-      rotatingPointOffset: 34
-    });
+  }
 
 
-    function resizeCanvasDisplay() {
+  newBtn.addEventListener(
+    "click",
+    () => {
 
-      const size =
-        canvasStage.clientWidth;
+      if (
+        isDirty ||
+        canvas.getObjects().length
+      ) {
 
-      const scale =
-        size / LOGICAL_SIZE;
+        openConfirm(
+          "Start a new image?",
+          "Unsaved changes will be lost.",
+          resetProject
+        );
 
-      canvas.setDimensions(
-        {
-          width: size,
-          height: size
-        },
-        {
-          cssOnly: true
-        }
+        return;
+      }
+
+      resetProject();
+
+    }
+  );
+
+
+  /* INDEXED DB */
+
+  function openDatabase() {
+
+    return new Promise(
+      (resolve,reject) => {
+
+        const request =
+          indexedDB.open(
+            "viral1s_image_creator",
+            2
+          );
+
+        request.onupgradeneeded =
+          () => {
+
+            const db =
+              request.result;
+
+            if (
+              !db.objectStoreNames.contains(
+                "projects"
+              )
+            ) {
+
+              db.createObjectStore(
+                "projects",
+                {
+                  keyPath: "id"
+                }
+              );
+
+            }
+
+          };
+
+        request.onsuccess =
+          () => resolve(
+            request.result
+          );
+
+        request.onerror =
+          () => reject(
+            request.error
+          );
+
+      }
+    );
+
+  }
+
+
+  function saveProjectRecord(record) {
+
+    return new Promise(
+      (resolve,reject) => {
+
+        const transaction =
+          database.transaction(
+            "projects",
+            "readwrite"
+          );
+
+        const store =
+          transaction.objectStore(
+            "projects"
+          );
+
+        const request =
+          store.put(record);
+
+        request.onsuccess =
+          () => resolve();
+
+        request.onerror =
+          () => reject(
+            request.error
+          );
+
+      }
+    );
+
+  }
+
+
+  function getAllProjects() {
+
+    return new Promise(
+      (resolve,reject) => {
+
+        const transaction =
+          database.transaction(
+            "projects",
+            "readonly"
+          );
+
+        const store =
+          transaction.objectStore(
+            "projects"
+          );
+
+        const request =
+          store.getAll();
+
+        request.onsuccess =
+          () => resolve(
+            request.result || []
+          );
+
+        request.onerror =
+          () => reject(
+            request.error
+          );
+
+      }
+    );
+
+  }
+
+
+  function getProject(id) {
+
+    return new Promise(
+      (resolve,reject) => {
+
+        const transaction =
+          database.transaction(
+            "projects",
+            "readonly"
+          );
+
+        const store =
+          transaction.objectStore(
+            "projects"
+          );
+
+        const request =
+          store.get(id);
+
+        request.onsuccess =
+          () => resolve(
+            request.result
+          );
+
+        request.onerror =
+          () => reject(
+            request.error
+          );
+
+      }
+    );
+
+  }
+
+
+  function deleteProject(id) {
+
+    return new Promise(
+      (resolve,reject) => {
+
+        const transaction =
+          database.transaction(
+            "projects",
+            "readwrite"
+          );
+
+        const store =
+          transaction.objectStore(
+            "projects"
+          );
+
+        const request =
+          store.delete(id);
+
+        request.onsuccess =
+          () => resolve();
+
+        request.onerror =
+          () => reject(
+            request.error
+          );
+
+      }
+    );
+
+  }
+
+
+  function makeProjectId() {
+
+    if (
+      window.crypto &&
+      crypto.randomUUID
+    ) {
+      return crypto.randomUUID();
+    }
+
+    return (
+      "project_" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .slice(2)
+    );
+
+  }
+
+
+  async function saveCurrentProject() {
+
+    if (!database) {
+      showToast(
+        "Storage is not ready."
+      );
+      return;
+    }
+
+    saveBtn.disabled = true;
+
+    const isUpdate =
+      Boolean(
+        currentProjectId
       );
 
-      canvas.setZoom(scale);
+    saveBtn.textContent =
+      isUpdate
+        ? "Updating..."
+        : "Saving...";
+
+    try {
+
+      canvas.discardActiveObject();
 
       canvas.requestRenderAll();
 
-    }
+      const id =
+        currentProjectId ||
+        makeProjectId();
 
+      const preview =
+        canvas.toDataURL({
+          format: "jpeg",
+          quality: .78,
+          multiplier: .28
+        });
 
-    window.addEventListener(
-      "resize",
-      resizeCanvasDisplay
-    );
+      const existing =
+        currentProjectId
+          ? await getProject(
+              currentProjectId
+            )
+          : null;
 
+      const record = {
+        id,
+        name:
+          existing?.name ||
+          `Image ${new Date().toLocaleDateString()}`,
+        createdAt:
+          existing?.createdAt ||
+          Date.now(),
+        updatedAt:
+          Date.now(),
+        canvasJson:
+          serializeCanvas(),
+        preview
+      };
 
-    requestAnimationFrame(
-      resizeCanvasDisplay
-    );
-
-
-    function showToast(message) {
-
-      toast.textContent =
-        message;
-
-      toast.classList.add("show");
-
-      clearTimeout(
-        showToast.timeout
+      await saveProjectRecord(
+        record
       );
 
-      showToast.timeout =
-        setTimeout(
-          () => {
-            toast.classList.remove(
-              "show"
-            );
-          },
-          2200
-        );
+      currentProjectId = id;
 
-    }
+      isDirty = false;
 
+      saveBtn.textContent =
+        "Update Image";
 
-    function updateEmptyState() {
-
-      const hasObjects =
-        canvas.getObjects().length > 0;
-
-      const hasBackground =
-        Boolean(
-          canvas.backgroundImage
-        );
-
-      emptyTip.classList.toggle(
-        "hidden",
-        hasObjects || hasBackground
+      showToast(
+        isUpdate
+          ? "Image updated ✓"
+          : "Image saved ✓"
       );
 
-    }
+      await renderLibrary();
 
+    } catch (error) {
 
-    function readFileAsDataURL(file) {
+      console.error(error);
 
-      return new Promise(
-        (resolve, reject) => {
-
-          const reader =
-            new FileReader();
-
-          reader.onload =
-            () => resolve(
-              reader.result
-            );
-
-          reader.onerror =
-            reject;
-
-          reader.readAsDataURL(
-            file
-          );
-
-        }
+      showToast(
+        "Could not save image."
       );
 
+      saveBtn.textContent =
+        currentProjectId
+          ? "Update Image"
+          : "Save Image";
+
     }
 
+    saveBtn.disabled = false;
 
-    function loadFabricImage(dataUrl) {
+  }
 
-      return new Promise(
-        (resolve, reject) => {
 
-          fabric.Image.fromURL(
-            dataUrl,
+  saveBtn.addEventListener(
+    "click",
+    saveCurrentProject
+  );
 
-            (image) => {
 
-              if (!image) {
-                reject(
-                  new Error(
-                    "Could not load image"
-                  )
-                );
+  async function openSavedProject(id) {
 
-                return;
-              }
+    try {
 
-              resolve(image);
+      const project =
+        await getProject(id);
 
-            },
+      if (!project) {
+        return;
+      }
 
-            {
-              crossOrigin:
-                "anonymous"
+      const loadIt =
+        () => {
+
+          restoringHistory = true;
+
+          canvas.loadFromJSON(
+            project.canvasJson,
+            () => {
+
+              normalizeLoadedObjects();
+
+              currentProjectId =
+                project.id;
+
+              isDirty = false;
+
+              saveBtn.textContent =
+                "Update Image";
+
+              canvas.renderAll();
+
+              resizeCanvasDisplay();
+
+              initializeHistory();
+
+              restoringHistory = false;
+
+              updateEmptyState();
+
+              updateSelectionUI();
+
+              closeLibrary();
+
+              showToast(
+                "Image opened"
+              );
+
             }
           );
 
-        }
-      );
-
-    }
-
-
-    async function setBackground(file) {
-
-      try {
-
-        const dataUrl =
-          await readFileAsDataURL(
-            file
-          );
-
-        const image =
-          await loadFabricImage(
-            dataUrl
-          );
-
-
-        const scale =
-          Math.max(
-            LOGICAL_SIZE /
-              image.width,
-
-            LOGICAL_SIZE /
-              image.height
-          );
-
-
-        image.set({
-          originX: "center",
-          originY: "center",
-
-          left:
-            LOGICAL_SIZE / 2,
-
-          top:
-            LOGICAL_SIZE / 2,
-
-          scaleX: scale,
-          scaleY: scale,
-
-          selectable: false,
-          evented: false
-        });
-
-
-        canvas.setBackgroundImage(
-          image,
-          canvas.renderAll.bind(canvas)
-        );
-
-
-        currentProjectId =
-          null;
-
-        updateEmptyState();
-
-      } catch (error) {
-
-        console.error(error);
-
-        showToast(
-          "Could not add background."
-        );
-
-      }
-
-    }
-
-
-    async function addOverlayImage(file) {
-
-      try {
-
-        const dataUrl =
-          await readFileAsDataURL(
-            file
-          );
-
-        const image =
-          await loadFabricImage(
-            dataUrl
-          );
-
-
-        const maxSize =
-          LOGICAL_SIZE * 0.58;
-
-        const scale =
-          Math.min(
-            maxSize /
-              image.width,
-
-            maxSize /
-              image.height,
-
-            1
-          );
-
-
-        image.set({
-          left:
-            LOGICAL_SIZE / 2,
-
-          top:
-            LOGICAL_SIZE / 2,
-
-          originX:
-            "center",
-
-          originY:
-            "center",
-
-          scaleX: scale,
-          scaleY: scale
-        });
-
-
-        canvas.add(image);
-
-        canvas.setActiveObject(
-          image
-        );
-
-        canvas.requestRenderAll();
-
-        updateEmptyState();
-
-        updateSelectionControls();
-
-      } catch (error) {
-
-        console.error(error);
-
-        showToast(
-          "Could not add image."
-        );
-
-      }
-
-    }
-
-
-    function addText() {
-
-      const text =
-        new fabric.IText(
-          "Your text",
-          {
-            left:
-              LOGICAL_SIZE / 2,
-
-            top:
-              LOGICAL_SIZE / 2,
-
-            originX:
-              "center",
-
-            originY:
-              "center",
-
-            fill:
-              "#ffffff",
-
-            fontFamily:
-              "Arial",
-
-            fontSize:
-              72,
-
-            fontWeight:
-              "bold",
-
-            textAlign:
-              "center"
-          }
-        );
-
-
-      canvas.add(text);
-
-      canvas.setActiveObject(
-        text
-      );
-
-      canvas.requestRenderAll();
-
-      updateEmptyState();
-
-      updateSelectionControls();
-
-
-      setTimeout(
-        () => {
-
-          text.enterEditing();
-
-          text.selectAll();
-
-          canvas.requestRenderAll();
-
-        },
-        80
-      );
-
-    }
-
-
-    backgroundButton.addEventListener(
-      "click",
-      () => {
-        backgroundInput.click();
-      }
-    );
-
-
-    imageButton.addEventListener(
-      "click",
-      () => {
-        imageInput.click();
-      }
-    );
-
-
-    textButton.addEventListener(
-      "click",
-      addText
-    );
-
-
-    backgroundInput.addEventListener(
-      "change",
-      async () => {
-
-        const file =
-          backgroundInput.files[0];
-
-        if (!file) {
-          return;
-        }
-
-        await setBackground(file);
-
-        backgroundInput.value =
-          "";
-
-      }
-    );
-
-
-    imageInput.addEventListener(
-      "change",
-      async () => {
-
-        const file =
-          imageInput.files[0];
-
-        if (!file) {
-          return;
-        }
-
-        await addOverlayImage(file);
-
-        imageInput.value =
-          "";
-
-      }
-    );
-
-
-    function updateSelectionControls() {
-
-      const object =
-        canvas.getActiveObject();
-
-
-      if (!object) {
-
-        noSelection.classList.remove(
-          "hidden"
-        );
-
-        selectionControls.classList.add(
-          "hidden"
-        );
-
-        return;
-      }
-
-
-      noSelection.classList.add(
-        "hidden"
-      );
-
-      selectionControls.classList.remove(
-        "hidden"
-      );
-
-
-      const isText =
-        object.type === "i-text" ||
-        object.type === "text" ||
-        object.type === "textbox";
-
-
-      textControls.classList.toggle(
-        "hidden",
-        !isText
-      );
-
-
-      if (isText) {
-
-        fontSize.value =
-          Math.round(
-            object.fontSize || 72
-          );
-
-        fontSizeValue.textContent =
-          fontSize.value;
-
-        fontFamily.value =
-          object.fontFamily ||
-          "Arial";
-
-
-        if (
-          typeof object.fill ===
-          "string" &&
-          object.fill.startsWith("#")
-        ) {
-
-          textColor.value =
-            object.fill;
-
-        }
-
-      }
-
-    }
-
-
-    canvas.on(
-      "selection:created",
-      updateSelectionControls
-    );
-
-    canvas.on(
-      "selection:updated",
-      updateSelectionControls
-    );
-
-    canvas.on(
-      "selection:cleared",
-      updateSelectionControls
-    );
-
-
-    fontSize.addEventListener(
-      "input",
-      () => {
-
-        const object =
-          canvas.getActiveObject();
-
-        if (!object) {
-          return;
-        }
-
-
-        object.set(
-          "fontSize",
-          Number(fontSize.value)
-        );
-
-        fontSizeValue.textContent =
-          fontSize.value;
-
-        canvas.requestRenderAll();
-
-      }
-    );
-
-
-    fontFamily.addEventListener(
-      "change",
-      () => {
-
-        const object =
-          canvas.getActiveObject();
-
-        if (!object) {
-          return;
-        }
-
-        object.set(
-          "fontFamily",
-          fontFamily.value
-        );
-
-        canvas.requestRenderAll();
-
-      }
-    );
-
-
-    textColor.addEventListener(
-      "input",
-      () => {
-
-        const object =
-          canvas.getActiveObject();
-
-        if (!object) {
-          return;
-        }
-
-        object.set(
-          "fill",
-          textColor.value
-        );
-
-        canvas.requestRenderAll();
-
-      }
-    );
-
-
-    forwardButton.addEventListener(
-      "click",
-      () => {
-
-        const object =
-          canvas.getActiveObject();
-
-        if (!object) {
-          return;
-        }
-
-        canvas.bringForward(
-          object
-        );
-
-        canvas.requestRenderAll();
-
-      }
-    );
-
-
-    backwardButton.addEventListener(
-      "click",
-      () => {
-
-        const object =
-          canvas.getActiveObject();
-
-        if (!object) {
-          return;
-        }
-
-        canvas.sendBackwards(
-          object
-        );
-
-        canvas.requestRenderAll();
-
-      }
-    );
-
-
-    duplicateButton.addEventListener(
-      "click",
-      () => {
-
-        const object =
-          canvas.getActiveObject();
-
-        if (!object) {
-          return;
-        }
-
-
-        object.clone(
-          (clone) => {
-
-            clone.set({
-              left:
-                (object.left || 0) + 45,
-
-              top:
-                (object.top || 0) + 45
-            });
-
-
-            canvas.add(clone);
-
-            canvas.setActiveObject(
-              clone
-            );
-
-            canvas.requestRenderAll();
-
-            updateSelectionControls();
-
-          }
-        );
-
-      }
-    );
-
-
-    deleteObjectButton.addEventListener(
-      "click",
-      () => {
-
-        const objects =
-          canvas.getActiveObjects();
-
-        if (!objects.length) {
-          return;
-        }
-
-
-        canvas.discardActiveObject();
-
-
-        objects.forEach(
-          (object) => {
-            canvas.remove(object);
-          }
-        );
-
-
-        canvas.requestRenderAll();
-
-        updateEmptyState();
-
-        updateSelectionControls();
-
-      }
-    );
-
-
-    document.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          event.key !== "Delete" &&
-          event.key !== "Backspace"
-        ) {
-          return;
-        }
-
-
-        const active =
-          canvas.getActiveObject();
-
-
-        if (
-          active &&
-          active.isEditing
-        ) {
-          return;
-        }
-
-
-        const objects =
-          canvas.getActiveObjects();
-
-        if (!objects.length) {
-          return;
-        }
-
-
-        objects.forEach(
-          (object) => {
-            canvas.remove(object);
-          }
-        );
-
-
-        canvas.discardActiveObject();
-
-        canvas.requestRenderAll();
-
-        updateEmptyState();
-
-        updateSelectionControls();
-
-      }
-    );
-
-
-    /* INDEXED DB */
-
-    function openDatabase() {
-
-      return new Promise(
-        (resolve, reject) => {
-
-          const request =
-            indexedDB.open(
-              "viral1s_image_creator",
-              1
-            );
-
-
-          request.onupgradeneeded =
-            () => {
-
-              const db =
-                request.result;
-
-
-              if (
-                !db.objectStoreNames.contains(
-                  "projects"
-                )
-              ) {
-
-                db.createObjectStore(
-                  "projects",
-                  {
-                    keyPath: "id"
-                  }
-                );
-
-              }
-
-            };
-
-
-          request.onsuccess =
-            () => {
-              resolve(
-                request.result
-              );
-            };
-
-
-          request.onerror =
-            () => {
-              reject(
-                request.error
-              );
-            };
-
-        }
-      );
-
-    }
-
-
-    function saveProjectRecord(record) {
-
-      return new Promise(
-        (resolve, reject) => {
-
-          const transaction =
-            database.transaction(
-              "projects",
-              "readwrite"
-            );
-
-
-          const store =
-            transaction.objectStore(
-              "projects"
-            );
-
-
-          const request =
-            store.put(record);
-
-
-          request.onsuccess =
-            () => resolve();
-
-
-          request.onerror =
-            () => reject(
-              request.error
-            );
-
-        }
-      );
-
-    }
-
-
-    function getAllProjects() {
-
-      return new Promise(
-        (resolve, reject) => {
-
-          const transaction =
-            database.transaction(
-              "projects",
-              "readonly"
-            );
-
-
-          const store =
-            transaction.objectStore(
-              "projects"
-            );
-
-
-          const request =
-            store.getAll();
-
-
-          request.onsuccess =
-            () => resolve(
-              request.result || []
-            );
-
-
-          request.onerror =
-            () => reject(
-              request.error
-            );
-
-        }
-      );
-
-    }
-
-
-    function getProject(id) {
-
-      return new Promise(
-        (resolve, reject) => {
-
-          const transaction =
-            database.transaction(
-              "projects",
-              "readonly"
-            );
-
-
-          const store =
-            transaction.objectStore(
-              "projects"
-            );
-
-
-          const request =
-            store.get(id);
-
-
-          request.onsuccess =
-            () => resolve(
-              request.result
-            );
-
-
-          request.onerror =
-            () => reject(
-              request.error
-            );
-
-        }
-      );
-
-    }
-
-
-    function deleteProject(id) {
-
-      return new Promise(
-        (resolve, reject) => {
-
-          const transaction =
-            database.transaction(
-              "projects",
-              "readwrite"
-            );
-
-
-          const store =
-            transaction.objectStore(
-              "projects"
-            );
-
-
-          const request =
-            store.delete(id);
-
-
-          request.onsuccess =
-            () => resolve();
-
-
-          request.onerror =
-            () => reject(
-              request.error
-            );
-
-        }
-      );
-
-    }
-
-
-    function makeProjectId() {
-
-      if (
-        crypto &&
-        crypto.randomUUID
-      ) {
-
-        return crypto.randomUUID();
-
-      }
-
-
-      return (
-        "project_" +
-        Date.now() +
-        "_" +
-        Math.random()
-          .toString(36)
-          .slice(2)
-      );
-
-    }
-
-
-    async function saveCurrentProject() {
-
-      saveButton.disabled =
-        true;
-
-      saveButton.textContent =
-        "Saving...";
-
-
-      try {
-
-        canvas.discardActiveObject();
-
-        canvas.requestRenderAll();
-
-
-        const projectId =
-          currentProjectId ||
-          makeProjectId();
-
-
-        const projectJson =
-          JSON.stringify(
-            canvas.toJSON()
-          );
-
-
-        const preview =
-          canvas.toDataURL({
-            format: "jpeg",
-            quality: 0.78,
-            multiplier: 0.28
-          });
-
-
-        const record = {
-          id: projectId,
-
-          name:
-            "Image " +
-            new Date()
-              .toLocaleDateString(),
-
-          updatedAt:
-            Date.now(),
-
-          canvasJson:
-            projectJson,
-
-          preview:
-            preview
         };
 
 
-        await saveProjectRecord(
-          record
+      if (isDirty) {
+
+        openConfirm(
+          "Open saved image?",
+          "Unsaved changes in the current image will be lost.",
+          loadIt
         );
 
-
-        currentProjectId =
-          projectId;
-
-
-        await renderLibrary();
-
-
-        showToast(
-          "Image saved ✓"
-        );
-
-      } catch (error) {
-
-        console.error(error);
-
-        showToast(
-          "Could not save image."
-        );
-
-      }
-
-
-      saveButton.disabled =
-        false;
-
-      saveButton.textContent =
-        "Save Image";
-
-    }
-
-
-    saveButton.addEventListener(
-      "click",
-      saveCurrentProject
-    );
-
-
-    async function openSavedProject(id) {
-
-      try {
-
-        const project =
-          await getProject(id);
-
-
-        if (!project) {
-          return;
-        }
-
-
-        canvas.clear();
-
-        canvas.backgroundColor =
-          "#101018";
-
-
-        canvas.loadFromJSON(
-          project.canvasJson,
-
-          () => {
-
-            currentProjectId =
-              project.id;
-
-            canvas.renderAll();
-
-            resizeCanvasDisplay();
-
-            updateEmptyState();
-
-            updateSelectionControls();
-
-            showToast(
-              "Image opened"
-            );
-
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth"
-            });
-
-          }
-        );
-
-      } catch (error) {
-
-        console.error(error);
-
-        showToast(
-          "Could not open image."
-        );
-
-      }
-
-    }
-
-
-    async function removeSavedProject(id) {
-
-      const confirmed =
-        window.confirm(
-          "Delete this saved image?"
-        );
-
-
-      if (!confirmed) {
         return;
       }
 
+      loadIt();
 
-      try {
+    } catch (error) {
 
-        await deleteProject(id);
+      console.error(error);
 
-
-        if (
-          currentProjectId === id
-        ) {
-
-          currentProjectId =
-            null;
-
-        }
-
-
-        await renderLibrary();
-
-
-        showToast(
-          "Saved image deleted"
-        );
-
-      } catch (error) {
-
-        console.error(error);
-
-        showToast(
-          "Could not delete image."
-        );
-
-      }
+      showToast(
+        "Could not open image."
+      );
 
     }
 
-
-    async function renderLibrary() {
-
-      if (!database) {
-        return;
-      }
+  }
 
 
-      try {
+  async function removeSavedProject(id) {
 
-        const projects =
-          await getAllProjects();
+    openConfirm(
+      "Delete saved image?",
+      "This saved project will be removed from this device.",
+      async () => {
 
+        try {
 
-        projects.sort(
-          (a, b) =>
-            b.updatedAt -
-            a.updatedAt
-        );
-
-
-        savedGrid.innerHTML =
-          "";
-
-
-        libraryCount.textContent =
-          projects.length === 1
-            ? "1 saved"
-            : `${projects.length} saved`;
-
-
-        if (!projects.length) {
-
-          const empty =
-            document.createElement(
-              "div"
-            );
-
-
-          empty.className =
-            "empty-library";
-
-
-          empty.textContent =
-            "Your saved images will appear here.";
-
-
-          savedGrid.appendChild(
-            empty
+          await deleteProject(
+            id
           );
 
+          if (
+            currentProjectId === id
+          ) {
 
-          return;
+            currentProjectId = null;
+
+            saveBtn.textContent =
+              "Save Image";
+
+          }
+
+          await renderLibrary();
+
+          showToast(
+            "Saved image deleted"
+          );
+
+        } catch (error) {
+
+          console.error(error);
+
+          showToast(
+            "Could not delete image."
+          );
+
         }
 
+      }
+    );
 
-        projects.forEach(
-          (project) => {
-
-            const card =
-              document.createElement(
-                "article"
-              );
+  }
 
 
-            card.className =
-              "saved-card";
+  async function renderLibrary() {
 
+    if (!database) {
+      return;
+    }
 
-            const image =
-              document.createElement(
-                "img"
-              );
+    const projects =
+      await getAllProjects();
 
+    projects.sort(
+      (a,b) =>
+        b.updatedAt -
+        a.updatedAt
+    );
 
-            image.className =
-              "saved-preview";
+    savedGrid.innerHTML = "";
 
+    if (!projects.length) {
 
-            image.src =
-              project.preview;
+      savedGrid.innerHTML =
+        `
+          <div class="empty-library">
+            Your saved images will appear here.
+          </div>
+        `;
 
+      return;
+    }
 
-            image.alt =
-              "Saved Viral1s image";
+    projects.forEach(
+      project => {
 
+        const card =
+          document.createElement(
+            "article"
+          );
 
-            const info =
-              document.createElement(
-                "div"
-              );
+        card.className =
+          "saved-card";
 
+        const preview =
+          document.createElement(
+            "img"
+          );
 
-            info.className =
-              "saved-info";
+        preview.className =
+          "saved-preview";
 
+        preview.src =
+          project.preview;
 
-            const name =
-              document.createElement(
-                "div"
-              );
+        preview.alt =
+          "Saved Viral1s image";
 
+        const title =
+          document.createElement(
+            "div"
+          );
 
-            name.className =
-              "saved-name";
+        title.className =
+          "saved-title";
 
+        title.textContent =
+          project.name;
 
-            name.textContent =
-              project.name;
+        const actions =
+          document.createElement(
+            "div"
+          );
 
+        actions.className =
+          "saved-actions";
 
-            info.appendChild(
-              name
+        const open =
+          document.createElement(
+            "button"
+          );
+
+        open.className =
+          "saved-open";
+
+        open.type =
+          "button";
+
+        open.textContent =
+          "Edit";
+
+        open.addEventListener(
+          "click",
+          () => {
+            openSavedProject(
+              project.id
             );
-
-
-            const actions =
-              document.createElement(
-                "div"
-              );
-
-
-            actions.className =
-              "saved-actions";
-
-
-            const openButton =
-              document.createElement(
-                "button"
-              );
-
-
-            openButton.className =
-              "open-project";
-
-
-            openButton.type =
-              "button";
-
-
-            openButton.textContent =
-              "Edit";
-
-
-            openButton.addEventListener(
-              "click",
-              () => {
-                openSavedProject(
-                  project.id
-                );
-              }
-            );
-
-
-            const deleteButton =
-              document.createElement(
-                "button"
-              );
-
-
-            deleteButton.className =
-              "delete-project";
-
-
-            deleteButton.type =
-              "button";
-
-
-            deleteButton.textContent =
-              "×";
-
-
-            deleteButton.addEventListener(
-              "click",
-              () => {
-                removeSavedProject(
-                  project.id
-                );
-              }
-            );
-
-
-            actions.appendChild(
-              openButton
-            );
-
-
-            actions.appendChild(
-              deleteButton
-            );
-
-
-            card.appendChild(
-              image
-            );
-
-
-            card.appendChild(
-              info
-            );
-
-
-            card.appendChild(
-              actions
-            );
-
-
-            savedGrid.appendChild(
-              card
-            );
-
           }
         );
 
-      } catch (error) {
+        const remove =
+          document.createElement(
+            "button"
+          );
 
-        console.error(error);
+        remove.className =
+          "saved-delete";
 
+        remove.type =
+          "button";
 
-        savedGrid.innerHTML =
-          '<div class="empty-library">Could not load saved images.</div>';
+        remove.textContent =
+          "×";
 
-      }
+        remove.addEventListener(
+          "click",
+          () => {
+            removeSavedProject(
+              project.id
+            );
+          }
+        );
 
-    }
+        actions.append(
+          open,
+          remove
+        );
 
+        card.append(
+          preview,
+          title,
+          actions
+        );
 
-    async function init() {
-
-      try {
-
-        database =
-          await openDatabase();
-
-
-        await renderLibrary();
-
-      } catch (error) {
-
-        console.error(error);
-
-
-        showToast(
-          "Local storage is unavailable."
+        savedGrid.appendChild(
+          card
         );
 
       }
+    );
+
+  }
 
 
-      updateEmptyState();
+  function openLibrary() {
 
-      updateSelectionControls();
+    renderLibrary();
 
-      resizeCanvasDisplay();
+    libraryModal.classList.add(
+      "show"
+    );
+
+  }
+
+
+  function closeLibrary() {
+
+    libraryModal.classList.remove(
+      "show"
+    );
+
+  }
+
+
+  myImagesBtn.addEventListener(
+    "click",
+    openLibrary
+  );
+
+
+  closeLibraryBtn.addEventListener(
+    "click",
+    closeLibrary
+  );
+
+
+  libraryModal.addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target ===
+        libraryModal
+      ) {
+        closeLibrary();
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key !== "Delete" &&
+        event.key !== "Backspace"
+      ) {
+        return;
+      }
+
+      const object =
+        getActive();
+
+      if (
+        object &&
+        object.isEditing
+      ) {
+        return;
+      }
+
+      if (!object) {
+        return;
+      }
+
+      canvas.remove(
+        object
+      );
+
+      canvas.discardActiveObject();
+
+      canvas.requestRenderAll();
+
+      setDirty();
+
+      pushHistory();
+
+      updateSelectionUI();
+
+    }
+  );
+
+
+  async function init() {
+
+    try {
+
+      database =
+        await openDatabase();
+
+      await renderLibrary();
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Local storage unavailable."
+      );
 
     }
 
+    initializeHistory();
 
-    init();
+    updateEmptyState();
 
-  </script>
+    updateSelectionUI();
+
+    resizeCanvasDisplay();
+
+  }
+
+
+  init();
+</script>
 
 </body>
 </html>
