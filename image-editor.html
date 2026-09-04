@@ -1,0 +1,2735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>Viral1s Image Creator</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="viral1s-icon.png"
+  >
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"
+  ></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070711;
+      --panel: #11111d;
+      --panel-2: #151523;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.13);
+      --text: #ffffff;
+      --muted: #9696aa;
+      --purple: #7c5cff;
+      --blue: #3f8cff;
+      --danger: #ff5b70;
+      --green: #27d980;
+    }
+
+    html {
+      color-scheme: dark;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(124, 92, 255, 0.20),
+          transparent 34%
+        ),
+        var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1180px;
+
+      margin: 0 auto;
+
+      padding:
+        calc(14px + env(safe-area-inset-top))
+        14px
+        calc(30px + env(safe-area-inset-bottom));
+    }
+
+
+    /* HEADER */
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      margin-bottom: 16px;
+      padding: 12px 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background:
+        rgba(17, 17, 29, 0.88);
+
+      backdrop-filter: blur(18px);
+
+      box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+
+      min-width: 0;
+    }
+
+    .brand img {
+      display: block;
+
+      width: 118px;
+      max-width: 38vw;
+      height: auto;
+    }
+
+    .page-title {
+      flex: 1;
+
+      color: #b9adff;
+
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.6px;
+
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .back-button {
+      min-height: 38px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      color: #d9d9e6;
+      background: rgba(255, 255, 255, 0.035);
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-decoration: none;
+    }
+
+
+    /* MAIN LAYOUT */
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .editor-column,
+    .tools-column {
+      min-width: 0;
+    }
+
+
+    /* CANVAS CARD */
+
+    .canvas-card {
+      padding: 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.045),
+          rgba(255, 255, 255, 0.015)
+        ),
+        var(--panel);
+
+      box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.24);
+    }
+
+    .canvas-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      margin-bottom: 10px;
+    }
+
+    .canvas-title {
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .size-badge {
+      padding: 5px 8px;
+
+      border: 1px solid rgba(124, 92, 255, 0.22);
+      border-radius: 999px;
+
+      color: #b9adff;
+      background: rgba(124, 92, 255, 0.08);
+
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .canvas-stage {
+      position: relative;
+
+      width: 100%;
+      max-width: 620px;
+      aspect-ratio: 1 / 1;
+
+      margin: 0 auto;
+
+      overflow: hidden;
+
+      border:
+        1px solid rgba(255, 255, 255, 0.10);
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #171723,
+          #101019
+        );
+
+      touch-action: none;
+    }
+
+    .canvas-container {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .canvas-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .canvas-empty-tip {
+      position: absolute;
+      inset: 0;
+
+      z-index: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+
+      color: #69697b;
+
+      text-align: center;
+
+      pointer-events: none;
+    }
+
+    .canvas-empty-tip strong {
+      margin-bottom: 5px;
+
+      color: #9999aa;
+
+      font-size: 13px;
+    }
+
+    .canvas-empty-tip span {
+      max-width: 220px;
+
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .canvas-empty-tip.hidden {
+      display: none;
+    }
+
+
+    /* MAIN ACTIONS */
+
+    .main-actions {
+      display: grid;
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 8px;
+
+      margin-top: 11px;
+    }
+
+    .tool-button {
+      min-height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+
+      padding: 8px;
+
+      border: 1px solid var(--border);
+      border-radius: 13px;
+
+      cursor: pointer;
+
+      color: #d8d8e5;
+
+      background:
+        rgba(255, 255, 255, 0.035);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      transition:
+        border-color 0.16s ease,
+        background 0.16s ease,
+        transform 0.16s ease;
+    }
+
+    .tool-button:active {
+      transform: scale(0.98);
+    }
+
+    .tool-button.primary {
+      border-color:
+        rgba(124, 92, 255, 0.24);
+
+      color: #fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(124, 92, 255, 0.19),
+          rgba(63, 140, 255, 0.13)
+        );
+    }
+
+
+    /* TOOLS */
+
+    .tools-card {
+      padding: 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background:
+        rgba(17, 17, 29, 0.9);
+    }
+
+    .tools-card + .tools-card {
+      margin-top: 12px;
+    }
+
+    .tools-heading {
+      margin-bottom: 13px;
+
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .field {
+      margin-top: 13px;
+    }
+
+    .field:first-of-type {
+      margin-top: 0;
+    }
+
+    .field label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      margin-bottom: 7px;
+
+      color: #b4b4c2;
+
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .field-value {
+      color: #868698;
+
+      font-size: 9px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+
+      accent-color: var(--purple);
+    }
+
+    input[type="color"] {
+      width: 100%;
+      height: 40px;
+
+      padding: 4px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      background: #101019;
+
+      cursor: pointer;
+    }
+
+    select {
+      width: 100%;
+      min-height: 42px;
+
+      padding: 0 11px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      outline: none;
+
+      color: #ededf5;
+      background: #101019;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .object-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+
+      margin-top: 13px;
+    }
+
+    .small-button {
+      min-height: 40px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      cursor: pointer;
+
+      color: #c7c7d3;
+      background: rgba(255, 255, 255, 0.035);
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .small-button.danger {
+      border-color:
+        rgba(255, 91, 112, 0.20);
+
+      color: #ff8090;
+
+      background:
+        rgba(255, 91, 112, 0.055);
+    }
+
+    .selection-status {
+      padding: 12px;
+
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+
+      color: #777789;
+
+      background:
+        rgba(255, 255, 255, 0.018);
+
+      font-size: 10px;
+      line-height: 1.5;
+
+      text-align: center;
+    }
+
+
+    /* SAVE */
+
+    .save-button {
+      width: 100%;
+      min-height: 52px;
+
+      border: 0;
+      border-radius: 14px;
+
+      cursor: pointer;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--blue)
+        );
+
+      box-shadow:
+        0 12px 34px
+        rgba(89, 76, 255, 0.22);
+
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .save-button:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .save-note {
+      margin-top: 9px;
+
+      color: #737386;
+
+      font-size: 9px;
+      line-height: 1.5;
+
+      text-align: center;
+    }
+
+
+    /* MY IMAGES */
+
+    .library-section {
+      margin-top: 20px;
+    }
+
+    .library-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+
+      margin-bottom: 11px;
+    }
+
+    .library-title {
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .library-count {
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .saved-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 10px;
+    }
+
+    .saved-card {
+      min-width: 0;
+
+      padding: 8px;
+
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+      border-radius: 15px;
+
+      background:
+        rgba(17, 17, 29, 0.88);
+    }
+
+    .saved-preview {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+
+      display: block;
+
+      object-fit: cover;
+
+      border-radius: 10px;
+
+      background: #0e0e16;
+    }
+
+    .saved-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+
+      margin-top: 8px;
+    }
+
+    .saved-name {
+      min-width: 0;
+
+      color: #cfcfda;
+
+      font-size: 9px;
+      font-weight: 750;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+
+      margin-top: 7px;
+    }
+
+    .open-project,
+    .delete-project {
+      min-height: 34px;
+
+      border-radius: 9px;
+
+      cursor: pointer;
+
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .open-project {
+      border: 0;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(124, 92, 255, 0.95),
+          rgba(63, 140, 255, 0.95)
+        );
+    }
+
+    .delete-project {
+      min-width: 38px;
+
+      border: 1px solid
+        rgba(255, 91, 112, 0.18);
+
+      color: #ff7c8c;
+
+      background:
+        rgba(255, 91, 112, 0.05);
+    }
+
+    .empty-library {
+      grid-column: 1 / -1;
+
+      padding: 28px 15px;
+
+      border: 1px dashed var(--border);
+      border-radius: 15px;
+
+      color: #717184;
+
+      text-align: center;
+
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+
+    /* TOAST */
+
+    .toast {
+      position: fixed;
+
+      left: 50%;
+      bottom:
+        calc(18px + env(safe-area-inset-bottom));
+
+      z-index: 9999;
+
+      max-width: calc(100vw - 32px);
+
+      padding: 11px 15px;
+
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+
+      color: #efeff6;
+      background: rgba(20, 20, 31, 0.96);
+
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.38);
+
+      font-size: 10px;
+      font-weight: 750;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transform:
+        translate(-50%, 12px);
+
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+
+      transform:
+        translate(-50%, 0);
+    }
+
+
+    /* FILE INPUTS */
+
+    .hidden-input {
+      display: none;
+    }
+
+
+    /* DESKTOP */
+
+    @media (min-width: 860px) {
+
+      .page {
+        padding:
+          24px
+          28px
+          50px;
+      }
+
+      .topbar {
+        margin-bottom: 22px;
+
+        padding: 14px 18px;
+      }
+
+      .brand img {
+        width: 138px;
+      }
+
+      .page-title {
+        font-size: 12px;
+      }
+
+      .workspace {
+        grid-template-columns:
+          minmax(0, 1.2fr)
+          minmax(300px, 0.8fr);
+
+        align-items: start;
+
+        gap: 18px;
+      }
+
+      .canvas-card {
+        padding: 17px;
+
+        border-radius: 22px;
+      }
+
+      .canvas-stage {
+        max-width: 650px;
+      }
+
+      .main-actions {
+        max-width: 650px;
+
+        margin:
+          13px auto
+          0;
+      }
+
+      .tool-button {
+        min-height: 52px;
+
+        font-size: 11px;
+      }
+
+      .tools-column {
+        position: sticky;
+        top: 20px;
+      }
+
+      .tools-card {
+        padding: 18px;
+
+        border-radius: 20px;
+      }
+
+      .saved-grid {
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+
+        gap: 12px;
+      }
+
+      .library-section {
+        margin-top: 28px;
+      }
+
+      .library-title {
+        font-size: 18px;
+      }
+
+    }
+
+
+    @media (max-width: 380px) {
+
+      .page-title {
+        display: none;
+      }
+
+      .main-actions {
+        gap: 6px;
+      }
+
+      .tool-button {
+        padding: 6px 4px;
+
+        font-size: 9px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="topbar">
+
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="Viral1s Home"
+      >
+        <img
+          src="viral1s-logo.webp"
+          alt="Viral1s"
+        >
+      </a>
+
+      <div class="page-title">
+        Image Creator
+      </div>
+
+      <a
+        href="index.html"
+        class="back-button"
+      >
+        ← Back
+      </a>
+
+    </header>
+
+
+    <section class="workspace">
+
+      <div class="editor-column">
+
+        <div class="canvas-card">
+
+          <div class="canvas-header">
+
+            <div class="canvas-title">
+              Create your image
+            </div>
+
+            <div class="size-badge">
+              1:1 · 1080 × 1080
+            </div>
+
+          </div>
+
+
+          <div
+            id="canvasStage"
+            class="canvas-stage"
+          >
+
+            <div
+              id="emptyTip"
+              class="canvas-empty-tip"
+            >
+              <strong>
+                Start with a background
+              </strong>
+
+              <span>
+                Add a photo, PNG or text and create your reel image.
+              </span>
+            </div>
+
+            <canvas
+              id="imageCanvas"
+              width="1080"
+              height="1080"
+            ></canvas>
+
+          </div>
+
+
+          <div class="main-actions">
+
+            <button
+              id="backgroundButton"
+              class="tool-button primary"
+              type="button"
+            >
+              + Background
+            </button>
+
+            <button
+              id="imageButton"
+              class="tool-button"
+              type="button"
+            >
+              + Image / PNG
+            </button>
+
+            <button
+              id="textButton"
+              class="tool-button"
+              type="button"
+            >
+              + Text
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <aside class="tools-column">
+
+
+        <div class="tools-card">
+
+          <div class="tools-heading">
+            Selected element
+          </div>
+
+          <div
+            id="noSelection"
+            class="selection-status"
+          >
+            Tap an image or text on the canvas to edit it.
+          </div>
+
+
+          <div
+            id="selectionControls"
+            class="hidden"
+          >
+
+            <div
+              id="textControls"
+              class="hidden"
+            >
+
+              <div class="field">
+
+                <label for="fontSize">
+                  Text size
+                  <span
+                    id="fontSizeValue"
+                    class="field-value"
+                  >
+                    72
+                  </span>
+                </label>
+
+                <input
+                  id="fontSize"
+                  type="range"
+                  min="20"
+                  max="220"
+                  value="72"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="fontFamily">
+                  Font
+                </label>
+
+                <select id="fontFamily">
+                  <option value="Arial">
+                    Arial
+                  </option>
+
+                  <option value="Georgia">
+                    Georgia
+                  </option>
+
+                  <option value="Impact">
+                    Impact
+                  </option>
+
+                  <option value="Courier New">
+                    Courier New
+                  </option>
+
+                  <option value="Trebuchet MS">
+                    Trebuchet
+                  </option>
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="textColor">
+                  Text color
+                </label>
+
+                <input
+                  id="textColor"
+                  type="color"
+                  value="#ffffff"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="object-actions">
+
+              <button
+                id="forwardButton"
+                class="small-button"
+                type="button"
+              >
+                Bring forward
+              </button>
+
+              <button
+                id="backwardButton"
+                class="small-button"
+                type="button"
+              >
+                Send backward
+              </button>
+
+              <button
+                id="duplicateButton"
+                class="small-button"
+                type="button"
+              >
+                Duplicate
+              </button>
+
+              <button
+                id="deleteObjectButton"
+                class="small-button danger"
+                type="button"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="tools-card">
+
+          <div class="tools-heading">
+            Save
+          </div>
+
+          <button
+            id="saveButton"
+            class="save-button"
+            type="button"
+          >
+            Save Image
+          </button>
+
+          <div class="save-note">
+            Saved inside Viral1s on this device. You can reopen it and continue editing later.
+          </div>
+
+        </div>
+
+
+      </aside>
+
+    </section>
+
+
+    <section class="library-section">
+
+      <div class="library-header">
+
+        <div class="library-title">
+          My Images
+        </div>
+
+        <div
+          id="libraryCount"
+          class="library-count"
+        >
+          0 saved
+        </div>
+
+      </div>
+
+
+      <div
+        id="savedGrid"
+        class="saved-grid"
+      ></div>
+
+    </section>
+
+  </main>
+
+
+  <input
+    id="backgroundInput"
+    class="hidden-input"
+    type="file"
+    accept="image/*"
+  >
+
+  <input
+    id="imageInput"
+    class="hidden-input"
+    type="file"
+    accept="image/*"
+  >
+
+
+  <div
+    id="toast"
+    class="toast"
+  ></div>
+
+
+  <script>
+    const LOGICAL_SIZE = 1080;
+
+    const canvasStage =
+      document.getElementById("canvasStage");
+
+    const emptyTip =
+      document.getElementById("emptyTip");
+
+    const backgroundButton =
+      document.getElementById("backgroundButton");
+
+    const imageButton =
+      document.getElementById("imageButton");
+
+    const textButton =
+      document.getElementById("textButton");
+
+    const backgroundInput =
+      document.getElementById("backgroundInput");
+
+    const imageInput =
+      document.getElementById("imageInput");
+
+    const noSelection =
+      document.getElementById("noSelection");
+
+    const selectionControls =
+      document.getElementById("selectionControls");
+
+    const textControls =
+      document.getElementById("textControls");
+
+    const fontSize =
+      document.getElementById("fontSize");
+
+    const fontSizeValue =
+      document.getElementById("fontSizeValue");
+
+    const fontFamily =
+      document.getElementById("fontFamily");
+
+    const textColor =
+      document.getElementById("textColor");
+
+    const forwardButton =
+      document.getElementById("forwardButton");
+
+    const backwardButton =
+      document.getElementById("backwardButton");
+
+    const duplicateButton =
+      document.getElementById("duplicateButton");
+
+    const deleteObjectButton =
+      document.getElementById("deleteObjectButton");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const savedGrid =
+      document.getElementById("savedGrid");
+
+    const libraryCount =
+      document.getElementById("libraryCount");
+
+    const toast =
+      document.getElementById("toast");
+
+
+    let currentProjectId = null;
+
+    let database = null;
+
+
+    const canvas =
+      new fabric.Canvas(
+        "imageCanvas",
+        {
+          width: LOGICAL_SIZE,
+          height: LOGICAL_SIZE,
+
+          preserveObjectStacking: true,
+
+          selectionColor:
+            "rgba(124, 92, 255, 0.12)",
+
+          selectionBorderColor:
+            "#7c5cff",
+
+          selectionLineWidth: 2
+        }
+      );
+
+
+    canvas.backgroundColor =
+      "#101018";
+
+    canvas.renderAll();
+
+
+    fabric.Object.prototype.set({
+      transparentCorners: false,
+
+      cornerColor: "#7c5cff",
+
+      cornerStrokeColor: "#ffffff",
+
+      borderColor: "#7c5cff",
+
+      cornerSize: 24,
+
+      padding: 4,
+
+      rotatingPointOffset: 34
+    });
+
+
+    function resizeCanvasDisplay() {
+
+      const size =
+        canvasStage.clientWidth;
+
+      const scale =
+        size / LOGICAL_SIZE;
+
+      canvas.setDimensions(
+        {
+          width: size,
+          height: size
+        },
+        {
+          cssOnly: true
+        }
+      );
+
+      canvas.setZoom(scale);
+
+      canvas.requestRenderAll();
+
+    }
+
+
+    window.addEventListener(
+      "resize",
+      resizeCanvasDisplay
+    );
+
+
+    requestAnimationFrame(
+      resizeCanvasDisplay
+    );
+
+
+    function showToast(message) {
+
+      toast.textContent =
+        message;
+
+      toast.classList.add("show");
+
+      clearTimeout(
+        showToast.timeout
+      );
+
+      showToast.timeout =
+        setTimeout(
+          () => {
+            toast.classList.remove(
+              "show"
+            );
+          },
+          2200
+        );
+
+    }
+
+
+    function updateEmptyState() {
+
+      const hasObjects =
+        canvas.getObjects().length > 0;
+
+      const hasBackground =
+        Boolean(
+          canvas.backgroundImage
+        );
+
+      emptyTip.classList.toggle(
+        "hidden",
+        hasObjects || hasBackground
+      );
+
+    }
+
+
+    function readFileAsDataURL(file) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const reader =
+            new FileReader();
+
+          reader.onload =
+            () => resolve(
+              reader.result
+            );
+
+          reader.onerror =
+            reject;
+
+          reader.readAsDataURL(
+            file
+          );
+
+        }
+      );
+
+    }
+
+
+    function loadFabricImage(dataUrl) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          fabric.Image.fromURL(
+            dataUrl,
+
+            (image) => {
+
+              if (!image) {
+                reject(
+                  new Error(
+                    "Could not load image"
+                  )
+                );
+
+                return;
+              }
+
+              resolve(image);
+
+            },
+
+            {
+              crossOrigin:
+                "anonymous"
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+    async function setBackground(file) {
+
+      try {
+
+        const dataUrl =
+          await readFileAsDataURL(
+            file
+          );
+
+        const image =
+          await loadFabricImage(
+            dataUrl
+          );
+
+
+        const scale =
+          Math.max(
+            LOGICAL_SIZE /
+              image.width,
+
+            LOGICAL_SIZE /
+              image.height
+          );
+
+
+        image.set({
+          originX: "center",
+          originY: "center",
+
+          left:
+            LOGICAL_SIZE / 2,
+
+          top:
+            LOGICAL_SIZE / 2,
+
+          scaleX: scale,
+          scaleY: scale,
+
+          selectable: false,
+          evented: false
+        });
+
+
+        canvas.setBackgroundImage(
+          image,
+          canvas.renderAll.bind(canvas)
+        );
+
+
+        currentProjectId =
+          null;
+
+        updateEmptyState();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          "Could not add background."
+        );
+
+      }
+
+    }
+
+
+    async function addOverlayImage(file) {
+
+      try {
+
+        const dataUrl =
+          await readFileAsDataURL(
+            file
+          );
+
+        const image =
+          await loadFabricImage(
+            dataUrl
+          );
+
+
+        const maxSize =
+          LOGICAL_SIZE * 0.58;
+
+        const scale =
+          Math.min(
+            maxSize /
+              image.width,
+
+            maxSize /
+              image.height,
+
+            1
+          );
+
+
+        image.set({
+          left:
+            LOGICAL_SIZE / 2,
+
+          top:
+            LOGICAL_SIZE / 2,
+
+          originX:
+            "center",
+
+          originY:
+            "center",
+
+          scaleX: scale,
+          scaleY: scale
+        });
+
+
+        canvas.add(image);
+
+        canvas.setActiveObject(
+          image
+        );
+
+        canvas.requestRenderAll();
+
+        updateEmptyState();
+
+        updateSelectionControls();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          "Could not add image."
+        );
+
+      }
+
+    }
+
+
+    function addText() {
+
+      const text =
+        new fabric.IText(
+          "Your text",
+          {
+            left:
+              LOGICAL_SIZE / 2,
+
+            top:
+              LOGICAL_SIZE / 2,
+
+            originX:
+              "center",
+
+            originY:
+              "center",
+
+            fill:
+              "#ffffff",
+
+            fontFamily:
+              "Arial",
+
+            fontSize:
+              72,
+
+            fontWeight:
+              "bold",
+
+            textAlign:
+              "center"
+          }
+        );
+
+
+      canvas.add(text);
+
+      canvas.setActiveObject(
+        text
+      );
+
+      canvas.requestRenderAll();
+
+      updateEmptyState();
+
+      updateSelectionControls();
+
+
+      setTimeout(
+        () => {
+
+          text.enterEditing();
+
+          text.selectAll();
+
+          canvas.requestRenderAll();
+
+        },
+        80
+      );
+
+    }
+
+
+    backgroundButton.addEventListener(
+      "click",
+      () => {
+        backgroundInput.click();
+      }
+    );
+
+
+    imageButton.addEventListener(
+      "click",
+      () => {
+        imageInput.click();
+      }
+    );
+
+
+    textButton.addEventListener(
+      "click",
+      addText
+    );
+
+
+    backgroundInput.addEventListener(
+      "change",
+      async () => {
+
+        const file =
+          backgroundInput.files[0];
+
+        if (!file) {
+          return;
+        }
+
+        await setBackground(file);
+
+        backgroundInput.value =
+          "";
+
+      }
+    );
+
+
+    imageInput.addEventListener(
+      "change",
+      async () => {
+
+        const file =
+          imageInput.files[0];
+
+        if (!file) {
+          return;
+        }
+
+        await addOverlayImage(file);
+
+        imageInput.value =
+          "";
+
+      }
+    );
+
+
+    function updateSelectionControls() {
+
+      const object =
+        canvas.getActiveObject();
+
+
+      if (!object) {
+
+        noSelection.classList.remove(
+          "hidden"
+        );
+
+        selectionControls.classList.add(
+          "hidden"
+        );
+
+        return;
+      }
+
+
+      noSelection.classList.add(
+        "hidden"
+      );
+
+      selectionControls.classList.remove(
+        "hidden"
+      );
+
+
+      const isText =
+        object.type === "i-text" ||
+        object.type === "text" ||
+        object.type === "textbox";
+
+
+      textControls.classList.toggle(
+        "hidden",
+        !isText
+      );
+
+
+      if (isText) {
+
+        fontSize.value =
+          Math.round(
+            object.fontSize || 72
+          );
+
+        fontSizeValue.textContent =
+          fontSize.value;
+
+        fontFamily.value =
+          object.fontFamily ||
+          "Arial";
+
+
+        if (
+          typeof object.fill ===
+          "string" &&
+          object.fill.startsWith("#")
+        ) {
+
+          textColor.value =
+            object.fill;
+
+        }
+
+      }
+
+    }
+
+
+    canvas.on(
+      "selection:created",
+      updateSelectionControls
+    );
+
+    canvas.on(
+      "selection:updated",
+      updateSelectionControls
+    );
+
+    canvas.on(
+      "selection:cleared",
+      updateSelectionControls
+    );
+
+
+    fontSize.addEventListener(
+      "input",
+      () => {
+
+        const object =
+          canvas.getActiveObject();
+
+        if (!object) {
+          return;
+        }
+
+
+        object.set(
+          "fontSize",
+          Number(fontSize.value)
+        );
+
+        fontSizeValue.textContent =
+          fontSize.value;
+
+        canvas.requestRenderAll();
+
+      }
+    );
+
+
+    fontFamily.addEventListener(
+      "change",
+      () => {
+
+        const object =
+          canvas.getActiveObject();
+
+        if (!object) {
+          return;
+        }
+
+        object.set(
+          "fontFamily",
+          fontFamily.value
+        );
+
+        canvas.requestRenderAll();
+
+      }
+    );
+
+
+    textColor.addEventListener(
+      "input",
+      () => {
+
+        const object =
+          canvas.getActiveObject();
+
+        if (!object) {
+          return;
+        }
+
+        object.set(
+          "fill",
+          textColor.value
+        );
+
+        canvas.requestRenderAll();
+
+      }
+    );
+
+
+    forwardButton.addEventListener(
+      "click",
+      () => {
+
+        const object =
+          canvas.getActiveObject();
+
+        if (!object) {
+          return;
+        }
+
+        canvas.bringForward(
+          object
+        );
+
+        canvas.requestRenderAll();
+
+      }
+    );
+
+
+    backwardButton.addEventListener(
+      "click",
+      () => {
+
+        const object =
+          canvas.getActiveObject();
+
+        if (!object) {
+          return;
+        }
+
+        canvas.sendBackwards(
+          object
+        );
+
+        canvas.requestRenderAll();
+
+      }
+    );
+
+
+    duplicateButton.addEventListener(
+      "click",
+      () => {
+
+        const object =
+          canvas.getActiveObject();
+
+        if (!object) {
+          return;
+        }
+
+
+        object.clone(
+          (clone) => {
+
+            clone.set({
+              left:
+                (object.left || 0) + 45,
+
+              top:
+                (object.top || 0) + 45
+            });
+
+
+            canvas.add(clone);
+
+            canvas.setActiveObject(
+              clone
+            );
+
+            canvas.requestRenderAll();
+
+            updateSelectionControls();
+
+          }
+        );
+
+      }
+    );
+
+
+    deleteObjectButton.addEventListener(
+      "click",
+      () => {
+
+        const objects =
+          canvas.getActiveObjects();
+
+        if (!objects.length) {
+          return;
+        }
+
+
+        canvas.discardActiveObject();
+
+
+        objects.forEach(
+          (object) => {
+            canvas.remove(object);
+          }
+        );
+
+
+        canvas.requestRenderAll();
+
+        updateEmptyState();
+
+        updateSelectionControls();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (
+          event.key !== "Delete" &&
+          event.key !== "Backspace"
+        ) {
+          return;
+        }
+
+
+        const active =
+          canvas.getActiveObject();
+
+
+        if (
+          active &&
+          active.isEditing
+        ) {
+          return;
+        }
+
+
+        const objects =
+          canvas.getActiveObjects();
+
+        if (!objects.length) {
+          return;
+        }
+
+
+        objects.forEach(
+          (object) => {
+            canvas.remove(object);
+          }
+        );
+
+
+        canvas.discardActiveObject();
+
+        canvas.requestRenderAll();
+
+        updateEmptyState();
+
+        updateSelectionControls();
+
+      }
+    );
+
+
+    /* INDEXED DB */
+
+    function openDatabase() {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const request =
+            indexedDB.open(
+              "viral1s_image_creator",
+              1
+            );
+
+
+          request.onupgradeneeded =
+            () => {
+
+              const db =
+                request.result;
+
+
+              if (
+                !db.objectStoreNames.contains(
+                  "projects"
+                )
+              ) {
+
+                db.createObjectStore(
+                  "projects",
+                  {
+                    keyPath: "id"
+                  }
+                );
+
+              }
+
+            };
+
+
+          request.onsuccess =
+            () => {
+              resolve(
+                request.result
+              );
+            };
+
+
+          request.onerror =
+            () => {
+              reject(
+                request.error
+              );
+            };
+
+        }
+      );
+
+    }
+
+
+    function saveProjectRecord(record) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const transaction =
+            database.transaction(
+              "projects",
+              "readwrite"
+            );
+
+
+          const store =
+            transaction.objectStore(
+              "projects"
+            );
+
+
+          const request =
+            store.put(record);
+
+
+          request.onsuccess =
+            () => resolve();
+
+
+          request.onerror =
+            () => reject(
+              request.error
+            );
+
+        }
+      );
+
+    }
+
+
+    function getAllProjects() {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const transaction =
+            database.transaction(
+              "projects",
+              "readonly"
+            );
+
+
+          const store =
+            transaction.objectStore(
+              "projects"
+            );
+
+
+          const request =
+            store.getAll();
+
+
+          request.onsuccess =
+            () => resolve(
+              request.result || []
+            );
+
+
+          request.onerror =
+            () => reject(
+              request.error
+            );
+
+        }
+      );
+
+    }
+
+
+    function getProject(id) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const transaction =
+            database.transaction(
+              "projects",
+              "readonly"
+            );
+
+
+          const store =
+            transaction.objectStore(
+              "projects"
+            );
+
+
+          const request =
+            store.get(id);
+
+
+          request.onsuccess =
+            () => resolve(
+              request.result
+            );
+
+
+          request.onerror =
+            () => reject(
+              request.error
+            );
+
+        }
+      );
+
+    }
+
+
+    function deleteProject(id) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const transaction =
+            database.transaction(
+              "projects",
+              "readwrite"
+            );
+
+
+          const store =
+            transaction.objectStore(
+              "projects"
+            );
+
+
+          const request =
+            store.delete(id);
+
+
+          request.onsuccess =
+            () => resolve();
+
+
+          request.onerror =
+            () => reject(
+              request.error
+            );
+
+        }
+      );
+
+    }
+
+
+    function makeProjectId() {
+
+      if (
+        crypto &&
+        crypto.randomUUID
+      ) {
+
+        return crypto.randomUUID();
+
+      }
+
+
+      return (
+        "project_" +
+        Date.now() +
+        "_" +
+        Math.random()
+          .toString(36)
+          .slice(2)
+      );
+
+    }
+
+
+    async function saveCurrentProject() {
+
+      saveButton.disabled =
+        true;
+
+      saveButton.textContent =
+        "Saving...";
+
+
+      try {
+
+        canvas.discardActiveObject();
+
+        canvas.requestRenderAll();
+
+
+        const projectId =
+          currentProjectId ||
+          makeProjectId();
+
+
+        const projectJson =
+          JSON.stringify(
+            canvas.toJSON()
+          );
+
+
+        const preview =
+          canvas.toDataURL({
+            format: "jpeg",
+            quality: 0.78,
+            multiplier: 0.28
+          });
+
+
+        const record = {
+          id: projectId,
+
+          name:
+            "Image " +
+            new Date()
+              .toLocaleDateString(),
+
+          updatedAt:
+            Date.now(),
+
+          canvasJson:
+            projectJson,
+
+          preview:
+            preview
+        };
+
+
+        await saveProjectRecord(
+          record
+        );
+
+
+        currentProjectId =
+          projectId;
+
+
+        await renderLibrary();
+
+
+        showToast(
+          "Image saved ✓"
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          "Could not save image."
+        );
+
+      }
+
+
+      saveButton.disabled =
+        false;
+
+      saveButton.textContent =
+        "Save Image";
+
+    }
+
+
+    saveButton.addEventListener(
+      "click",
+      saveCurrentProject
+    );
+
+
+    async function openSavedProject(id) {
+
+      try {
+
+        const project =
+          await getProject(id);
+
+
+        if (!project) {
+          return;
+        }
+
+
+        canvas.clear();
+
+        canvas.backgroundColor =
+          "#101018";
+
+
+        canvas.loadFromJSON(
+          project.canvasJson,
+
+          () => {
+
+            currentProjectId =
+              project.id;
+
+            canvas.renderAll();
+
+            resizeCanvasDisplay();
+
+            updateEmptyState();
+
+            updateSelectionControls();
+
+            showToast(
+              "Image opened"
+            );
+
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+
+          }
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          "Could not open image."
+        );
+
+      }
+
+    }
+
+
+    async function removeSavedProject(id) {
+
+      const confirmed =
+        window.confirm(
+          "Delete this saved image?"
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      try {
+
+        await deleteProject(id);
+
+
+        if (
+          currentProjectId === id
+        ) {
+
+          currentProjectId =
+            null;
+
+        }
+
+
+        await renderLibrary();
+
+
+        showToast(
+          "Saved image deleted"
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          "Could not delete image."
+        );
+
+      }
+
+    }
+
+
+    async function renderLibrary() {
+
+      if (!database) {
+        return;
+      }
+
+
+      try {
+
+        const projects =
+          await getAllProjects();
+
+
+        projects.sort(
+          (a, b) =>
+            b.updatedAt -
+            a.updatedAt
+        );
+
+
+        savedGrid.innerHTML =
+          "";
+
+
+        libraryCount.textContent =
+          projects.length === 1
+            ? "1 saved"
+            : `${projects.length} saved`;
+
+
+        if (!projects.length) {
+
+          const empty =
+            document.createElement(
+              "div"
+            );
+
+
+          empty.className =
+            "empty-library";
+
+
+          empty.textContent =
+            "Your saved images will appear here.";
+
+
+          savedGrid.appendChild(
+            empty
+          );
+
+
+          return;
+        }
+
+
+        projects.forEach(
+          (project) => {
+
+            const card =
+              document.createElement(
+                "article"
+              );
+
+
+            card.className =
+              "saved-card";
+
+
+            const image =
+              document.createElement(
+                "img"
+              );
+
+
+            image.className =
+              "saved-preview";
+
+
+            image.src =
+              project.preview;
+
+
+            image.alt =
+              "Saved Viral1s image";
+
+
+            const info =
+              document.createElement(
+                "div"
+              );
+
+
+            info.className =
+              "saved-info";
+
+
+            const name =
+              document.createElement(
+                "div"
+              );
+
+
+            name.className =
+              "saved-name";
+
+
+            name.textContent =
+              project.name;
+
+
+            info.appendChild(
+              name
+            );
+
+
+            const actions =
+              document.createElement(
+                "div"
+              );
+
+
+            actions.className =
+              "saved-actions";
+
+
+            const openButton =
+              document.createElement(
+                "button"
+              );
+
+
+            openButton.className =
+              "open-project";
+
+
+            openButton.type =
+              "button";
+
+
+            openButton.textContent =
+              "Edit";
+
+
+            openButton.addEventListener(
+              "click",
+              () => {
+                openSavedProject(
+                  project.id
+                );
+              }
+            );
+
+
+            const deleteButton =
+              document.createElement(
+                "button"
+              );
+
+
+            deleteButton.className =
+              "delete-project";
+
+
+            deleteButton.type =
+              "button";
+
+
+            deleteButton.textContent =
+              "×";
+
+
+            deleteButton.addEventListener(
+              "click",
+              () => {
+                removeSavedProject(
+                  project.id
+                );
+              }
+            );
+
+
+            actions.appendChild(
+              openButton
+            );
+
+
+            actions.appendChild(
+              deleteButton
+            );
+
+
+            card.appendChild(
+              image
+            );
+
+
+            card.appendChild(
+              info
+            );
+
+
+            card.appendChild(
+              actions
+            );
+
+
+            savedGrid.appendChild(
+              card
+            );
+
+          }
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        savedGrid.innerHTML =
+          '<div class="empty-library">Could not load saved images.</div>';
+
+      }
+
+    }
+
+
+    async function init() {
+
+      try {
+
+        database =
+          await openDatabase();
+
+
+        await renderLibrary();
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        showToast(
+          "Local storage is unavailable."
+        );
+
+      }
+
+
+      updateEmptyState();
+
+      updateSelectionControls();
+
+      resizeCanvasDisplay();
+
+    }
+
+
+    init();
+
+  </script>
+
+</body>
+</html>
