@@ -1176,7 +1176,151 @@ footer .footer-brand a {
 
 }
 
-                        
+
+
+/* =========================================
+   HOME — IMAGE CREATOR
+========================================= */
+
+.image-creator-home {
+  margin-top: 26px;
+}
+
+.image-creator-home-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 92, 255, 0.10),
+      rgba(77, 130, 255, 0.04)
+    );
+}
+
+.image-creator-home-icon {
+  flex: 0 0 42px;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c5cff,
+      #4d82ff
+    );
+
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.image-creator-home-text {
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.image-creator-home-text strong {
+  color: var(--text);
+
+  font-size: 14px;
+  line-height: 1.15;
+  font-weight: 850;
+}
+
+.image-creator-home-text span {
+  color: var(--muted);
+
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.image-creator-home-btn {
+  flex: 0 0 auto;
+
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 12px;
+
+  border: 1px solid rgba(124, 92, 255, 0.28);
+  border-radius: 10px;
+
+  background:
+    rgba(124, 92, 255, 0.12);
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.image-creator-home-btn:active {
+  transform: scale(0.98);
+}
+
+/* MOBILE */
+
+@media (max-width: 520px) {
+
+  .image-creator-home-content {
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .image-creator-home-icon {
+    flex-basis: 38px;
+
+    width: 38px;
+    height: 38px;
+
+    font-size: 16px;
+  }
+
+  .image-creator-home-text strong {
+    font-size: 13px;
+  }
+
+  .image-creator-home-text span {
+    font-size: 10px;
+  }
+
+  .image-creator-home-btn {
+    min-height: 36px;
+    padding: 0 10px;
+
+    font-size: 10px;
+  }
+}
+
+
+
+    
   </style>
 </head>
 
@@ -1434,7 +1578,23 @@ footer .footer-brand a {
 
     </section>
 
+<section class="image-creator-home">
+  <div class="image-creator-home-content">
+    <div class="image-creator-home-icon">✦</div>
 
+    <div class="image-creator-home-text">
+      <strong>Image Creator</strong>
+      <span>Create images for your reels</span>
+    </div>
+
+    <a
+      href="image-editor.html"
+      class="image-creator-home-btn"
+    >
+      Create Image →
+    </a>
+  </div>
+</section>
     
 <section class="seo-intro">
   <h2>Create Reels Online with Viral1s</h2>
