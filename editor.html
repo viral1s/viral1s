@@ -924,7 +924,183 @@ imageUploadName.textContent =
 
       }
     );
+function setSelectedImage(file) {
 
+  selectedImage = file;
+
+  if (!selectedImage) {
+    return;
+  }
+
+  imageUploadBox.classList.add(
+    "has-image"
+  );
+
+  imageUploadIcon.textContent =
+    "✓";
+
+  imageUploadTitle.textContent =
+    "Change Image";
+
+  imageUploadName.textContent =
+    selectedImage.name ||
+    "Viral1s Image";
+
+  if (selectedImageUrl) {
+    URL.revokeObjectURL(
+      selectedImageUrl
+    );
+  }
+
+  selectedImageUrl =
+    URL.createObjectURL(
+      selectedImage
+    );
+
+  previewImage.src =
+    selectedImageUrl;
+
+  previewImage.style.display =
+    "block";
+
+  imagePlaceholder.style.display =
+    "none";
+
+  resetVisuals();
+
+  editorPopup.classList.remove(
+    "show"
+  );
+
+  editorStatus.textContent =
+    "";
+}
+
+
+imageInput.addEventListener(
+  "change",
+  () => {
+
+    const file =
+      imageInput.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    setSelectedImage(file);
+  }
+);
+
+
+/* IMAGE FROM VIRAL1S IMAGE CREATOR */
+
+async function loadImageCreatorTransfer() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  if (
+    params.get("from") !==
+    "image-creator"
+  ) {
+    return;
+  }
+
+  try {
+
+    const database =
+      await new Promise(
+        (resolve, reject) => {
+
+          const request =
+            indexedDB.open(
+              "viral1s_simple_creator",
+              1
+            );
+
+          request.onsuccess =
+            () => resolve(
+              request.result
+            );
+
+          request.onerror =
+            () => reject(
+              request.error
+            );
+        }
+      );
+
+
+    const transfer =
+      await new Promise(
+        (resolve, reject) => {
+
+          const transaction =
+            database.transaction(
+              "reel_transfer",
+              "readonly"
+            );
+
+          const store =
+            transaction.objectStore(
+              "reel_transfer"
+            );
+
+          const request =
+            store.get("current");
+
+          request.onsuccess =
+            () => resolve(
+              request.result
+            );
+
+          request.onerror =
+            () => reject(
+              request.error
+            );
+        }
+      );
+
+
+    database.close();
+
+
+    if (
+      !transfer ||
+      !transfer.blob
+    ) {
+      return;
+    }
+
+
+    const file =
+      new File(
+        [transfer.blob],
+        "viral1s-created-image.png",
+        {
+          type:
+            transfer.blob.type ||
+            "image/png"
+        }
+      );
+
+
+    setSelectedImage(file);
+
+  } catch (error) {
+
+    console.error(
+      "Image Creator transfer failed:",
+      error
+    );
+  }
+}
+
+
+loadImageCreatorTransfer();
 
     /* ==============================
        PLAY BUTTON
