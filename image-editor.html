@@ -1,957 +1,772 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
-
-<title>Viral1s Image Creator</title>
-
-<link rel="icon" type="image/png" href="viral1s-icon.png">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-<link
-  href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
-  rel="stylesheet"
->
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --bg: #070711;
-  --panel: #11111d;
-  --panel2: #161624;
-  --panel3: #0d0d16;
-  --border: rgba(255,255,255,.09);
-  --text: #fff;
-  --muted: #8e8e9f;
-  --purple: #7c5cff;
-  --blue: #4c82ff;
-  --danger: #ff6378;
-}
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(124,92,255,.18),
-      transparent 34%
-    ),
-    var(--bg);
-  color: var(--text);
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  overscroll-behavior: none;
-}
-
-button,
-input,
-select {
-  font: inherit;
-}
-
-button {
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.app {
-  width: 100%;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  padding:
-    calc(7px + env(safe-area-inset-top))
-    8px
-    calc(7px + env(safe-area-inset-bottom));
-}
-
-/* =========================
-   TOP
-========================= */
-
-.topbar {
-  flex: 0 0 auto;
-  min-height: 47px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 8px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: rgba(17,17,29,.94);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-
-.brand img {
-  display: block;
-  width: 96px;
-  max-width: 100%;
-  height: auto;
-}
-
-.top-title {
-  color: #c2b8ff;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: .55px;
-  white-space: nowrap;
-  text-transform: uppercase;
-}
-
-.save-top {
-  justify-self: end;
-  min-height: 34px;
-  padding: 0 11px;
-  border: 0;
-  border-radius: 9px;
-  color: white;
-  background:
-    linear-gradient(
-      135deg,
-      var(--purple),
-      var(--blue)
-    );
-  font-size: 9px;
-  font-weight: 900;
-}
-
-/* SECOND TOP ROW */
-
-.projectbar {
-  flex: 0 0 auto;
-  min-height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 4px 7px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: rgba(17,17,29,.9);
-}
-
-.project-btn {
-  min-width: 38px;
-  min-height: 30px;
-  padding: 0 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: #d7d7e1;
-  background: rgba(255,255,255,.035);
-  font-size: 9px;
-  font-weight: 850;
-}
-
-.project-btn.icon {
-  width: 36px;
-  min-width: 36px;
-  padding: 0;
-  font-size: 15px;
-}
-
-.project-btn.locked {
-  color: #c7bdff;
-  border-color: rgba(124,92,255,.32);
-  background: rgba(124,92,255,.12);
-}
-
-.project-btn.reel {
-  margin-left: auto;
-  color: white;
-  border-color: rgba(124,92,255,.25);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(124,92,255,.25),
-      rgba(76,130,255,.17)
-    );
-}
-
-/* =========================
-   CANVAS
-========================= */
-
-.workspace {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.canvas-area {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 0;
-}
-
-.canvas-shell {
-  position: relative;
-  width: min(76vw, 43dvh, 355px);
-  max-width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 13px;
-  background: #fff;
-  box-shadow:
-    0 18px 45px rgba(0,0,0,.32);
-  touch-action: none;
-}
-
-.canvas-container {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.canvas-container canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.canvas-empty {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(0,0,0,.36);
-  font-size: 10px;
-  font-weight: 800;
-}
-
-/* =========================
-   CONTROL AREA
-========================= */
-
-.controls {
-  flex: 0 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  overflow: hidden;
-  background: rgba(17,17,29,.97);
-}
-
-/* temporary full control */
-
-.tool-workspace {
-  min-height: 116px;
-  padding: 9px;
-}
-
-.tool-head {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 10px;
-}
-
-.tool-head-title {
-  flex: 1;
-  font-size: 10px;
-  font-weight: 900;
-}
-
-.done-btn,
-.cancel-btn {
-  min-height: 30px;
-  padding: 0 10px;
-  border-radius: 8px;
-  font-size: 8px;
-  font-weight: 900;
-}
-
-.done-btn {
-  border: 0;
-  color: #fff;
-  background:
-    linear-gradient(
-      135deg,
-      var(--purple),
-      var(--blue)
-    );
-}
-
-.cancel-btn {
-  border: 1px solid var(--border);
-  color: #bdbdca;
-  background: rgba(255,255,255,.035);
-}
-
-.tool-content {
-  min-height: 61px;
-}
-
-.tool-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.tool-row + .tool-row {
-  margin-top: 9px;
-}
-
-.tool-label {
-  min-width: 48px;
-  color: var(--muted);
-  font-size: 8px;
-  font-weight: 800;
-}
-
-.tool-row input[type="range"] {
-  flex: 1;
-  min-width: 0;
-  accent-color: var(--purple);
-}
-
-.tool-value {
-  min-width: 42px;
-  color: #dcdce7;
-  font-size: 8px;
-  font-weight: 900;
-  text-align: right;
-}
-
-.tool-row input[type="color"] {
-  width: 48px;
-  height: 34px;
-  padding: 2px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--panel3);
-}
-
-.tool-row select,
-.tool-row input[type="text"] {
-  flex: 1;
-  min-width: 0;
-  height: 34px;
-  padding: 0 8px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  outline: none;
-  color: white;
-  background: var(--panel3);
-  font-size: 9px;
-}
-
-/* context row */
-
-.context-strip {
-  height: 64px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 6px;
-  border-bottom: 1px solid var(--border);
-  scrollbar-width: none;
-  overscroll-behavior-x: contain;
-  touch-action: pan-x;
-}
-
-.context-strip::-webkit-scrollbar {
-  display: none;
-}
-
-.control-item {
-  flex: 0 0 55px;
-  width: 55px;
-  height: 53px;
-  padding: 4px 2px;
-  border: 0;
-  border-radius: 9px;
-  color: #a9a9b8;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.control-item:active,
-.control-item.active {
-  color: white;
-  background: rgba(124,92,255,.13);
-}
-
-.control-icon {
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #e7e7ee;
-  font-size: 18px;
-  line-height: 1;
-}
-
-.control-name {
-  width: 100%;
-  overflow: hidden;
-  font-size: 7px;
-  font-weight: 750;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* bottom 4 */
-
-.main-tools {
-  height: 65px;
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  align-items: stretch;
-}
-
-.main-tool {
-  position: relative;
-  border: 0;
-  border-right: 1px solid rgba(255,255,255,.055);
-  color: #777789;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.main-tool:last-child {
-  border-right: 0;
-}
-
-.main-tool.active {
-  color: #fff;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(124,92,255,.13),
-      rgba(124,92,255,.035)
-    );
-}
-
-.main-tool.active::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 28%;
-  right: 28%;
-  height: 2px;
-  border-radius: 0 0 10px 10px;
-  background:
-    linear-gradient(
-      90deg,
-      var(--purple),
-      var(--blue)
-    );
-}
-
-.main-icon {
-  font-size: 19px;
-  line-height: 1;
-}
-
-.main-label {
-  font-size: 8px;
-  font-weight: 800;
-}
-
-/* POSITION */
-
-.position-pad {
-  width: 155px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3,43px);
-  grid-template-rows: repeat(3,34px);
-  justify-content: center;
-  gap: 5px;
-}
-
-.move-btn {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: white;
-  background: rgba(255,255,255,.04);
-  font-size: 15px;
-}
-
-.move-up {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.move-left {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.move-right {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.move-down {
-  grid-column: 2;
-  grid-row: 3;
-}
-
-/* SHAPES */
-
-.shapes-scroll {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: flex;
-  gap: 8px;
-  padding: 3px 1px 6px;
-  scrollbar-width: none;
-}
-
-.shapes-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.shape-btn {
-  flex: 0 0 60px;
-  height: 56px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: #fff;
-  background: rgba(255,255,255,.035);
-  font-size: 22px;
-}
-
-/* =========================
-   MODALS
-========================= */
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 14px;
-  background: rgba(0,0,0,.72);
-  backdrop-filter: blur(7px);
-}
-
-.modal-backdrop.show {
-  display: flex;
-}
-
-.modal {
-  width: min(100%, 470px);
-  max-height: 82dvh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 17px;
-  background: #11111d;
-  box-shadow: 0 25px 70px rgba(0,0,0,.5);
-}
-
-.modal-head {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-title {
-  flex: 1;
-  font-size: 11px;
-  font-weight: 900;
-}
-
-.modal-close {
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: white;
-  background: rgba(255,255,255,.035);
-}
-
-.modal-body {
-  min-height: 0;
-  overflow-y: auto;
-  padding: 10px;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 8px;
-}
-
-.project-card {
-  padding: 6px;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: rgba(255,255,255,.025);
-}
-
-.project-preview {
-  width: 100%;
-  aspect-ratio: 1;
-  display: block;
-  object-fit: cover;
-  border-radius: 8px;
-  background: #0b0b12;
-}
-
-.project-name {
-  margin: 6px 2px;
-  color: #d7d7e0;
-  font-size: 8px;
-  font-weight: 800;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.project-actions {
-  display: grid;
-  grid-template-columns: 1fr 32px;
-  gap: 5px;
-}
-
-.project-open,
-.project-delete {
-  height: 31px;
-  border-radius: 7px;
-  font-size: 8px;
-  font-weight: 850;
-}
-
-.project-open {
-  border: 0;
-  color: white;
-  background:
-    linear-gradient(
-      135deg,
-      var(--purple),
-      var(--blue)
-    );
-}
-
-.project-delete {
-  border: 1px solid rgba(255,99,120,.2);
-  color: #ff8191;
-  background: rgba(255,99,120,.05);
-}
-
-.empty-projects {
-  grid-column: 1/-1;
-  padding: 25px 10px;
-  color: var(--muted);
-  text-align: center;
-  font-size: 9px;
-}
-
-/* CONFIRM */
-
-.confirm {
-  width: min(100%, 360px);
-  padding: 16px;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 16px;
-  background: #11111d;
-}
-
-.confirm h3 {
-  margin-bottom: 7px;
-  font-size: 13px;
-}
-
-.confirm p {
-  color: var(--muted);
-  font-size: 9px;
-  line-height: 1.55;
-}
-
-.confirm-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
-  margin-top: 14px;
-}
-
-.confirm-actions button {
-  height: 38px;
-  border-radius: 9px;
-  font-size: 9px;
-  font-weight: 900;
-}
-
-.confirm-cancel {
-  border: 1px solid var(--border);
-  color: #cccbd6;
-  background: rgba(255,255,255,.035);
-}
-
-.confirm-ok {
-  border: 0;
-  color: white;
-  background:
-    linear-gradient(
-      135deg,
-      var(--purple),
-      var(--blue)
-    );
-}
-
-/* CROP */
-
-.crop-modal {
-  width: min(100%, 480px);
-}
-
-.crop-area {
-  width: min(78vw, 340px);
-  aspect-ratio: 1;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: #090910;
-  touch-action: none;
-}
-
-.crop-area canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.crop-help {
-  margin: 8px 0;
-  color: var(--muted);
-  font-size: 8px;
-  text-align: center;
-}
-
-.crop-controls {
-  padding: 0 4px;
-}
-
-.crop-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
-  margin-top: 10px;
-}
-
-.crop-actions button {
-  height: 38px;
-  border-radius: 9px;
-  font-size: 9px;
-  font-weight: 900;
-}
-
-/* TOAST */
-
-.toast {
-  position: fixed;
-  z-index: 30000;
-  left: 50%;
-  bottom: calc(12px + env(safe-area-inset-bottom));
-  max-width: calc(100vw - 24px);
-  padding: 9px 13px;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 999px;
-  color: white;
-  background: rgba(17,17,29,.97);
-  font-size: 9px;
-  font-weight: 800;
-  opacity: 0;
-  visibility: hidden;
-  transform: translate(-50%,10px);
-  transition: .2s;
-}
-
-.toast.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%,0);
-}
-
-.file-input {
-  display: none;
-}
-
-/* =========================
-   DESKTOP
-========================= */
-
-@media (min-width: 900px) {
-  .app {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 16px 22px;
-    gap: 10px;
-  }
-
-  .topbar {
-    min-height: 58px;
-    padding: 8px 13px;
-  }
-
-  .brand img {
-    width: 128px;
-  }
-
-  .top-title {
-    font-size: 11px;
-  }
-
-  .save-top {
-    min-height: 38px;
-    padding: 0 15px;
-    font-size: 10px;
-  }
-
-  .projectbar {
-    min-height: 45px;
-  }
-
-  .workspace {
-    display: grid;
-    grid-template-columns: minmax(0,1fr) 390px;
-    gap: 14px;
-  }
-
-  .canvas-area {
-    border: 1px solid var(--border);
-    border-radius: 17px;
-    background: rgba(17,17,29,.55);
-  }
-
-  .canvas-shell {
-    width: min(62vh, 610px);
-  }
-
-  .controls {
-    align-self: end;
-  }
-
-  .context-strip {
-    height: 74px;
-  }
-
-  .main-tools {
-    height: 74px;
-  }
-
-  .control-item {
-    flex-basis: 61px;
-    width: 61px;
-    height: 60px;
-  }
-
-  .tool-workspace {
-    min-height: 145px;
-  }
-
-  .projects-grid {
-    grid-template-columns: repeat(3,minmax(0,1fr));
-  }
-}
-
-@media (max-width: 370px) {
-  .brand img {
-    width: 83px;
-  }
-
-  .top-title {
-    font-size: 8px;
-  }
-
-  .save-top {
-    padding: 0 8px;
-  }
-
-  .project-btn {
-    padding: 0 6px;
-    font-size: 8px;
-  }
-
-  .canvas-shell {
-    width: min(72vw, 40dvh, 320px);
-  }
-}
-</style>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+
+  <title>Viral1s Image Creator</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="viral1s-icon.png"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Noto+Kufi+Arabic:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070711;
+      --panel: #11111d;
+      --panel-2: #171724;
+      --border: rgba(255,255,255,.09);
+      --text: #ffffff;
+      --muted: #858596;
+      --purple: #7c5cff;
+      --blue: #4d82ff;
+      --danger: #ff667a;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(124,92,255,.18),
+          transparent 34%
+        ),
+        var(--bg);
+      color: var(--text);
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .app {
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding:
+        calc(7px + env(safe-area-inset-top))
+        8px
+        calc(7px + env(safe-area-inset-bottom));
+    }
+
+    /* =========================
+       TOP
+    ========================= */
+
+    .topbar {
+      flex: 0 0 auto;
+      min-height: 50px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(17,17,29,.95);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .brand img {
+      display: block;
+      width: 100px;
+      height: auto;
+    }
+
+    .page-title {
+      color: #c0b5ff;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .65px;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .save-btn {
+      justify-self: end;
+      min-height: 36px;
+      padding: 0 11px;
+      border: 0;
+      border-radius: 10px;
+      color: #fff;
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--blue)
+        );
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .subbar {
+      flex: 0 0 auto;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 7px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(17,17,29,.94);
+    }
+
+    .sub-btn {
+      min-height: 31px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #d3d3de;
+      background: rgba(255,255,255,.035);
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .sub-btn.lock {
+      width: 38px;
+      padding: 0;
+      font-size: 15px;
+    }
+
+    .sub-btn.lock.active {
+      border-color: rgba(124,92,255,.35);
+      background: rgba(124,92,255,.13);
+    }
+
+    .sub-btn.reel {
+      margin-left: auto;
+      color: #fff;
+      border-color: rgba(124,92,255,.25);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(124,92,255,.22),
+          rgba(77,130,255,.15)
+        );
+    }
+
+    /* =========================
+       WORKSPACE
+    ========================= */
+
+    .workspace {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .canvas-area {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 0;
+    }
+
+    .canvas-shell {
+      position: relative;
+      width: min(78vw, 43dvh, 370px);
+      max-width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 18px 48px rgba(0,0,0,.32);
+    }
+
+    #editorCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: manipulation;
+    }
+
+    .selection-label {
+      position: absolute;
+      left: 9px;
+      top: 9px;
+      z-index: 3;
+      display: none;
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(7,7,17,.72);
+      backdrop-filter: blur(8px);
+      font-size: 8px;
+      font-weight: 850;
+      pointer-events: none;
+    }
+
+    .selection-label.show {
+      display: block;
+    }
+
+    /* =========================
+       CONTROLS
+    ========================= */
+
+    .controls {
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      overflow: hidden;
+      background: rgba(17,17,29,.98);
+    }
+
+    .context-strip {
+      height: 65px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: flex;
+      align-items: stretch;
+      gap: 3px;
+      padding: 5px 6px;
+      border-bottom: 1px solid var(--border);
+      scrollbar-width: none;
+      touch-action: pan-x;
+    }
+
+    .context-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .context-btn {
+      flex: 0 0 60px;
+      width: 60px;
+      border: 0;
+      border-radius: 9px;
+      color: #9999aa;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .context-btn:active {
+      color: #fff;
+      background: rgba(124,92,255,.12);
+    }
+
+    .context-icon {
+      color: #e5e5ec;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .context-name {
+      max-width: 56px;
+      overflow: hidden;
+      font-size: 7px;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .main-tools {
+      height: 67px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+    }
+
+    .main-tool {
+      position: relative;
+      border: 0;
+      border-right: 1px solid rgba(255,255,255,.055);
+      color: #707080;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .main-tool:last-child {
+      border-right: 0;
+    }
+
+    .main-tool.active {
+      color: #fff;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(124,92,255,.13),
+          rgba(124,92,255,.035)
+        );
+    }
+
+    .main-tool.active::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 28%;
+      right: 28%;
+      height: 2px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--purple),
+          var(--blue)
+        );
+    }
+
+    .main-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .main-label {
+      font-size: 8px;
+      font-weight: 850;
+    }
+
+    /* DETAIL TOOL */
+
+    .detail-tool {
+      min-height: 132px;
+      padding: 9px;
+    }
+
+    .detail-head {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .detail-title {
+      flex: 1;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .detail-head button {
+      min-height: 31px;
+      padding: 0 10px;
+      border-radius: 8px;
+      font-size: 8px;
+      font-weight: 900;
+    }
+
+    .cancel-btn {
+      border: 1px solid var(--border);
+      color: #bdbdca;
+      background: rgba(255,255,255,.035);
+    }
+
+    .done-btn {
+      border: 0;
+      color: #fff;
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--blue)
+        );
+    }
+
+    .detail-body {
+      min-height: 72px;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-row + .control-row {
+      margin-top: 9px;
+    }
+
+    .control-label {
+      min-width: 54px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .control-row input[type="range"] {
+      flex: 1;
+      min-width: 0;
+      accent-color: var(--purple);
+    }
+
+    .control-row input[type="color"] {
+      width: 52px;
+      height: 35px;
+      padding: 2px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #0d0d16;
+    }
+
+    .control-row input[type="text"],
+    .control-row select {
+      flex: 1;
+      min-width: 0;
+      height: 35px;
+      padding: 0 9px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      color: #fff;
+      background: #0d0d16;
+      font-size: 9px;
+    }
+
+    .control-value {
+      min-width: 45px;
+      color: #d8d8e3;
+      font-size: 8px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    /* =========================
+       MODALS
+    ========================= */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(7px);
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(100%, 470px);
+      max-height: 82dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 17px;
+      background: #11111d;
+      box-shadow: 0 25px 70px rgba(0,0,0,.5);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      flex: 1;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .modal-close {
+      width: 33px;
+      height: 33px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #fff;
+      background: rgba(255,255,255,.035);
+    }
+
+    .modal-body {
+      min-height: 0;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .project-card {
+      padding: 6px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .project-preview {
+      width: 100%;
+      aspect-ratio: 1;
+      display: block;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #0b0b12;
+    }
+
+    .project-name {
+      margin: 6px 2px;
+      color: #d5d5df;
+      font-size: 8px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .project-actions {
+      display: grid;
+      grid-template-columns: 1fr 32px;
+      gap: 5px;
+    }
+
+    .project-open,
+    .project-delete {
+      height: 31px;
+      border-radius: 7px;
+      font-size: 8px;
+      font-weight: 850;
+    }
+
+    .project-open {
+      border: 0;
+      color: #fff;
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--blue)
+        );
+    }
+
+    .project-delete {
+      border: 1px solid rgba(255,102,122,.2);
+      color: #ff8292;
+      background: rgba(255,102,122,.05);
+    }
+
+    .empty-projects {
+      grid-column: 1/-1;
+      padding: 26px 10px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 9px;
+    }
+
+    .confirm {
+      width: min(100%, 360px);
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: #11111d;
+    }
+
+    .confirm h3 {
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+
+    .confirm p {
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.55;
+    }
+
+    .confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .confirm-actions button {
+      height: 38px;
+      border-radius: 9px;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .confirm-cancel {
+      border: 1px solid var(--border);
+      color: #cccbd6;
+      background: rgba(255,255,255,.035);
+    }
+
+    .confirm-ok {
+      border: 0;
+      color: #fff;
+      background:
+        linear-gradient(
+          135deg,
+          var(--purple),
+          var(--blue)
+        );
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      z-index: 30000;
+      max-width: calc(100vw - 24px);
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(17,17,29,.97);
+      font-size: 9px;
+      font-weight: 800;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%,10px);
+      transition: .2s;
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%,0);
+    }
+
+    /* =========================
+       DESKTOP
+    ========================= */
+
+    @media (min-width: 900px) {
+      .app {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 16px 22px;
+        gap: 10px;
+      }
+
+      .brand img {
+        width: 130px;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(0,1fr) 390px;
+        gap: 14px;
+      }
+
+      .canvas-area {
+        border: 1px solid var(--border);
+        border-radius: 17px;
+        background: rgba(17,17,29,.55);
+      }
+
+      .canvas-shell {
+        width: min(62vh,610px);
+      }
+
+      .controls {
+        align-self: end;
+      }
+
+      .projects-grid {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 370px) {
+      .brand img {
+        width: 86px;
+      }
+
+      .page-title {
+        font-size: 8px;
+      }
+
+      .canvas-shell {
+        width: min(73vw,40dvh,320px);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <!-- TOP ROW -->
   <header class="topbar">
 
-    <a class="brand" href="index.html">
+    <a
+      class="brand"
+      href="index.html"
+      aria-label="Viral1s Home"
+    >
       <img
         src="viral1s-logo.webp"
         alt="Viral1s"
-      >
+      />
     </a>
 
-    <div class="top-title">
+    <div class="page-title">
       Image Creator
     </div>
 
     <button
       id="saveBtn"
-      class="save-top"
+      class="save-btn"
       type="button"
     >
       Save Image
@@ -960,30 +775,11 @@ button {
   </header>
 
 
-  <!-- SECOND TOP ROW -->
-  <div class="projectbar">
-
-    <button
-      id="undoBtn"
-      class="project-btn icon"
-      type="button"
-      title="Undo"
-    >
-      ↶
-    </button>
-
-    <button
-      id="redoBtn"
-      class="project-btn icon"
-      type="button"
-      title="Redo"
-    >
-      ↷
-    </button>
+  <div class="subbar">
 
     <button
       id="newBtn"
-      class="project-btn"
+      class="sub-btn"
       type="button"
     >
       New
@@ -991,7 +787,7 @@ button {
 
     <button
       id="lockBtn"
-      class="project-btn icon"
+      class="sub-btn lock"
       type="button"
       title="Lock selected element"
     >
@@ -1000,7 +796,7 @@ button {
 
     <button
       id="useReelBtn"
-      class="project-btn reel"
+      class="sub-btn reel"
       type="button"
     >
       Use in Reel
@@ -1011,7 +807,6 @@ button {
 
   <main class="workspace">
 
-    <!-- CANVAS -->
     <section class="canvas-area">
 
       <div
@@ -1019,37 +814,33 @@ button {
         class="canvas-shell"
       >
 
-        <div
-          id="canvasEmpty"
-          class="canvas-empty"
-        >
-          Create your image
-        </div>
-
         <canvas
-          id="mainCanvas"
+          id="editorCanvas"
           width="1080"
           height="1080"
         ></canvas>
+
+        <div
+          id="selectionLabel"
+          class="selection-label"
+        ></div>
 
       </div>
 
     </section>
 
 
-    <!-- CONTROLS -->
     <section class="controls">
 
-      <!-- SPECIAL TOOL WORKSPACE -->
       <div
-        id="toolWorkspace"
-        class="tool-workspace hidden"
+        id="detailTool"
+        class="detail-tool hidden"
       >
 
-        <div class="tool-head">
+        <div class="detail-head">
 
           <button
-            id="toolCancel"
+            id="detailCancel"
             class="cancel-btn"
             type="button"
           >
@@ -1057,14 +848,14 @@ button {
           </button>
 
           <div
-            id="toolTitle"
-            class="tool-head-title"
+            id="detailTitle"
+            class="detail-title"
           >
             Tool
           </div>
 
           <button
-            id="toolDone"
+            id="detailDone"
             class="done-btn"
             type="button"
           >
@@ -1074,21 +865,19 @@ button {
         </div>
 
         <div
-          id="toolContent"
-          class="tool-content"
+          id="detailBody"
+          class="detail-body"
         ></div>
 
       </div>
 
 
-      <!-- CONTEXT ROW -->
       <div
         id="contextStrip"
         class="context-strip"
       ></div>
 
 
-      <!-- BOTTOM 4 ICONS -->
       <div
         id="mainTools"
         class="main-tools"
@@ -1140,28 +929,27 @@ button {
 
 
 <input
-  id="imageInput"
-  class="file-input"
-  type="file"
-  accept="image/*"
->
-
-<input
   id="backgroundInput"
   class="file-input"
   type="file"
   accept="image/*"
->
+/>
+
+<input
+  id="imageInput"
+  class="file-input"
+  type="file"
+  accept="image/*"
+/>
 
 <input
   id="replaceInput"
   class="file-input"
   type="file"
   accept="image/*"
->
+/>
 
 
-<!-- PROJECTS MODAL -->
 <div
   id="projectsModal"
   class="modal-backdrop"
@@ -1170,6 +958,7 @@ button {
   <div class="modal">
 
     <div class="modal-head">
+
       <div class="modal-title">
         My Projects
       </div>
@@ -1181,13 +970,16 @@ button {
       >
         ×
       </button>
+
     </div>
 
     <div class="modal-body">
+
       <div
         id="projectsGrid"
         class="projects-grid"
       ></div>
+
     </div>
 
   </div>
@@ -1195,7 +987,6 @@ button {
 </div>
 
 
-<!-- CONFIRM -->
 <div
   id="confirmModal"
   class="modal-backdrop"
@@ -1234,89 +1025,6 @@ button {
 </div>
 
 
-<!-- CROP -->
-<div
-  id="cropModal"
-  class="modal-backdrop"
->
-
-  <div class="modal crop-modal">
-
-    <div class="modal-head">
-      <div class="modal-title">
-        Crop Background · 1:1
-      </div>
-    </div>
-
-    <div class="modal-body">
-
-      <div
-        id="cropArea"
-        class="crop-area"
-      >
-        <canvas
-          id="cropCanvas"
-          width="700"
-          height="700"
-        ></canvas>
-      </div>
-
-      <div class="crop-help">
-        Drag the image to position it inside the square.
-      </div>
-
-      <div class="crop-controls">
-
-        <div class="tool-row">
-          <span class="tool-label">
-            Zoom
-          </span>
-
-          <input
-            id="cropZoom"
-            type="range"
-            min="100"
-            max="300"
-            value="100"
-          >
-
-          <span
-            id="cropZoomValue"
-            class="tool-value"
-          >
-            100%
-          </span>
-        </div>
-
-        <div class="crop-actions">
-
-          <button
-            id="cropCancel"
-            class="confirm-cancel"
-            type="button"
-          >
-            Cancel
-          </button>
-
-          <button
-            id="cropDone"
-            class="confirm-ok"
-            type="button"
-          >
-            Use Background
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
 <div
   id="toast"
   class="toast"
@@ -1325,16 +1033,19 @@ button {
 
 <script>
 /* =========================================
-   VIRAL1S IMAGE CREATOR
+   VIRAL1S SIMPLE IMAGE CREATOR
 ========================================= */
 
 const SIZE = 1080;
 
-const canvasShell =
-  document.getElementById("canvasShell");
+const canvas =
+  document.getElementById("editorCanvas");
 
-const canvasEmpty =
-  document.getElementById("canvasEmpty");
+const ctx =
+  canvas.getContext("2d");
+
+const selectionLabel =
+  document.getElementById("selectionLabel");
 
 const contextStrip =
   document.getElementById("contextStrip");
@@ -1342,29 +1053,32 @@ const contextStrip =
 const mainTools =
   document.getElementById("mainTools");
 
-const toolWorkspace =
-  document.getElementById("toolWorkspace");
+const detailTool =
+  document.getElementById("detailTool");
 
-const toolTitle =
-  document.getElementById("toolTitle");
+const detailTitle =
+  document.getElementById("detailTitle");
 
-const toolContent =
-  document.getElementById("toolContent");
+const detailBody =
+  document.getElementById("detailBody");
 
-const toolDone =
-  document.getElementById("toolDone");
+const detailDone =
+  document.getElementById("detailDone");
 
-const toolCancel =
-  document.getElementById("toolCancel");
+const detailCancel =
+  document.getElementById("detailCancel");
+
+const backgroundInput =
+  document.getElementById("backgroundInput");
+
+const imageInput =
+  document.getElementById("imageInput");
+
+const replaceInput =
+  document.getElementById("replaceInput");
 
 const saveBtn =
   document.getElementById("saveBtn");
-
-const undoBtn =
-  document.getElementById("undoBtn");
-
-const redoBtn =
-  document.getElementById("redoBtn");
 
 const newBtn =
   document.getElementById("newBtn");
@@ -1374,15 +1088,6 @@ const lockBtn =
 
 const useReelBtn =
   document.getElementById("useReelBtn");
-
-const imageInput =
-  document.getElementById("imageInput");
-
-const backgroundInput =
-  document.getElementById("backgroundInput");
-
-const replaceInput =
-  document.getElementById("replaceInput");
 
 const projectsModal =
   document.getElementById("projectsModal");
@@ -1408,27 +1113,11 @@ const confirmCancel =
 const confirmOk =
   document.getElementById("confirmOk");
 
-const cropModal =
-  document.getElementById("cropModal");
-
-const cropCanvas =
-  document.getElementById("cropCanvas");
-
-const cropZoom =
-  document.getElementById("cropZoom");
-
-const cropZoomValue =
-  document.getElementById("cropZoomValue");
-
-const cropCancel =
-  document.getElementById("cropCancel");
-
-const cropDone =
-  document.getElementById("cropDone");
-
 const toast =
   document.getElementById("toast");
 
+
+let db = null;
 
 let currentMainTool =
   "background";
@@ -1436,29 +1125,11 @@ let currentMainTool =
 let currentProjectId =
   null;
 
+let selected =
+  null;
+
 let dirty =
   false;
-
-let db =
-  null;
-
-let history =
-  [];
-
-let historyIndex =
-  -1;
-
-let restoring =
-  false;
-
-let toolBeforeState =
-  null;
-
-let toolDoneAction =
-  null;
-
-let toolCancelAction =
-  null;
 
 let confirmAction =
   null;
@@ -1466,68 +1137,77 @@ let confirmAction =
 let autosaveTimer =
   null;
 
-let replaceTarget =
+let toolBackup =
   null;
 
+let detailDoneAction =
+  null;
 
-/* =========================================
-   FABRIC
-========================================= */
-
-const canvas =
-  new fabric.Canvas(
-    "mainCanvas",
-    {
-      width: SIZE,
-      height: SIZE,
-      backgroundColor: "#ffffff",
-      preserveObjectStacking: true,
-      selectionColor:
-        "rgba(124,92,255,.12)",
-      selectionBorderColor:
-        "#7c5cff"
-    }
-  );
+let imageCache =
+  new Map();
 
 
-fabric.Object.prototype.set({
-  transparentCorners: false,
-  cornerColor: "#7c5cff",
-  cornerStrokeColor: "#ffffff",
-  borderColor: "#7c5cff",
-  cornerSize: 25,
-  padding: 3
-});
+let state = createEmptyState();
 
 
-function resizeCanvasDisplay() {
+function createEmptyState() {
 
-  const display =
-    canvasShell.clientWidth;
+  return {
+    background: null,
 
-  canvas.setDimensions(
-    {
-      width: display,
-      height: display
-    },
-    {
-      cssOnly: true
-    }
-  );
+    image: null,
 
-  canvas.requestRenderAll();
+    texts: []
+  };
 }
 
 
-window.addEventListener(
-  "resize",
-  resizeCanvasDisplay
-);
+/* =========================================
+   FONTS
+========================================= */
+
+const FONT_MAP = {
+  system:
+    'Arial, Helvetica, sans-serif',
+
+  inter:
+    'Inter, Arial, sans-serif',
+
+  georgia:
+    'Georgia, serif',
+
+  courier:
+    '"Courier New", monospace',
+
+  cairo:
+    '"Cairo", sans-serif',
+
+  tajawal:
+    '"Tajawal", sans-serif',
+
+  "noto-kufi":
+    '"Noto Kufi Arabic", sans-serif',
+
+  amiri:
+    '"Amiri", serif'
+};
 
 
-requestAnimationFrame(
-  resizeCanvasDisplay
-);
+const FONT_OPTIONS = `
+  <optgroup label="English Fonts">
+    <option value="system">System</option>
+    <option value="inter">Inter</option>
+    <option value="georgia">Georgia</option>
+    <option value="courier">Courier New</option>
+  </optgroup>
+
+  <optgroup label="الخطوط العربية">
+    <option value="cairo">Cairo</option>
+    <option value="tajawal">Tajawal</option>
+    <option value="noto-kufi">Noto Kufi Arabic</option>
+    <option value="amiri">Amiri</option>
+  </optgroup>
+`;
 
 
 /* =========================================
@@ -1557,387 +1237,615 @@ function showToast(message) {
 }
 
 
-function activeObject() {
-  return canvas.getActiveObject();
-}
+function cloneState(value) {
 
-
-function isText(object) {
-
-  return Boolean(
-    object &&
-    (
-      object.type === "i-text" ||
-      object.type === "textbox" ||
-      object.type === "text"
-    )
+  return JSON.parse(
+    JSON.stringify(value)
   );
 }
 
 
-function isImage(object) {
+function getSelectedObject() {
 
-  return Boolean(
-    object &&
-    object.type === "image" &&
-    !object.v1Background
-  );
-}
-
-
-function isBackground(object) {
-
-  return Boolean(
-    object &&
-    object.v1Background
-  );
-}
-
-
-function updateEmpty() {
-
-  canvasEmpty.classList.toggle(
-    "hidden",
-    canvas.getObjects().length > 0
-  );
-}
-
-
-function serialize() {
-
-  return JSON.stringify(
-    canvas.toJSON([
-      "v1Background",
-      "v1Locked",
-      "v1Shape"
-      "v1FontKey"
-    ])
-  );
-}
-
-
-function markChanged(
-  addHistory = true
-) {
-
-  if (restoring) {
-    return;
+  if (!selected) {
+    return null;
   }
+
+  if (
+    selected.type === "image"
+  ) {
+    return state.image;
+  }
+
+  if (
+    selected.type === "text"
+  ) {
+    return state.texts.find(
+      text =>
+        text.id === selected.id
+    ) || null;
+  }
+
+  return null;
+}
+
+
+function markChanged() {
 
   dirty = true;
 
-  if (addHistory) {
-    pushHistory();
-  }
+  renderCanvas();
+
+  renderContext();
+
+  updateLockButton();
 
   scheduleAutosave();
 }
 
 
-function ensureBackgroundBack() {
-
-  const background =
-    canvas
-      .getObjects()
-      .find(isBackground);
-
-  if (background) {
-    canvas.sendToBack(
-      background
-    );
-  }
-}
-
-
-function setObjectLocked(
-  object,
-  locked
-) {
-
-  if (!object) {
-    return;
-  }
-
-  object.v1Locked =
-    Boolean(locked);
-
-  object.set({
-    lockMovementX: locked,
-    lockMovementY: locked,
-    lockScalingX: locked,
-    lockScalingY: locked,
-    lockRotation: locked,
-    hasControls: !locked
-  });
-
-  object.setCoords();
-
-  canvas.requestRenderAll();
-
-  updateLockButton();
-}
-
-
-function normalizeObjects() {
-
-  canvas
-    .getObjects()
-    .forEach(
-      object => {
-
-        setObjectLocked(
-          object,
-          Boolean(
-            object.v1Locked
-          )
-        );
-
-      }
-    );
-
-  ensureBackgroundBack();
-}
-
-
-function updateLockButton() {
-
-  const object =
-    activeObject();
-
-  if (!object) {
-
-    lockBtn.textContent =
-      "🔓";
-
-    lockBtn.classList.remove(
-      "locked"
-    );
-
-    return;
-  }
-
-  const locked =
-    Boolean(
-      object.v1Locked
-    );
-
-  lockBtn.textContent =
-    locked
-      ? "🔒"
-      : "🔓";
-
-  lockBtn.classList.toggle(
-    "locked",
-    locked
-  );
-}
-
-
-/* =========================================
-   HISTORY
-========================================= */
-
-function pushHistory() {
-
-  if (restoring) {
-    return;
-  }
-
-  const snapshot =
-    serialize();
+function makeId() {
 
   if (
-    history[historyIndex] ===
-    snapshot
+    window.crypto &&
+    crypto.randomUUID
   ) {
-    return;
+    return crypto.randomUUID();
   }
 
-  history =
-    history.slice(
-      0,
-      historyIndex + 1
+  return (
+    "v1_" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+}
+
+
+function isArabic(text) {
+
+  return /[\u0600-\u06FF]/.test(
+    text || ""
+  );
+}
+
+
+/* =========================================
+   IMAGE LOADING
+========================================= */
+
+function dataUrlToImage(src) {
+
+  if (!src) {
+    return Promise.resolve(null);
+  }
+
+  if (
+    imageCache.has(src)
+  ) {
+    return Promise.resolve(
+      imageCache.get(src)
     );
-
-  history.push(snapshot);
-
-  if (history.length > 50) {
-    history.shift();
   }
 
-  historyIndex =
-    history.length - 1;
+  return new Promise(
+    (resolve,reject) => {
 
-  updateHistoryButtons();
-}
+      const image =
+        new Image();
 
+      image.onload =
+        () => {
 
-function resetHistory() {
+          imageCache.set(
+            src,
+            image
+          );
 
-  history = [
-    serialize()
-  ];
+          resolve(image);
+        };
 
-  historyIndex = 0;
+      image.onerror =
+        reject;
 
-  updateHistoryButtons();
-}
-
-
-function updateHistoryButtons() {
-
-  undoBtn.disabled =
-    historyIndex <= 0;
-
-  redoBtn.disabled =
-    historyIndex >=
-    history.length - 1;
-
-  undoBtn.style.opacity =
-    undoBtn.disabled
-      ? ".35"
-      : "1";
-
-  redoBtn.style.opacity =
-    redoBtn.disabled
-      ? ".35"
-      : "1";
-}
-
-
-function restoreHistory(
-  index
-) {
-
-  const snapshot =
-    history[index];
-
-  if (!snapshot) {
-    return;
-  }
-
-  restoring = true;
-
-  canvas.loadFromJSON(
-    snapshot,
-    () => {
-
-      normalizeObjects();
-
-      canvas.renderAll();
-
-      restoring = false;
-
-      dirty = true;
-
-      updateEmpty();
-
-      updateLockButton();
-
-      renderContext();
-
-      scheduleAutosave();
-
+      image.src = src;
     }
   );
 }
 
 
-undoBtn.addEventListener(
-  "click",
-  () => {
+function fileToDataURL(file) {
 
-    if (historyIndex <= 0) {
-      return;
+  return new Promise(
+    (resolve,reject) => {
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        () => resolve(
+          reader.result
+        );
+
+      reader.onerror =
+        reject;
+
+      reader.readAsDataURL(file);
     }
-
-    historyIndex--;
-
-    restoreHistory(
-      historyIndex
-    );
-
-    updateHistoryButtons();
-  }
-);
-
-
-redoBtn.addEventListener(
-  "click",
-  () => {
-
-    if (
-      historyIndex >=
-      history.length - 1
-    ) {
-      return;
-    }
-
-    historyIndex++;
-
-    restoreHistory(
-      historyIndex
-    );
-
-    updateHistoryButtons();
-  }
-);
+  );
+}
 
 
 /* =========================================
-   FABRIC EVENTS
+   RENDER
 ========================================= */
 
-canvas.on(
-  "object:modified",
-  () => {
-    markChanged();
-    renderContext();
+async function renderCanvas() {
+
+  ctx.clearRect(
+    0,
+    0,
+    SIZE,
+    SIZE
+  );
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  ctx.fillRect(
+    0,
+    0,
+    SIZE,
+    SIZE
+  );
+
+
+  /* BACKGROUND */
+
+  if (state.background) {
+
+    try {
+
+      const background =
+        await dataUrlToImage(
+          state.background
+        );
+
+      if (background) {
+
+        ctx.drawImage(
+          background,
+          0,
+          0,
+          SIZE,
+          SIZE
+        );
+      }
+
+    } catch {}
   }
-);
 
 
-canvas.on(
-  "selection:created",
-  () => {
+  /* MAIN IMAGE */
+
+  if (
+    state.image &&
+    state.image.src
+  ) {
+
+    try {
+
+      const image =
+        await dataUrlToImage(
+          state.image.src
+        );
+
+      if (image) {
+
+        const width =
+          image.width *
+          state.image.scale;
+
+        const height =
+          image.height *
+          state.image.scale;
+
+        ctx.save();
+
+        ctx.globalAlpha =
+          state.image.opacity ?? 1;
+
+        ctx.drawImage(
+          image,
+          state.image.x -
+            width / 2,
+          state.image.y -
+            height / 2,
+          width,
+          height
+        );
+
+        ctx.restore();
+
+
+        if (
+          selected &&
+          selected.type === "image"
+        ) {
+
+          drawSelectionBox(
+            state.image.x -
+              width / 2,
+            state.image.y -
+              height / 2,
+            width,
+            height
+          );
+        }
+      }
+
+    } catch {}
+  }
+
+
+  /* TEXTS */
+
+  for (
+    const text of state.texts
+  ) {
+
+    drawTextObject(
+      text,
+      Boolean(
+        selected &&
+        selected.type === "text" &&
+        selected.id === text.id
+      )
+    );
+  }
+
+
+  updateSelectionLabel();
+}
+
+
+function drawTextObject(
+  text,
+  selectedNow
+) {
+
+  const family =
+    FONT_MAP[text.fontKey] ||
+    FONT_MAP.system;
+
+  ctx.save();
+
+  ctx.font =
+    `${text.weight || 700} ${text.size}px ${family}`;
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+  ctx.direction =
+    isArabic(text.text)
+      ? "rtl"
+      : "ltr";
+
+  if (
+    text.shadow &&
+    text.shadow.enabled
+  ) {
+
+    ctx.shadowColor =
+      text.shadow.color;
+
+    ctx.shadowBlur =
+      text.shadow.blur;
+
+    ctx.shadowOffsetX =
+      text.shadow.offset;
+
+    ctx.shadowOffsetY =
+      text.shadow.offset;
+  }
+
+
+  if (
+    text.strokeWidth > 0
+  ) {
+
+    ctx.lineWidth =
+      text.strokeWidth;
+
+    ctx.strokeStyle =
+      text.strokeColor;
+
+    ctx.lineJoin =
+      "round";
+
+    ctx.strokeText(
+      text.text,
+      text.x,
+      text.y
+    );
+  }
+
+
+  ctx.fillStyle =
+    text.color;
+
+  ctx.fillText(
+    text.text,
+    text.x,
+    text.y
+  );
+
+
+  if (selectedNow) {
+
+    const metrics =
+      ctx.measureText(
+        text.text || " "
+      );
+
+    const width =
+      metrics.width + 34;
+
+    const height =
+      text.size * 1.35;
+
+    drawSelectionBox(
+      text.x - width / 2,
+      text.y - height / 2,
+      width,
+      height
+    );
+  }
+
+  ctx.restore();
+}
+
+
+function drawSelectionBox(
+  x,
+  y,
+  width,
+  height
+) {
+
+  ctx.save();
+
+  ctx.strokeStyle =
+    "#7c5cff";
+
+  ctx.lineWidth = 4;
+
+  ctx.setLineDash([
+    12,
+    8
+  ]);
+
+  ctx.strokeRect(
+    x,
+    y,
+    width,
+    height
+  );
+
+  ctx.restore();
+}
+
+
+function updateSelectionLabel() {
+
+  const object =
+    getSelectedObject();
+
+  if (!object) {
+
+    selectionLabel.classList.remove(
+      "show"
+    );
+
+    return;
+  }
+
+  selectionLabel.textContent =
+    selected.type === "image"
+      ? "Image selected"
+      : "Text selected";
+
+  selectionLabel.classList.add(
+    "show"
+  );
+}
+
+
+/* =========================================
+   CANVAS SELECTION
+========================================= */
+
+canvas.addEventListener(
+  "pointerdown",
+  event => {
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+    const x =
+      (
+        event.clientX -
+        rect.left
+      ) *
+      SIZE /
+      rect.width;
+
+    const y =
+      (
+        event.clientY -
+        rect.top
+      ) *
+      SIZE /
+      rect.height;
+
+
+    /* TEXT FIRST */
+
+    for (
+      let i =
+        state.texts.length - 1;
+      i >= 0;
+      i--
+    ) {
+
+      const text =
+        state.texts[i];
+
+      const family =
+        FONT_MAP[text.fontKey] ||
+        FONT_MAP.system;
+
+      ctx.save();
+
+      ctx.font =
+        `${text.weight || 700} ${text.size}px ${family}`;
+
+      const metrics =
+        ctx.measureText(
+          text.text || " "
+        );
+
+      ctx.restore();
+
+      const width =
+        metrics.width + 50;
+
+      const height =
+        text.size * 1.6;
+
+      if (
+        x >=
+          text.x -
+          width / 2 &&
+        x <=
+          text.x +
+          width / 2 &&
+        y >=
+          text.y -
+          height / 2 &&
+        y <=
+          text.y +
+          height / 2
+      ) {
+
+        selected = {
+          type: "text",
+          id: text.id
+        };
+
+        currentMainTool =
+          "text";
+
+        activateMainTool(
+          "text"
+        );
+
+        renderCanvas();
+
+        renderContext();
+
+        updateLockButton();
+
+        return;
+      }
+    }
+
+
+    /* IMAGE */
+
+    if (
+      state.image &&
+      state.image.src
+    ) {
+
+      dataUrlToImage(
+        state.image.src
+      ).then(
+        image => {
+
+          if (!image) {
+            return;
+          }
+
+          const width =
+            image.width *
+            state.image.scale;
+
+          const height =
+            image.height *
+            state.image.scale;
+
+          if (
+            x >=
+              state.image.x -
+              width / 2 &&
+            x <=
+              state.image.x +
+              width / 2 &&
+            y >=
+              state.image.y -
+              height / 2 &&
+            y <=
+              state.image.y +
+              height / 2
+          ) {
+
+            selected = {
+              type: "image"
+            };
+
+            currentMainTool =
+              "image";
+
+            activateMainTool(
+              "image"
+            );
+
+          } else {
+
+            selected = null;
+          }
+
+          renderCanvas();
+
+          renderContext();
+
+          updateLockButton();
+        }
+      );
+
+      return;
+    }
+
+
+    selected = null;
+
+    renderCanvas();
+
+    renderContext();
+
     updateLockButton();
-    renderContext();
   }
-);
-
-
-canvas.on(
-  "selection:updated",
-  () => {
-    updateLockButton();
-    renderContext();
-  }
-);
-
-
-canvas.on(
-  "selection:cleared",
-  () => {
-    updateLockButton();
-    renderContext();
-  }
-);
-
-
-canvas.on(
-  "object:added",
-  updateEmpty
-);
-
-
-canvas.on(
-  "object:removed",
-  updateEmpty
 );
 
 
 /* =========================================
-   MAIN BOTTOM 4
+   MAIN TOOLBAR
 ========================================= */
 
 document
@@ -1954,21 +1862,12 @@ document
           currentMainTool =
             button.dataset.main;
 
-          document
-            .querySelectorAll(
-              ".main-tool"
-            )
-            .forEach(
-              item => {
-                item.classList.toggle(
-                  "active",
-                  item === button
-                );
-              }
-            );
+          activateMainTool(
+            currentMainTool
+          );
 
-          closeToolWorkspace(
-            false
+          closeDetailTool(
+            true
           );
 
           renderContext();
@@ -1976,6 +1875,25 @@ document
       );
     }
   );
+
+
+function activateMainTool(name) {
+
+  document
+    .querySelectorAll(
+      ".main-tool"
+    )
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.main ===
+          name
+        );
+      }
+    );
+}
 
 
 function contextButton(
@@ -1990,18 +1908,18 @@ function contextButton(
     );
 
   button.className =
-    "control-item";
+    "context-btn";
 
   button.type =
     "button";
 
   button.innerHTML =
     `
-      <span class="control-icon">
+      <span class="context-icon">
         ${icon}
       </span>
 
-      <span class="control-name">
+      <span class="context-name">
         ${name}
       </span>
     `;
@@ -2034,7 +1952,7 @@ function addContext(
 function renderContext() {
 
   if (
-    !toolWorkspace.classList.contains(
+    !detailTool.classList.contains(
       "hidden"
     )
   ) {
@@ -2042,9 +1960,6 @@ function renderContext() {
   }
 
   contextStrip.innerHTML = "";
-
-  const selected =
-    activeObject();
 
 
   /* PROJECTS */
@@ -2060,98 +1975,24 @@ function renderContext() {
       openProjects
     );
 
-    addContext(
-      "□",
-      "Default",
-      createDefaultProject
-    );
-
     return;
   }
 
 
-  /* TEXT */
+  /* BACKGROUND */
 
   if (
     currentMainTool ===
-    "text"
+    "background"
   ) {
 
-    if (!isText(selected)) {
-
-      addContext(
-        "＋",
-        "Text",
-        addText
-      );
-
-      return;
-    }
-
     addContext(
-      "✎",
-      "Edit",
-      editSelectedText
-    );
-
-    addContext(
-      "⌫",
-      "Delete",
-      deleteSelected
-    );
-
-    addContext(
-      "⧉",
-      "Copy",
-      duplicateSelected
-    );
-
-    addContext(
-      "⇧",
-      "To Front",
-      bringFront
-    );
-
-    addContext(
-      "⇩",
-      "To Back",
-      sendBack
-    );
-
-    addContext(
-      "✥",
-      "Position",
-      openPositionTool
-    );
-
-    addContext(
-      "⌖",
-      "Relative",
-      openRelativePositionTool
-    );
-
-    addContext(
-      "↔",
-      "Size",
-      openSizeTool
-    );
-
-    addContext(
-      "●",
-      "Color",
-      openTextColorTool
-    );
-
-    addContext(
-      "◉",
-      "Stroke",
-      openStrokeTool
-    );
-
-    addContext(
-      "◌",
-      "Shadow",
-      openShadowTool
+      "＋",
+      state.background
+        ? "Replace"
+        : "Background",
+      () =>
+        backgroundInput.click()
     );
 
     return;
@@ -2165,18 +2006,13 @@ function renderContext() {
     "image"
   ) {
 
-    if (!isImage(selected)) {
+    if (!state.image) {
 
       addContext(
         "＋",
         "Image",
-        () => imageInput.click()
-      );
-
-      addContext(
-        "◇",
-        "Shapes",
-        openShapesTool
+        () =>
+          imageInput.click()
       );
 
       return;
@@ -2185,125 +2021,158 @@ function renderContext() {
     addContext(
       "↻",
       "Replace",
-      () => {
-
-        replaceTarget =
-          selected;
-
-        replaceInput.click();
-      }
-    );
-
-    addContext(
-      "⌫",
-      "Delete",
-      deleteSelected
-    );
-
-    addContext(
-      "⧉",
-      "Copy",
-      duplicateSelected
-    );
-
-    addContext(
-      "⇧",
-      "To Front",
-      bringFront
-    );
-
-    addContext(
-      "⇩",
-      "To Back",
-      sendBack
+      () =>
+        replaceInput.click()
     );
 
     addContext(
       "✥",
       "Position",
-      openPositionTool
-    );
-
-    addContext(
-      "⌖",
-      "Relative",
-      openRelativePositionTool
+      openImagePosition
     );
 
     addContext(
       "↔",
       "Size",
-      openSizeTool
+      openImageSize
     );
 
     addContext(
-      "↻",
-      "Rotate",
-      openRotateTool
-    );
-
-    addContext(
-      "◉",
-      "Stroke",
-      openImageStrokeTool
-    );
-
-    addContext(
-      "◌",
-      "Shadow",
-      openShadowTool
+      "⌫",
+      "Delete",
+      deleteImage
     );
 
     return;
   }
 
 
-  /* BACKGROUND */
+  /* TEXT */
 
   if (
     currentMainTool ===
-    "background"
+    "text"
   ) {
+
+    const text =
+      selected &&
+      selected.type === "text"
+        ? getSelectedObject()
+        : null;
+
+
+    if (!text) {
+
+      if (
+        state.texts.length < 2
+      ) {
+
+        addContext(
+          "＋",
+          "Text",
+          addText
+        );
+      }
+
+
+      state.texts.forEach(
+        (item,index) => {
+
+          addContext(
+            "T",
+            `Text ${index + 1}`,
+            () => {
+
+              selected = {
+                type: "text",
+                id: item.id
+              };
+
+              renderCanvas();
+
+              renderContext();
+
+              updateLockButton();
+            }
+          );
+        }
+      );
+
+      return;
+    }
+
+
+    addContext(
+      "✎",
+      "Edit",
+      openTextEdit
+    );
+
+    addContext(
+      "✥",
+      "Position",
+      openTextPosition
+    );
+
+    addContext(
+      "↔",
+      "Size",
+      openTextSize
+    );
+
+    addContext(
+      "Aa",
+      "Font",
+      openTextFont
+    );
 
     addContext(
       "●",
       "Color",
-      openBackgroundColorTool
+      openTextColor
     );
 
     addContext(
-      "＋",
-      "Background",
-      () => backgroundInput.click()
+      "◉",
+      "Border",
+      openTextBorder
+    );
+
+    addContext(
+      "◌",
+      "Shadow",
+      openTextShadow
+    );
+
+    addContext(
+      "⌫",
+      "Delete",
+      deleteText
     );
   }
 }
 
 
 /* =========================================
-   TOOL WORKSPACE
+   DETAIL TOOL
 ========================================= */
 
-function openToolWorkspace(
+function openDetailTool(
   title,
   html,
-  doneAction = null,
-  cancelAction = null
+  doneAction = null
 ) {
 
-  toolBeforeState =
-    serialize();
+  toolBackup =
+    cloneState(state);
 
-  toolDoneAction =
+  detailDoneAction =
     doneAction;
 
-  toolCancelAction =
-    cancelAction;
-
-  toolTitle.textContent =
+  detailTitle.textContent =
     title;
 
-  toolContent.innerHTML =
+  detailBody.innerHTML =
     html;
 
   contextStrip.classList.add(
@@ -2314,55 +2183,38 @@ function openToolWorkspace(
     "hidden"
   );
 
-  toolWorkspace.classList.remove(
+  detailTool.classList.remove(
     "hidden"
   );
 }
 
 
-function closeToolWorkspace(
-  keepChanges = true
+function closeDetailTool(
+  keepChanges
 ) {
 
   if (
-    toolWorkspace.classList.contains(
+    detailTool.classList.contains(
       "hidden"
     )
   ) {
     return;
   }
 
-  if (!keepChanges) {
+  if (
+    !keepChanges &&
+    toolBackup
+  ) {
 
-    if (toolCancelAction) {
-
-      toolCancelAction();
-
-    } else if (
-      toolBeforeState
-    ) {
-
-      restoring = true;
-
-      canvas.loadFromJSON(
-        toolBeforeState,
-        () => {
-
-          normalizeObjects();
-
-          canvas.renderAll();
-
-          restoring = false;
-
-          updateEmpty();
-
-          renderContext();
-        }
+    state =
+      cloneState(
+        toolBackup
       );
-    }
+
+    renderCanvas();
   }
 
-  toolWorkspace.classList.add(
+  detailTool.classList.add(
     "hidden"
   );
 
@@ -2374,315 +2226,143 @@ function closeToolWorkspace(
     "hidden"
   );
 
-  toolContent.innerHTML = "";
+  detailBody.innerHTML = "";
 
-  toolDoneAction = null;
-  toolCancelAction = null;
-  toolBeforeState = null;
+  detailDoneAction = null;
+
+  toolBackup = null;
 
   renderContext();
 }
 
 
-toolDone.addEventListener(
+detailDone.addEventListener(
   "click",
   () => {
 
-    if (toolDoneAction) {
-      toolDoneAction();
+    if (detailDoneAction) {
+      detailDoneAction();
     }
 
-    closeToolWorkspace(true);
+    closeDetailTool(
+      true
+    );
 
     markChanged();
   }
 );
 
 
-toolCancel.addEventListener(
+detailCancel.addEventListener(
   "click",
   () => {
-    closeToolWorkspace(false);
+
+    closeDetailTool(
+      false
+    );
   }
 );
 
 
 /* =========================================
-   TEXT
+   BACKGROUND
 ========================================= */
 
-function addText() {
+backgroundInput.addEventListener(
+  "change",
+  async () => {
 
-  const text =
-    new fabric.IText(
-      "Your text",
-      {
-        left: SIZE / 2,
-        top: SIZE / 2,
-        originX: "center",
-        originY: "center",
-        fill: "#111111",
-        fontSize: 84,
-        fontFamily: "Arial",
-        fontWeight: "bold",
-        textAlign: "center",
-        v1Locked: false
-      }
-    );
-text.v1FontKey = "system";
-  canvas.add(text);
+    const file =
+      backgroundInput.files[0];
 
-  ensureBackgroundBack();
+    if (!file) {
+      return;
+    }
 
-  canvas.setActiveObject(
-    text
-  );
+    try {
 
-  canvas.requestRenderAll();
+      state.background =
+        await createSquareBackground(
+          file
+        );
 
-  markChanged();
+      imageCache.clear();
 
-  renderContext();
+      markChanged();
 
-  setTimeout(
-    () => {
-      text.enterEditing();
-      text.selectAll();
-      canvas.requestRenderAll();
-    },
-    50
-  );
-}
-
-
-function editSelectedText() {
-
-  const object =
-    activeObject();
-
-  if (!isText(object)) {
-    return;
-  }
-
-  object.enterEditing();
-
-  object.selectAll();
-
-  canvas.requestRenderAll();
-}
-
-
-function openTextColorTool() {
-
-  const object =
-    activeObject();
-
-  if (!isText(object)) {
-    return;
-  }
-
-  openToolWorkspace(
-    "Text Color",
-    `
-      <div class="tool-row">
-        <span class="tool-label">
-          Color
-        </span>
-
-        <input
-          id="textColorTool"
-          type="color"
-          value="${normalizeColor(object.fill, "#111111")}"
-        >
-      </div>
-
-      <div class="tool-row">
-        <span class="tool-label">
-          Font
-        </span>
-
-        <select id="fontTool">
-  <optgroup label="English Fonts">
-    <option value="system">System</option>
-    <option value="inter">Inter</option>
-    <option value="georgia">Georgia</option>
-    <option value="courier">Courier New</option>
-  </optgroup>
-
-  <optgroup label="الخطوط العربية">
-    <option value="cairo">Cairo</option>
-    <option value="tajawal">Tajawal</option>
-    <option value="noto-kufi">Noto Kufi Arabic</option>
-    <option value="amiri">Amiri</option>
-  </optgroup>
-</select>
-      </div>
-    `
-  );
-
-  const color =
-    document.getElementById(
-      "textColorTool"
-    );
-
-  const font =
-    document.getElementById(
-      "fontTool"
-    );
-
-  font.value =
-  object.v1FontKey || "system";
-
-  color.addEventListener(
-    "input",
-    () => {
-
-      object.set(
-        "fill",
-        color.value
+      showToast(
+        "Background added"
       );
 
-      canvas.requestRenderAll();
+    } catch (error) {
+
+      console.error(error);
+
+      showToast(
+        "Could not add background"
+      );
     }
-  );
 
-  font.addEventListener(
-  "change",
-  () => {
-
-    const fonts = {
-      system:
-        'Arial, Helvetica, sans-serif',
-
-      inter:
-        'Inter, Arial, sans-serif',
-
-      georgia:
-        'Georgia, serif',
-
-      courier:
-        '"Courier New", monospace',
-
-      cairo:
-        '"Cairo", sans-serif',
-
-      tajawal:
-        '"Tajawal", sans-serif',
-
-      "noto-kufi":
-        '"Noto Kufi Arabic", sans-serif',
-
-      amiri:
-        '"Amiri", serif'
-    };
-
-    object.v1FontKey =
-      font.value;
-
-    object.set({
-      fontFamily:
-        fonts[font.value] ||
-        fonts.system
-    });
-
-    
-
-    canvas.requestRenderAll();
+    backgroundInput.value = "";
   }
 );
-}
 
 
-function openStrokeTool() {
+async function createSquareBackground(
+  file
+) {
 
-  const object =
-    activeObject();
+  const src =
+    await fileToDataURL(file);
 
-  if (!isText(object)) {
-    return;
-  }
+  const image =
+    await dataUrlToImage(src);
 
-  openToolWorkspace(
-    "Text Stroke",
-    `
-      <div class="tool-row">
-        <span class="tool-label">
-          Color
-        </span>
+  const temp =
+    document.createElement(
+      "canvas"
+    );
 
-        <input
-          id="strokeColorTool"
-          type="color"
-          value="${normalizeColor(object.stroke, "#000000")}"
-        >
-      </div>
+  temp.width =
+    SIZE;
 
-      <div class="tool-row">
-        <span class="tool-label">
-          Width
-        </span>
+  temp.height =
+    SIZE;
 
-        <input
-          id="strokeWidthTool"
-          type="range"
-          min="0"
-          max="15"
-          step="1"
-          value="${object.strokeWidth || 0}"
-        >
+  const tempCtx =
+    temp.getContext("2d");
 
-        <span
-          id="strokeWidthValue"
-          class="tool-value"
-        >
-          ${object.strokeWidth || 0}
-        </span>
-      </div>
-    `
-  );
-
-  const color =
-    document.getElementById(
-      "strokeColorTool"
+  const scale =
+    Math.max(
+      SIZE / image.width,
+      SIZE / image.height
     );
 
   const width =
-    document.getElementById(
-      "strokeWidthTool"
-    );
+    image.width *
+    scale;
 
-  const value =
-    document.getElementById(
-      "strokeWidthValue"
-    );
+  const height =
+    image.height *
+    scale;
 
-  color.addEventListener(
-    "input",
-    () => {
+  const x =
+    (SIZE - width) / 2;
 
-      object.set(
-        "stroke",
-        color.value
-      );
+  const y =
+    (SIZE - height) / 2;
 
-      canvas.requestRenderAll();
-    }
+  tempCtx.drawImage(
+    image,
+    x,
+    y,
+    width,
+    height
   );
 
-  width.addEventListener(
-    "input",
-    () => {
-
-      object.set(
-        "strokeWidth",
-        Number(width.value)
-      );
-
-      value.textContent =
-        width.value;
-
-      canvas.requestRenderAll();
-    }
+  return temp.toDataURL(
+    "image/jpeg",
+    .95
   );
 }
 
@@ -2690,120 +2370,6 @@ function openStrokeTool() {
 /* =========================================
    IMAGE
 ========================================= */
-
-function fileToDataURL(file) {
-
-  return new Promise(
-    (resolve,reject) => {
-
-      const reader =
-        new FileReader();
-
-      reader.onload =
-        () => resolve(
-          reader.result
-        );
-
-      reader.onerror =
-        reject;
-
-      reader.readAsDataURL(file);
-    }
-  );
-}
-
-
-function fabricImageFromURL(url) {
-
-  return new Promise(
-    (resolve,reject) => {
-
-      fabric.Image.fromURL(
-        url,
-        image => {
-
-          if (!image) {
-
-            reject(
-              new Error(
-                "Image failed"
-              )
-            );
-
-            return;
-          }
-
-          resolve(image);
-        }
-      );
-    }
-  );
-}
-
-
-async function addImageFile(file) {
-
-  try {
-
-    const url =
-      await fileToDataURL(file);
-
-    const image =
-      await fabricImageFromURL(
-        url
-      );
-
-    const max =
-      SIZE * .58;
-
-    const scale =
-      Math.min(
-        max / image.width,
-        max / image.height,
-        1
-      );
-
-    image.set({
-      left: SIZE / 2,
-      top: SIZE / 2,
-      originX: "center",
-      originY: "center",
-      scaleX: scale,
-      scaleY: scale,
-      v1Locked: false
-    });
-
-    canvas.add(image);
-
-    ensureBackgroundBack();
-
-    canvas.setActiveObject(
-      image
-    );
-
-    canvas.requestRenderAll();
-
-    currentMainTool =
-      "image";
-
-    activateBottomTool(
-      "image"
-    );
-
-    markChanged();
-
-    renderContext();
-
-  } catch (error) {
-
-    console.error(error);
-
-    showToast(
-      "Could not add image."
-    );
-  }
-}
-
 
 imageInput.addEventListener(
   "change",
@@ -2816,11 +2382,68 @@ imageInput.addEventListener(
       return;
     }
 
-    await addImageFile(file);
+    await addMainImage(
+      file
+    );
 
     imageInput.value = "";
   }
 );
+
+
+async function addMainImage(file) {
+
+  try {
+
+    const src =
+      await fileToDataURL(file);
+
+    const image =
+      await dataUrlToImage(
+        src
+      );
+
+    const max =
+      SIZE * .55;
+
+    const scale =
+      Math.min(
+        max / image.width,
+        max / image.height,
+        1
+      );
+
+    state.image = {
+      src,
+      x: SIZE / 2,
+      y: SIZE / 2,
+      scale,
+      opacity: 1,
+      locked: false
+    };
+
+    selected = {
+      type: "image"
+    };
+
+    currentMainTool =
+      "image";
+
+    activateMainTool(
+      "image"
+    );
+
+    markChanged();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "Could not add image"
+    );
+  }
+}
 
 
 replaceInput.addEventListener(
@@ -2832,102 +2455,39 @@ replaceInput.addEventListener(
 
     if (
       !file ||
-      !replaceTarget
+      !state.image
     ) {
       return;
     }
 
     try {
 
-      const url =
+      const src =
         await fileToDataURL(file);
 
-      const newImage =
-        await fabricImageFromURL(
-          url
-        );
+      await dataUrlToImage(src);
 
-      const old =
-        replaceTarget;
+      state.image.src =
+        src;
 
-      const oldWidth =
-        old.getScaledWidth();
-
-      const oldHeight =
-        old.getScaledHeight();
-
-      const targetBox =
-        Math.max(
-          oldWidth,
-          oldHeight
-        );
-
-      const scale =
-        Math.min(
-          targetBox / newImage.width,
-          targetBox / newImage.height
-        );
-
-      newImage.set({
-        left: old.left,
-        top: old.top,
-        originX: old.originX,
-        originY: old.originY,
-        angle: old.angle,
-        opacity: old.opacity,
-        scaleX: scale,
-        scaleY: scale,
-        flipX: old.flipX,
-        flipY: old.flipY,
-        shadow: old.shadow,
-        stroke: old.stroke,
-        strokeWidth:
-          old.strokeWidth,
-        v1Locked:
-          old.v1Locked
-      });
-
-      const index =
-        canvas
-          .getObjects()
-          .indexOf(old);
-
-      canvas.remove(old);
-
-      canvas.insertAt(
-        newImage,
-        Math.max(index,0),
-        false
+      imageCache.delete(
+        state.image.src
       );
 
-      setObjectLocked(
-        newImage,
-        Boolean(
-          newImage.v1Locked
-        )
-      );
-
-      ensureBackgroundBack();
-
-      canvas.setActiveObject(
-        newImage
-      );
-
-      canvas.requestRenderAll();
-
-      replaceTarget =
-        newImage;
+      selected = {
+        type: "image"
+      };
 
       markChanged();
 
-      renderContext();
+      showToast(
+        "Image replaced"
+      );
 
-    } catch (error) {
-
-      console.error(error);
+    } catch {
 
       showToast(
-        "Could not replace image."
+        "Could not replace image"
       );
     }
 
@@ -2936,599 +2496,737 @@ replaceInput.addEventListener(
 );
 
 
+function deleteImage() {
+
+  if (!state.image) {
+    return;
+  }
+
+  state.image = null;
+
+  selected = null;
+
+  markChanged();
+}
+
+
+function openImagePosition() {
+
+  if (
+    !state.image ||
+    state.image.locked
+  ) {
+    return;
+  }
+
+  openPositionTool(
+    state.image,
+    "Image Position"
+  );
+}
+
+
+function openImageSize() {
+
+  if (
+    !state.image ||
+    state.image.locked
+  ) {
+    return;
+  }
+
+  openScaleTool(
+    state.image,
+    "Image Size",
+    5,
+    250
+  );
+}
+
+
 /* =========================================
-   SHAPES
+   TEXT
 ========================================= */
 
-function openShapesTool() {
+function addText() {
 
-  openToolWorkspace(
-    "Shapes",
+  if (
+    state.texts.length >= 2
+  ) {
+
+    showToast(
+      "Maximum 2 text layers"
+    );
+
+    return;
+  }
+
+  const text = {
+    id: makeId(),
+    text: "Your text",
+    x: SIZE / 2,
+    y:
+      SIZE / 2 +
+      state.texts.length * 120,
+    size: 78,
+    fontKey: "system",
+    color: "#111111",
+    weight: 700,
+    strokeColor: "#000000",
+    strokeWidth: 0,
+    shadow: {
+      enabled: false,
+      color: "#000000",
+      blur: 0,
+      offset: 0
+    },
+    locked: false
+  };
+
+  state.texts.push(
+    text
+  );
+
+  selected = {
+    type: "text",
+    id: text.id
+  };
+
+  markChanged();
+
+  openTextEdit();
+}
+
+
+function deleteText() {
+
+  const object =
+    getSelectedObject();
+
+  if (!object) {
+    return;
+  }
+
+  state.texts =
+    state.texts.filter(
+      text =>
+        text.id !== object.id
+    );
+
+  selected = null;
+
+  markChanged();
+}
+
+
+function openTextEdit() {
+
+  const text =
+    getSelectedObject();
+
+  if (
+    !text ||
+    text.locked
+  ) {
+    return;
+  }
+
+  openDetailTool(
+    "Edit Text",
     `
-      <div class="shapes-scroll">
+      <div class="control-row">
 
-        <button
-          class="shape-btn"
-          data-shape="rect"
-          type="button"
-        >
-          ■
-        </button>
+        <span class="control-label">
+          Text
+        </span>
 
-        <button
-          class="shape-btn"
-          data-shape="circle"
-          type="button"
+        <input
+          id="textEditInput"
+          type="text"
+          maxlength="120"
         >
-          ●
-        </button>
-
-        <button
-          class="shape-btn"
-          data-shape="triangle"
-          type="button"
-        >
-          ▲
-        </button>
-
-        <button
-          class="shape-btn"
-          data-shape="diamond"
-          type="button"
-        >
-          ◆
-        </button>
-
-        <button
-          class="shape-btn"
-          data-shape="line"
-          type="button"
-        >
-          ━
-        </button>
 
       </div>
+    `
+  );
 
-      <div class="tool-row">
-        <span class="tool-label">
+  const input =
+    document.getElementById(
+      "textEditInput"
+    );
+
+  input.value =
+    text.text;
+
+  input.addEventListener(
+    "input",
+    () => {
+
+      text.text =
+        input.value;
+
+      renderCanvas();
+    }
+  );
+
+  setTimeout(
+    () => {
+      input.focus();
+      input.select();
+    },
+    50
+  );
+}
+
+
+function openTextPosition() {
+
+  const text =
+    getSelectedObject();
+
+  if (
+    !text ||
+    text.locked
+  ) {
+    return;
+  }
+
+  openPositionTool(
+    text,
+    "Text Position"
+  );
+}
+
+
+function openTextSize() {
+
+  const text =
+    getSelectedObject();
+
+  if (
+    !text ||
+    text.locked
+  ) {
+    return;
+  }
+
+  openDetailTool(
+    "Text Size",
+    `
+      <div class="control-row">
+
+        <span class="control-label">
+          Size
+        </span>
+
+        <input
+          id="textSizeRange"
+          type="range"
+          min="20"
+          max="260"
+          value="${text.size}"
+        >
+
+        <span
+          id="textSizeValue"
+          class="control-value"
+        >
+          ${text.size}
+        </span>
+
+      </div>
+    `
+  );
+
+  const slider =
+    document.getElementById(
+      "textSizeRange"
+    );
+
+  const value =
+    document.getElementById(
+      "textSizeValue"
+    );
+
+  slider.addEventListener(
+    "input",
+    () => {
+
+      text.size =
+        Number(
+          slider.value
+        );
+
+      value.textContent =
+        slider.value;
+
+      renderCanvas();
+    }
+  );
+}
+
+
+function openTextFont() {
+
+  const text =
+    getSelectedObject();
+
+  if (
+    !text ||
+    text.locked
+  ) {
+    return;
+  }
+
+  openDetailTool(
+    "Font",
+    `
+      <div class="control-row">
+
+        <span class="control-label">
+          Font
+        </span>
+
+        <select id="textFontSelect">
+          ${FONT_OPTIONS}
+        </select>
+
+      </div>
+    `
+  );
+
+  const select =
+    document.getElementById(
+      "textFontSelect"
+    );
+
+  select.value =
+    text.fontKey;
+
+  select.addEventListener(
+    "change",
+    async () => {
+
+      text.fontKey =
+        select.value;
+
+      try {
+
+        await document.fonts.ready;
+
+      } catch {}
+
+      renderCanvas();
+    }
+  );
+}
+
+
+function openTextColor() {
+
+  const text =
+    getSelectedObject();
+
+  if (
+    !text ||
+    text.locked
+  ) {
+    return;
+  }
+
+  openDetailTool(
+    "Text Color",
+    `
+      <div class="control-row">
+
+        <span class="control-label">
           Color
         </span>
 
         <input
-          id="shapeColor"
+          id="textColorInput"
           type="color"
-          value="#7c5cff"
+          value="${text.color}"
         >
+
+      </div>
+    `
+  );
+
+  const input =
+    document.getElementById(
+      "textColorInput"
+    );
+
+  input.addEventListener(
+    "input",
+    () => {
+
+      text.color =
+        input.value;
+
+      renderCanvas();
+    }
+  );
+}
+
+
+function openTextBorder() {
+
+  const text =
+    getSelectedObject();
+
+  if (
+    !text ||
+    text.locked
+  ) {
+    return;
+  }
+
+  openDetailTool(
+    "Text Border",
+    `
+      <div class="control-row">
+
+        <span class="control-label">
+          Color
+        </span>
+
+        <input
+          id="borderColor"
+          type="color"
+          value="${text.strokeColor}"
+        >
+
+      </div>
+
+      <div class="control-row">
+
+        <span class="control-label">
+          Width
+        </span>
+
+        <input
+          id="borderWidth"
+          type="range"
+          min="0"
+          max="20"
+          step="1"
+          value="${text.strokeWidth}"
+        >
+
+        <span
+          id="borderValue"
+          class="control-value"
+        >
+          ${text.strokeWidth}
+        </span>
+
       </div>
     `
   );
 
   const color =
     document.getElementById(
-      "shapeColor"
+      "borderColor"
     );
 
-  document
-    .querySelectorAll(
-      "[data-shape]"
-    )
-    .forEach(
-      button => {
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            addShape(
-              button.dataset.shape,
-              color.value
-            );
-
-            closeToolWorkspace(
-              true
-            );
-
-            markChanged();
-          }
-        );
-      }
+  const width =
+    document.getElementById(
+      "borderWidth"
     );
-}
 
+  const value =
+    document.getElementById(
+      "borderValue"
+    );
 
-function addShape(
-  type,
-  color
-) {
+  color.addEventListener(
+    "input",
+    () => {
 
-  let object = null;
+      text.strokeColor =
+        color.value;
 
-  if (type === "rect") {
-
-    object =
-      new fabric.Rect({
-        width: 360,
-        height: 360,
-        rx: 18,
-        ry: 18,
-        fill: color
-      });
-  }
-
-  if (type === "circle") {
-
-    object =
-      new fabric.Circle({
-        radius: 180,
-        fill: color
-      });
-  }
-
-  if (type === "triangle") {
-
-    object =
-      new fabric.Triangle({
-        width: 380,
-        height: 340,
-        fill: color
-      });
-  }
-
-  if (type === "diamond") {
-
-    object =
-      new fabric.Rect({
-        width: 280,
-        height: 280,
-        angle: 45,
-        fill: color
-      });
-  }
-
-  if (type === "line") {
-
-    object =
-      new fabric.Rect({
-        width: 500,
-        height: 28,
-        rx: 14,
-        ry: 14,
-        fill: color
-      });
-  }
-
-  if (!object) {
-    return;
-  }
-
-  object.set({
-    left: SIZE / 2,
-    top: SIZE / 2,
-    originX: "center",
-    originY: "center",
-    v1Shape: true,
-    v1Locked: false
-  });
-
-  canvas.add(object);
-
-  ensureBackgroundBack();
-
-  canvas.setActiveObject(
-    object
+      renderCanvas();
+    }
   );
 
-  canvas.requestRenderAll();
-}
+  width.addEventListener(
+    "input",
+    () => {
 
+      text.strokeWidth =
+        Number(
+          width.value
+        );
 
-/* =========================================
-   GENERAL OBJECT ACTIONS
-========================================= */
+      value.textContent =
+        width.value;
 
-function deleteSelected() {
-
-  const object =
-    activeObject();
-
-  if (!object) {
-    return;
-  }
-
-  canvas.remove(object);
-
-  canvas.discardActiveObject();
-
-  canvas.requestRenderAll();
-
-  markChanged();
-
-  renderContext();
-}
-
-
-function duplicateSelected() {
-
-  const object =
-    activeObject();
-
-  if (
-    !object ||
-    isBackground(object)
-  ) {
-    return;
-  }
-
-  object.clone(
-    clone => {
-
-      clone.set({
-        left:
-          (object.left || 0) + 35,
-        top:
-          (object.top || 0) + 35,
-        v1Background: false,
-        v1Locked: false
-      });
-
-      setObjectLocked(
-        clone,
-        false
-      );
-
-      canvas.add(clone);
-
-      ensureBackgroundBack();
-
-      canvas.setActiveObject(
-        clone
-      );
-
-      canvas.requestRenderAll();
-
-      markChanged();
-
-      renderContext();
+      renderCanvas();
     }
   );
 }
 
 
-function bringFront() {
+function openTextShadow() {
 
-  const object =
-    activeObject();
+  const text =
+    getSelectedObject();
 
   if (
-    !object ||
-    isBackground(object)
+    !text ||
+    text.locked
   ) {
     return;
   }
 
-  canvas.bringToFront(
-    object
+  openDetailTool(
+    "Text Shadow",
+    `
+      <div class="control-row">
+
+        <span class="control-label">
+          Blur
+        </span>
+
+        <input
+          id="shadowBlur"
+          type="range"
+          min="0"
+          max="60"
+          value="${text.shadow.blur}"
+        >
+
+        <span
+          id="shadowBlurValue"
+          class="control-value"
+        >
+          ${text.shadow.blur}
+        </span>
+
+      </div>
+
+      <div class="control-row">
+
+        <span class="control-label">
+          Distance
+        </span>
+
+        <input
+          id="shadowOffset"
+          type="range"
+          min="0"
+          max="50"
+          value="${text.shadow.offset}"
+        >
+
+        <span
+          id="shadowOffsetValue"
+          class="control-value"
+        >
+          ${text.shadow.offset}
+        </span>
+
+      </div>
+
+      <div class="control-row">
+
+        <span class="control-label">
+          Color
+        </span>
+
+        <input
+          id="shadowColor"
+          type="color"
+          value="${text.shadow.color}"
+        >
+
+      </div>
+    `
   );
 
-  ensureBackgroundBack();
+  const blur =
+    document.getElementById(
+      "shadowBlur"
+    );
 
-  canvas.requestRenderAll();
+  const offset =
+    document.getElementById(
+      "shadowOffset"
+    );
 
-  markChanged();
-}
+  const color =
+    document.getElementById(
+      "shadowColor"
+    );
 
+  const blurValue =
+    document.getElementById(
+      "shadowBlurValue"
+    );
 
-function sendBack() {
+  const offsetValue =
+    document.getElementById(
+      "shadowOffsetValue"
+    );
 
-  const object =
-    activeObject();
+  function apply() {
 
-  if (
-    !object ||
-    isBackground(object)
-  ) {
-    return;
+    text.shadow.blur =
+      Number(
+        blur.value
+      );
+
+    text.shadow.offset =
+      Number(
+        offset.value
+      );
+
+    text.shadow.color =
+      color.value;
+
+    text.shadow.enabled =
+      text.shadow.blur > 0 ||
+      text.shadow.offset > 0;
+
+    blurValue.textContent =
+      blur.value;
+
+    offsetValue.textContent =
+      offset.value;
+
+    renderCanvas();
   }
 
-  canvas.sendBackwards(
-    object
+  blur.addEventListener(
+    "input",
+    apply
   );
 
-  ensureBackgroundBack();
+  offset.addEventListener(
+    "input",
+    apply
+  );
 
-  canvas.requestRenderAll();
-
-  markChanged();
+  color.addEventListener(
+    "input",
+    apply
+  );
 }
 
 
 /* =========================================
-   POSITION
+   GENERIC POSITION / SIZE
 ========================================= */
 
-function openPositionTool() {
+function openPositionTool(
+  object,
+  title
+) {
 
-  const object =
-    activeObject();
-
-  if (!object) {
+  if (
+    !object ||
+    object.locked
+  ) {
     return;
   }
 
-  openToolWorkspace(
-    "Position",
+  openDetailTool(
+    title,
     `
-      <div class="tool-row">
-        <span class="tool-label">
-          Step
+      <div class="control-row">
+
+        <span class="control-label">
+          Left / Right
         </span>
 
         <input
-          id="moveStep"
-          type="range"
-          min="1"
-          max="30"
-          value="${
-            localStorage.getItem(
-              "viral1s_move_step"
-            ) || 8
-          }"
-        >
-
-        <span
-          id="moveValue"
-          class="tool-value"
-        ></span>
-      </div>
-
-      <div class="position-pad">
-
-        <button
-          class="move-btn move-up"
-          data-direction="up"
-          type="button"
-        >
-          ↑
-        </button>
-
-        <button
-          class="move-btn move-left"
-          data-direction="left"
-          type="button"
-        >
-          ←
-        </button>
-
-        <button
-          class="move-btn move-right"
-          data-direction="right"
-          type="button"
-        >
-          →
-        </button>
-
-        <button
-          class="move-btn move-down"
-          data-direction="down"
-          type="button"
-        >
-          ↓
-        </button>
-
-      </div>
-    `
-  );
-
-  const step =
-    document.getElementById(
-      "moveStep"
-    );
-
-  const value =
-    document.getElementById(
-      "moveValue"
-    );
-
-  function updateValue() {
-
-    value.textContent =
-      `${step.value}px`;
-
-    localStorage.setItem(
-      "viral1s_move_step",
-      step.value
-    );
-  }
-
-  updateValue();
-
-  step.addEventListener(
-    "input",
-    updateValue
-  );
-
-  document
-    .querySelectorAll(
-      "[data-direction]"
-    )
-    .forEach(
-      button => {
-
-        let interval = null;
-        let timeout = null;
-
-        const move = () => {
-
-          if (object.v1Locked) {
-            return;
-          }
-
-          const amount =
-            Number(step.value);
-
-          if (
-            button.dataset.direction ===
-            "left"
-          ) {
-            object.left -= amount;
-          }
-
-          if (
-            button.dataset.direction ===
-            "right"
-          ) {
-            object.left += amount;
-          }
-
-          if (
-            button.dataset.direction ===
-            "up"
-          ) {
-            object.top -= amount;
-          }
-
-          if (
-            button.dataset.direction ===
-            "down"
-          ) {
-            object.top += amount;
-          }
-
-          object.setCoords();
-
-          canvas.requestRenderAll();
-        };
-
-        button.addEventListener(
-          "pointerdown",
-          event => {
-
-            event.preventDefault();
-
-            move();
-
-            timeout =
-              setTimeout(
-                () => {
-
-                  interval =
-                    setInterval(
-                      move,
-                      65
-                    );
-                },
-                300
-              );
-          }
-        );
-
-        const stop = () => {
-          clearTimeout(timeout);
-          clearInterval(interval);
-        };
-
-        button.addEventListener(
-          "pointerup",
-          stop
-        );
-
-        button.addEventListener(
-          "pointercancel",
-          stop
-        );
-
-        button.addEventListener(
-          "pointerleave",
-          stop
-        );
-      }
-    );
-}
-
-
-function openRelativePositionTool() {
-
-  const object =
-    activeObject();
-
-  if (!object) {
-    return;
-  }
-
-  openToolWorkspace(
-    "Relative Position",
-    `
-      <div class="tool-row">
-        <span class="tool-label">
-          Horizontal
-        </span>
-
-        <input
-          id="relativeX"
+          id="positionX"
           type="range"
           min="0"
           max="100"
           value="${
             Math.round(
-              ((object.left || 0) / SIZE) *
+              object.x /
+              SIZE *
               100
             )
           }"
         >
 
         <span
-          id="relativeXValue"
-          class="tool-value"
+          id="positionXValue"
+          class="control-value"
         ></span>
+
       </div>
 
-      <div class="tool-row">
-        <span class="tool-label">
-          Vertical
+      <div class="control-row">
+
+        <span class="control-label">
+          Up / Down
         </span>
 
         <input
-          id="relativeY"
+          id="positionY"
           type="range"
           min="0"
           max="100"
           value="${
             Math.round(
-              ((object.top || 0) / SIZE) *
+              object.y /
+              SIZE *
               100
             )
           }"
         >
 
         <span
-          id="relativeYValue"
-          class="tool-value"
+          id="positionYValue"
+          class="control-value"
         ></span>
+
       </div>
     `
   );
 
   const x =
     document.getElementById(
-      "relativeX"
+      "positionX"
     );
 
   const y =
     document.getElementById(
-      "relativeY"
+      "positionY"
     );
 
   const xv =
     document.getElementById(
-      "relativeXValue"
+      "positionXValue"
     );
 
   const yv =
     document.getElementById(
-      "relativeYValue"
+      "positionYValue"
     );
 
   function apply() {
+
+    object.x =
+      Number(
+        x.value
+      ) /
+      100 *
+      SIZE;
+
+    object.y =
+      Number(
+        y.value
+      ) /
+      100 *
+      SIZE;
 
     xv.textContent =
       `${x.value}%`;
@@ -3536,25 +3234,7 @@ function openRelativePositionTool() {
     yv.textContent =
       `${y.value}%`;
 
-    if (object.v1Locked) {
-      return;
-    }
-
-    object.set({
-      left:
-        SIZE *
-        Number(x.value) /
-        100,
-
-      top:
-        SIZE *
-        Number(y.value) /
-        100
-    });
-
-    object.setCoords();
-
-    canvas.requestRenderAll();
+    renderCanvas();
   }
 
   x.addEventListener(
@@ -3571,157 +3251,72 @@ function openRelativePositionTool() {
 }
 
 
-/* =========================================
-   SIZE / ROTATE
-========================================= */
+function openScaleTool(
+  object,
+  title,
+  min,
+  max
+) {
 
-function openSizeTool() {
-
-  const object =
-    activeObject();
-
-  if (!object) {
+  if (
+    !object ||
+    object.locked
+  ) {
     return;
   }
 
-  const initial =
-    Math.round(
-      (
-        (
-          object.scaleX +
-          object.scaleY
-        ) / 2
-      ) * 100
-    );
-
-  openToolWorkspace(
-    "Size",
+  openDetailTool(
+    title,
     `
-      <div class="tool-row">
-        <span class="tool-label">
+      <div class="control-row">
+
+        <span class="control-label">
           Size
         </span>
 
         <input
-          id="sizeTool"
+          id="genericScale"
           type="range"
-          min="5"
-          max="400"
+          min="${min}"
+          max="${max}"
           value="${
-            Math.max(
-              5,
-              Math.min(
-                400,
-                initial
-              )
+            Math.round(
+              object.scale *
+              100
             )
           }"
         >
 
         <span
-          id="sizeToolValue"
-          class="tool-value"
+          id="genericScaleValue"
+          class="control-value"
         ></span>
+
       </div>
     `
   );
 
   const slider =
     document.getElementById(
-      "sizeTool"
+      "genericScale"
     );
 
   const value =
     document.getElementById(
-      "sizeToolValue"
-    );
-
-  slider.addEventListener(
-    "input",
-    () => {
-
-      value.textContent =
-        `${slider.value}%`;
-
-      if (object.v1Locked) {
-        return;
-      }
-
-      object.scale(
-        Number(slider.value) /
-        100
-      );
-
-      object.setCoords();
-
-      canvas.requestRenderAll();
-    }
-  );
-
-  value.textContent =
-    `${slider.value}%`;
-}
-
-
-function openRotateTool() {
-
-  const object =
-    activeObject();
-
-  if (!object) {
-    return;
-  }
-
-  openToolWorkspace(
-    "Rotate",
-    `
-      <div class="tool-row">
-        <span class="tool-label">
-          Rotate
-        </span>
-
-        <input
-          id="rotateTool"
-          type="range"
-          min="-180"
-          max="180"
-          value="${Math.round(object.angle || 0)}"
-        >
-
-        <span
-          id="rotateValue"
-          class="tool-value"
-        ></span>
-      </div>
-    `
-  );
-
-  const slider =
-    document.getElementById(
-      "rotateTool"
-    );
-
-  const value =
-    document.getElementById(
-      "rotateValue"
+      "genericScaleValue"
     );
 
   function apply() {
 
+    object.scale =
+      Number(
+        slider.value
+      ) / 100;
+
     value.textContent =
-      `${slider.value}°`;
+      `${slider.value}%`;
 
-    if (object.v1Locked) {
-      return;
-    }
-
-    object.rotate(
-      Number(slider.value)
-    );
-
-    object.setCoords();
-
-    canvas.requestRenderAll();
+    renderCanvas();
   }
 
   slider.addEventListener(
@@ -3731,870 +3326,66 @@ function openRotateTool() {
 
   apply();
 }
-
-
-/* =========================================
-   SHADOW / IMAGE STROKE
-========================================= */
-
-function openShadowTool() {
-
-  const object =
-    activeObject();
-
-  if (!object) {
-    return;
-  }
-
-  const shadow =
-    object.shadow || {};
-
-  openToolWorkspace(
-    "Shadow",
-    `
-      <div class="tool-row">
-        <span class="tool-label">
-          Blur
-        </span>
-
-        <input
-          id="shadowBlur"
-          type="range"
-          min="0"
-          max="60"
-          value="${shadow.blur || 0}"
-        >
-
-        <span
-          id="shadowBlurValue"
-          class="tool-value"
-        ></span>
-      </div>
-
-      <div class="tool-row">
-        <span class="tool-label">
-          Distance
-        </span>
-
-        <input
-          id="shadowDistance"
-          type="range"
-          min="0"
-          max="60"
-          value="${shadow.offsetX || 0}"
-        >
-
-        <span
-          id="shadowDistanceValue"
-          class="tool-value"
-        ></span>
-      </div>
-
-      <div class="tool-row">
-        <span class="tool-label">
-          Color
-        </span>
-
-        <input
-          id="shadowColor"
-          type="color"
-          value="#000000"
-        >
-      </div>
-    `
-  );
-
-  const blur =
-    document.getElementById(
-      "shadowBlur"
-    );
-
-  const distance =
-    document.getElementById(
-      "shadowDistance"
-    );
-
-  const color =
-    document.getElementById(
-      "shadowColor"
-    );
-
-  const bv =
-    document.getElementById(
-      "shadowBlurValue"
-    );
-
-  const dv =
-    document.getElementById(
-      "shadowDistanceValue"
-    );
-
-  function apply() {
-
-    bv.textContent =
-      blur.value;
-
-    dv.textContent =
-      distance.value;
-
-    const blurNumber =
-      Number(blur.value);
-
-    const distanceNumber =
-      Number(distance.value);
-
-    if (
-      blurNumber === 0 &&
-      distanceNumber === 0
-    ) {
-
-      object.set(
-        "shadow",
-        null
-      );
-
-    } else {
-
-      object.set(
-        "shadow",
-        new fabric.Shadow({
-          color:
-            color.value +
-            "99",
-          blur:
-            blurNumber,
-          offsetX:
-            distanceNumber,
-          offsetY:
-            distanceNumber
-        })
-      );
-    }
-
-    canvas.requestRenderAll();
-  }
-
-  blur.addEventListener(
-    "input",
-    apply
-  );
-
-  distance.addEventListener(
-    "input",
-    apply
-  );
-
-  color.addEventListener(
-    "input",
-    apply
-  );
-
-  apply();
-}
-
-
-function openImageStrokeTool() {
-
-  const object =
-    activeObject();
-
-  if (!object) {
-    return;
-  }
-
-  openToolWorkspace(
-    "Image Stroke",
-    `
-      <div class="tool-row">
-        <span class="tool-label">
-          Color
-        </span>
-
-        <input
-          id="imageStrokeColor"
-          type="color"
-          value="${normalizeColor(object.stroke, "#ffffff")}"
-        >
-      </div>
-
-      <div class="tool-row">
-        <span class="tool-label">
-          Width
-        </span>
-
-        <input
-          id="imageStrokeWidth"
-          type="range"
-          min="0"
-          max="30"
-          value="${object.strokeWidth || 0}"
-        >
-
-        <span
-          id="imageStrokeValue"
-          class="tool-value"
-        ></span>
-      </div>
-    `
-  );
-
-  const color =
-    document.getElementById(
-      "imageStrokeColor"
-    );
-
-  const width =
-    document.getElementById(
-      "imageStrokeWidth"
-    );
-
-  const value =
-    document.getElementById(
-      "imageStrokeValue"
-    );
-
-  function apply() {
-
-    value.textContent =
-      width.value;
-
-    object.set({
-      stroke:
-        color.value,
-      strokeWidth:
-        Number(width.value)
-    });
-
-    canvas.requestRenderAll();
-  }
-
-  color.addEventListener(
-    "input",
-    apply
-  );
-
-  width.addEventListener(
-    "input",
-    apply
-  );
-
-  apply();
-}
-
-
-function normalizeColor(
-  value,
-  fallback
-) {
-
-  if (
-    typeof value === "string" &&
-    /^#[0-9a-f]{6}$/i.test(
-      value
-    )
-  ) {
-    return value;
-  }
-
-  return fallback;
-}
-function fixArabicText(object) {
-
-  if (!isText(object)) {
-    return;
-  }
-
-  const text =
-    object.text || "";
-
-  const hasArabic =
-    /[\u0600-\u06FF]/.test(text);
-
-  if (hasArabic) {
-
-    object.set({
-      direction: "rtl",
-      textAlign: "right"
-    });
-
-  } else {
-
-    object.set({
-      direction: "ltr"
-    });
-  }
-
-  object.setCoords();
-}
-
-/* =========================================
-   BACKGROUND COLOR
-========================================= */
-
-function openBackgroundColorTool() {
-
-  openToolWorkspace(
-    "Background Color",
-    `
-      <div class="tool-row">
-        <span class="tool-label">
-          Color
-        </span>
-
-        <input
-          id="backgroundColorTool"
-          type="color"
-          value="${normalizeColor(canvas.backgroundColor, "#ffffff")}"
-        >
-      </div>
-    `
-  );
-
-  const picker =
-    document.getElementById(
-      "backgroundColorTool"
-    );
-
-  picker.addEventListener(
-    "input",
-    () => {
-
-      canvas.backgroundColor =
-        picker.value;
-
-      canvas.requestRenderAll();
-    }
-  );
-}
-
-
-/* =========================================
-   BACKGROUND CROP
-========================================= */
-
-const cropCtx =
-  cropCanvas.getContext("2d");
-
-let cropImage = null;
-let cropBaseScale = 1;
-let cropScale = 1;
-let cropX = 0;
-let cropY = 0;
-let cropDragging = false;
-let cropLastX = 0;
-let cropLastY = 0;
-
-
-backgroundInput.addEventListener(
-  "change",
-  async () => {
-
-    const file =
-      backgroundInput.files[0];
-
-    if (!file) {
-      return;
-    }
-
-    try {
-
-      const url =
-        await fileToDataURL(file);
-
-      const image =
-        new Image();
-
-      image.onload =
-        () => {
-
-          cropImage =
-            image;
-
-          setupCrop();
-
-          cropModal.classList.add(
-            "show"
-          );
-        };
-
-      image.src = url;
-
-    } catch (error) {
-
-      console.error(error);
-
-      showToast(
-        "Could not open background."
-      );
-    }
-
-    backgroundInput.value = "";
-  }
-);
-
-
-function setupCrop() {
-
-  if (!cropImage) {
-    return;
-  }
-
-  const box =
-    cropCanvas.width;
-
-  cropBaseScale =
-    Math.max(
-      box / cropImage.width,
-      box / cropImage.height
-    );
-
-  cropScale =
-    cropBaseScale;
-
-  cropZoom.value = 100;
-
-  cropZoomValue.textContent =
-    "100%";
-
-  const width =
-    cropImage.width *
-    cropScale;
-
-  const height =
-    cropImage.height *
-    cropScale;
-
-  cropX =
-    (box - width) / 2;
-
-  cropY =
-    (box - height) / 2;
-
-  drawCrop();
-}
-
-
-function drawCrop() {
-
-  const box =
-    cropCanvas.width;
-
-  cropCtx.clearRect(
-    0,
-    0,
-    box,
-    box
-  );
-
-  cropCtx.fillStyle =
-    "#090910";
-
-  cropCtx.fillRect(
-    0,
-    0,
-    box,
-    box
-  );
-
-  if (!cropImage) {
-    return;
-  }
-
-  cropCtx.drawImage(
-    cropImage,
-    cropX,
-    cropY,
-    cropImage.width *
-      cropScale,
-    cropImage.height *
-      cropScale
-  );
-}
-
-
-function clampCrop() {
-
-  if (!cropImage) {
-    return;
-  }
-
-  const box =
-    cropCanvas.width;
-
-  const width =
-    cropImage.width *
-    cropScale;
-
-  const height =
-    cropImage.height *
-    cropScale;
-
-  if (width >= box) {
-
-    cropX =
-      Math.min(
-        0,
-        Math.max(
-          box - width,
-          cropX
-        )
-      );
-
-  } else {
-
-    cropX =
-      (box - width) / 2;
-  }
-
-  if (height >= box) {
-
-    cropY =
-      Math.min(
-        0,
-        Math.max(
-          box - height,
-          cropY
-        )
-      );
-
-  } else {
-
-    cropY =
-      (box - height) / 2;
-  }
-}
-
-
-cropZoom.addEventListener(
-  "input",
-  () => {
-
-    if (!cropImage) {
-      return;
-    }
-
-    const box =
-      cropCanvas.width;
-
-    const oldWidth =
-      cropImage.width *
-      cropScale;
-
-    const oldHeight =
-      cropImage.height *
-      cropScale;
-
-    const centerX =
-      (box / 2 - cropX) /
-      oldWidth;
-
-    const centerY =
-      (box / 2 - cropY) /
-      oldHeight;
-
-    cropScale =
-      cropBaseScale *
-      (
-        Number(
-          cropZoom.value
-        ) / 100
-      );
-
-    const newWidth =
-      cropImage.width *
-      cropScale;
-
-    const newHeight =
-      cropImage.height *
-      cropScale;
-
-    cropX =
-      box / 2 -
-      centerX *
-      newWidth;
-
-    cropY =
-      box / 2 -
-      centerY *
-      newHeight;
-
-    cropZoomValue.textContent =
-      `${cropZoom.value}%`;
-
-    clampCrop();
-
-    drawCrop();
-  }
-);
-
-
-function cropPointerPosition(
-  event
-) {
-
-  const rect =
-    cropCanvas.getBoundingClientRect();
-
-  return {
-    x:
-      (
-        event.clientX -
-        rect.left
-      ) *
-      cropCanvas.width /
-      rect.width,
-
-    y:
-      (
-        event.clientY -
-        rect.top
-      ) *
-      cropCanvas.height /
-      rect.height
-  };
-}
-
-
-cropCanvas.addEventListener(
-  "pointerdown",
-  event => {
-
-    cropDragging = true;
-
-    cropCanvas.setPointerCapture(
-      event.pointerId
-    );
-
-    const point =
-      cropPointerPosition(
-        event
-      );
-
-    cropLastX =
-      point.x;
-
-    cropLastY =
-      point.y;
-  }
-);
-
-
-cropCanvas.addEventListener(
-  "pointermove",
-  event => {
-
-    if (!cropDragging) {
-      return;
-    }
-
-    const point =
-      cropPointerPosition(
-        event
-      );
-
-    cropX +=
-      point.x -
-      cropLastX;
-
-    cropY +=
-      point.y -
-      cropLastY;
-
-    cropLastX =
-      point.x;
-
-    cropLastY =
-      point.y;
-
-    clampCrop();
-
-    drawCrop();
-  }
-);
-
-
-function stopCropDrag() {
-  cropDragging = false;
-}
-
-
-cropCanvas.addEventListener(
-  "pointerup",
-  stopCropDrag
-);
-
-cropCanvas.addEventListener(
-  "pointercancel",
-  stopCropDrag
-);
-
-
-cropCancel.addEventListener(
-  "click",
-  () => {
-
-    cropModal.classList.remove(
-      "show"
-    );
-
-    cropImage = null;
-  }
-);
-
-
-cropDone.addEventListener(
-  "click",
-  async () => {
-
-    if (!cropImage) {
-      return;
-    }
-
-    const exportCanvas =
-      document.createElement(
-        "canvas"
-      );
-
-    exportCanvas.width =
-      SIZE;
-
-    exportCanvas.height =
-      SIZE;
-
-    const ctx =
-      exportCanvas.getContext(
-        "2d"
-      );
-
-    const ratio =
-      SIZE /
-      cropCanvas.width;
-
-    ctx.fillStyle =
-      "#ffffff";
-
-    ctx.fillRect(
-      0,
-      0,
-      SIZE,
-      SIZE
-    );
-
-    ctx.drawImage(
-      cropImage,
-      cropX * ratio,
-      cropY * ratio,
-      cropImage.width *
-        cropScale *
-        ratio,
-      cropImage.height *
-        cropScale *
-        ratio
-    );
-
-    const data =
-      exportCanvas.toDataURL(
-        "image/jpeg",
-        .95
-      );
-
-    try {
-
-      const image =
-        await fabricImageFromURL(
-          data
-        );
-
-      const oldBackground =
-        canvas
-          .getObjects()
-          .find(isBackground);
-
-      if (oldBackground) {
-        canvas.remove(
-          oldBackground
-        );
-      }
-
-      image.set({
-        left: 0,
-        top: 0,
-        originX: "left",
-        originY: "top",
-        scaleX:
-          SIZE /
-          image.width,
-        scaleY:
-          SIZE /
-          image.height,
-        selectable: true,
-        v1Background: true,
-        v1Locked: false
-      });
-
-      canvas.add(image);
-
-      canvas.sendToBack(image);
-
-      canvas.setActiveObject(
-        image
-      );
-
-      canvas.requestRenderAll();
-
-      cropModal.classList.remove(
-        "show"
-      );
-
-      cropImage = null;
-
-      markChanged();
-
-      showToast(
-        "Background added"
-      );
-
-    } catch (error) {
-
-      console.error(error);
-
-      showToast(
-        "Could not add background."
-      );
-    }
-  }
-);
 
 
 /* =========================================
    LOCK
 ========================================= */
 
+function updateLockButton() {
+
+  const object =
+    getSelectedObject();
+
+  if (!object) {
+
+    lockBtn.textContent =
+      "🔓";
+
+    lockBtn.classList.remove(
+      "active"
+    );
+
+    return;
+  }
+
+  lockBtn.textContent =
+    object.locked
+      ? "🔒"
+      : "🔓";
+
+  lockBtn.classList.toggle(
+    "active",
+    Boolean(
+      object.locked
+    )
+  );
+}
+
+
 lockBtn.addEventListener(
   "click",
   () => {
 
     const object =
-      activeObject();
+      getSelectedObject();
 
     if (!object) {
 
       showToast(
-        "Select an element first"
+        "Select Image or Text first"
       );
 
       return;
     }
 
-    setObjectLocked(
-      object,
-      !object.v1Locked
-    );
+    object.locked =
+      !object.locked;
 
     markChanged();
 
     showToast(
-      object.v1Locked
+      object.locked
         ? "Element locked"
         : "Element unlocked"
     );
@@ -4603,135 +3394,8 @@ lockBtn.addEventListener(
 
 
 /* =========================================
-   DEFAULT
-========================================= */
-
-function createDefaultProject() {
-
-  const action = () => {
-
-    resetProject(false);
-
-    canvas.backgroundColor =
-      "#ffffff";
-
-    const text =
-      new fabric.IText(
-        "Your text",
-        {
-          left: SIZE / 2,
-          top: SIZE / 2,
-          originX: "center",
-          originY: "center",
-          fontSize: 86,
-          fontWeight: "bold",
-          fontFamily: "Arial",
-          fill: "#111111",
-          textAlign: "center",
-          v1Locked: false
-        }
-      );
-
-    canvas.add(text);
-
-    canvas.setActiveObject(
-      text
-    );
-
-    canvas.requestRenderAll();
-
-    dirty = true;
-
-    resetHistory();
-
-    scheduleAutosave();
-
-    currentMainTool =
-      "text";
-
-    activateBottomTool(
-      "text"
-    );
-
-    renderContext();
-  };
-
-  if (hasCurrentWork()) {
-
-    askConfirm(
-      "Start Default?",
-      "Your current unsaved changes will be replaced.",
-      action
-    );
-
-  } else {
-
-    action();
-  }
-}
-
-
-/* =========================================
    NEW
 ========================================= */
-
-function hasCurrentWork() {
-
-  return (
-    dirty ||
-    canvas.getObjects().length > 0 ||
-    currentProjectId !== null
-  );
-}
-
-
-function resetProject(
-  notify = true
-) {
-
-  restoring = true;
-
-  canvas.clear();
-
-  canvas.backgroundColor =
-    "#ffffff";
-
-  canvas.renderAll();
-
-  restoring = false;
-
-  currentProjectId = null;
-
-  dirty = false;
-
-  saveBtn.textContent =
-    "Save Image";
-
-  currentMainTool =
-    "background";
-
-  activateBottomTool(
-    "background"
-  );
-
-  resetHistory();
-
-  updateEmpty();
-
-  updateLockButton();
-
-  renderContext();
-
-  clearWorkingSession();
-
-  if (notify) {
-
-    showToast(
-      "New image started"
-    );
-  }
-}
-
 
 newBtn.addEventListener(
   "click",
@@ -4739,11 +3403,49 @@ newBtn.addEventListener(
 
     askConfirm(
       "Start a new image?",
-      "Your current work will be cleared and you will start from zero.",
-      () => resetProject()
+      "Your current working image will be cleared.",
+      resetProject
     );
   }
 );
+
+
+function resetProject() {
+
+  state =
+    createEmptyState();
+
+  selected = null;
+
+  currentProjectId =
+    null;
+
+  dirty = false;
+
+  currentMainTool =
+    "background";
+
+  saveBtn.textContent =
+    "Save Image";
+
+  imageCache.clear();
+
+  activateMainTool(
+    "background"
+  );
+
+  clearWorkingSession();
+
+  renderCanvas();
+
+  renderContext();
+
+  updateLockButton();
+
+  showToast(
+    "New image started"
+  );
+}
 
 
 /* =========================================
@@ -4771,7 +3473,7 @@ function askConfirm(
 }
 
 
-function closeConfirm() {
+function closeConfirmModal() {
 
   confirmModal.classList.remove(
     "show"
@@ -4783,7 +3485,7 @@ function closeConfirm() {
 
 confirmCancel.addEventListener(
   "click",
-  closeConfirm
+  closeConfirmModal
 );
 
 
@@ -4794,7 +3496,7 @@ confirmOk.addEventListener(
     const action =
       confirmAction;
 
-    closeConfirm();
+    closeConfirmModal();
 
     if (action) {
       action();
@@ -4804,7 +3506,7 @@ confirmOk.addEventListener(
 
 
 /* =========================================
-   DATABASE
+   INDEXED DB
 ========================================= */
 
 function openDatabase() {
@@ -4814,8 +3516,8 @@ function openDatabase() {
 
       const request =
         indexedDB.open(
-          "viral1s_image_creator",
-          3
+          "viral1s_simple_creator",
+          1
         );
 
       request.onupgradeneeded =
@@ -4825,11 +3527,9 @@ function openDatabase() {
             request.result;
 
           if (
-            !database
-              .objectStoreNames
-              .contains(
-                "projects"
-              )
+            !database.objectStoreNames.contains(
+              "projects"
+            )
           ) {
 
             database.createObjectStore(
@@ -4841,11 +3541,9 @@ function openDatabase() {
           }
 
           if (
-            !database
-              .objectStoreNames
-              .contains(
-                "working"
-              )
+            !database.objectStoreNames.contains(
+              "working"
+            )
           ) {
 
             database.createObjectStore(
@@ -4857,11 +3555,9 @@ function openDatabase() {
           }
 
           if (
-            !database
-              .objectStoreNames
-              .contains(
-                "reel_transfer"
-              )
+            !database.objectStoreNames.contains(
+              "reel_transfer"
+            )
           ) {
 
             database.createObjectStore(
@@ -4888,26 +3584,23 @@ function openDatabase() {
 
 
 function dbPut(
-  storeName,
+  store,
   value
 ) {
 
   return new Promise(
     (resolve,reject) => {
 
-      const tx =
+      const transaction =
         db.transaction(
-          storeName,
+          store,
           "readwrite"
         );
 
-      const store =
-        tx.objectStore(
-          storeName
-        );
-
       const request =
-        store.put(value);
+        transaction
+          .objectStore(store)
+          .put(value);
 
       request.onsuccess =
         () => resolve();
@@ -4922,26 +3615,23 @@ function dbPut(
 
 
 function dbGet(
-  storeName,
+  store,
   key
 ) {
 
   return new Promise(
     (resolve,reject) => {
 
-      const tx =
+      const transaction =
         db.transaction(
-          storeName,
+          store,
           "readonly"
         );
 
-      const store =
-        tx.objectStore(
-          storeName
-        );
-
       const request =
-        store.get(key);
+        transaction
+          .objectStore(store)
+          .get(key);
 
       request.onsuccess =
         () => resolve(
@@ -4957,26 +3647,21 @@ function dbGet(
 }
 
 
-function dbGetAll(
-  storeName
-) {
+function dbGetAll(store) {
 
   return new Promise(
     (resolve,reject) => {
 
-      const tx =
+      const transaction =
         db.transaction(
-          storeName,
+          store,
           "readonly"
         );
 
-      const store =
-        tx.objectStore(
-          storeName
-        );
-
       const request =
-        store.getAll();
+        transaction
+          .objectStore(store)
+          .getAll();
 
       request.onsuccess =
         () => resolve(
@@ -4993,26 +3678,23 @@ function dbGetAll(
 
 
 function dbDelete(
-  storeName,
+  store,
   key
 ) {
 
   return new Promise(
     (resolve,reject) => {
 
-      const tx =
+      const transaction =
         db.transaction(
-          storeName,
+          store,
           "readwrite"
         );
 
-      const store =
-        tx.objectStore(
-          storeName
-        );
-
       const request =
-        store.delete(key);
+        transaction
+          .objectStore(store)
+          .delete(key);
 
       request.onsuccess =
         () => resolve();
@@ -5027,7 +3709,7 @@ function dbDelete(
 
 
 /* =========================================
-   AUTO SAVE WORKING SESSION
+   AUTO SAVE
 ========================================= */
 
 function scheduleAutosave() {
@@ -5043,7 +3725,7 @@ function scheduleAutosave() {
   autosaveTimer =
     setTimeout(
       saveWorkingSession,
-      350
+      300
     );
 }
 
@@ -5060,13 +3742,19 @@ async function saveWorkingSession() {
       "working",
       {
         id: "current",
+        state:
+          cloneState(state),
         projectId:
           currentProjectId,
-        canvasJson:
-          serialize(),
-        dirty,
         mainTool:
           currentMainTool,
+        selected:
+          selected
+            ? cloneState(
+                selected
+              )
+            : null,
+        dirty,
         updatedAt:
           Date.now()
       }
@@ -5075,10 +3763,68 @@ async function saveWorkingSession() {
   } catch (error) {
 
     console.error(
-      "Autosave:",
+      "Autosave error:",
       error
     );
   }
+}
+
+
+async function restoreWorkingSession() {
+
+  if (!db) {
+    return false;
+  }
+
+  const session =
+    await dbGet(
+      "working",
+      "current"
+    );
+
+  if (
+    !session ||
+    !session.state
+  ) {
+    return false;
+  }
+
+  state =
+    session.state;
+
+  currentProjectId =
+    session.projectId ||
+    null;
+
+  currentMainTool =
+    session.mainTool ||
+    "background";
+
+  selected =
+    session.selected ||
+    null;
+
+  dirty =
+    Boolean(
+      session.dirty
+    );
+
+  saveBtn.textContent =
+    currentProjectId
+      ? "Update Image"
+      : "Save Image";
+
+  activateMainTool(
+    currentMainTool
+  );
+
+  await renderCanvas();
+
+  renderContext();
+
+  updateLockButton();
+
+  return true;
 }
 
 
@@ -5099,100 +3845,14 @@ async function clearWorkingSession() {
 }
 
 
-async function restoreWorkingSession() {
-
-  if (!db) {
-    return false;
-  }
-
-  const session =
-    await dbGet(
-      "working",
-      "current"
-    );
-
-  if (
-    !session ||
-    !session.canvasJson
-  ) {
-    return false;
-  }
-
-  return new Promise(
-    resolve => {
-
-      restoring = true;
-
-      canvas.loadFromJSON(
-        session.canvasJson,
-        () => {
-
-          normalizeObjects();
-
-          canvas.renderAll();
-
-          restoring = false;
-
-          currentProjectId =
-            session.projectId ||
-            null;
-
-          dirty =
-            Boolean(
-              session.dirty
-            );
-
-          currentMainTool =
-            session.mainTool ||
-            "background";
-
-          saveBtn.textContent =
-            currentProjectId
-              ? "Update Image"
-              : "Save Image";
-
-          activateBottomTool(
-            currentMainTool
-          );
-
-          updateEmpty();
-
-          updateLockButton();
-
-          resetHistory();
-
-          renderContext();
-
-          resolve(true);
-        }
-      );
-    }
-  );
-}
-
-
 /* =========================================
    SAVE PROJECT
 ========================================= */
 
-function makeId() {
-
-  if (
-    crypto &&
-    crypto.randomUUID
-  ) {
-    return crypto.randomUUID();
-  }
-
-  return (
-    "v1_" +
-    Date.now() +
-    "_" +
-    Math.random()
-      .toString(36)
-      .slice(2)
-  );
-}
+saveBtn.addEventListener(
+  "click",
+  saveProject
+);
 
 
 async function saveProject() {
@@ -5211,7 +3871,8 @@ async function saveProject() {
       currentProjectId
     );
 
-  saveBtn.disabled = true;
+  saveBtn.disabled =
+    true;
 
   saveBtn.textContent =
     updating
@@ -5220,9 +3881,9 @@ async function saveProject() {
 
   try {
 
-    canvas.discardActiveObject();
+    selected = null;
 
-    canvas.requestRenderAll();
+    await renderCanvas();
 
     const id =
       currentProjectId ||
@@ -5230,7 +3891,9 @@ async function saveProject() {
 
     let old = null;
 
-    if (currentProjectId) {
+    if (
+      currentProjectId
+    ) {
 
       old =
         await dbGet(
@@ -5240,11 +3903,10 @@ async function saveProject() {
     }
 
     const preview =
-      canvas.toDataURL({
-        format: "jpeg",
-        quality: .78,
-        multiplier: .28
-      });
+      canvas.toDataURL(
+        "image/jpeg",
+        .76
+      );
 
     await dbPut(
       "projects",
@@ -5253,20 +3915,22 @@ async function saveProject() {
         name:
           old?.name ||
           `Image ${new Date().toLocaleDateString()}`,
+        state:
+          cloneState(state),
+        preview,
         createdAt:
           old?.createdAt ||
           Date.now(),
         updatedAt:
-          Date.now(),
-        canvasJson:
-          serialize(),
-        preview
+          Date.now()
       }
     );
 
-    currentProjectId = id;
+    currentProjectId =
+      id;
 
-    dirty = false;
+    dirty =
+      false;
 
     saveBtn.textContent =
       "Update Image";
@@ -5283,24 +3947,21 @@ async function saveProject() {
 
     console.error(error);
 
-    showToast(
-      "Could not save image"
-    );
-
     saveBtn.textContent =
       currentProjectId
         ? "Update Image"
         : "Save Image";
+
+    showToast(
+      "Could not save image"
+    );
   }
 
-  saveBtn.disabled = false;
+  saveBtn.disabled =
+    false;
+
+  renderCanvas();
 }
-
-
-saveBtn.addEventListener(
-  "click",
-  saveProject
-);
 
 
 /* =========================================
@@ -5317,27 +3978,20 @@ async function openProjects() {
 }
 
 
-function closeProjectsModal() {
-
-  projectsModal.classList.remove(
-    "show"
-  );
-}
-
-
 closeProjects.addEventListener(
   "click",
-  closeProjectsModal
+  () => {
+
+    projectsModal.classList.remove(
+      "show"
+    );
+  }
 );
 
 
 async function renderProjects() {
 
   projectsGrid.innerHTML = "";
-
-  if (!db) {
-    return;
-  }
 
   const projects =
     await dbGetAll(
@@ -5373,19 +4027,19 @@ async function renderProjects() {
       card.className =
         "project-card";
 
-      const image =
+      const preview =
         document.createElement(
           "img"
         );
 
-      image.className =
+      preview.className =
         "project-preview";
 
-      image.src =
+      preview.src =
         project.preview;
 
-      image.alt =
-        "Saved project";
+      preview.alt =
+        "Saved Viral1s project";
 
       const name =
         document.createElement(
@@ -5414,6 +4068,9 @@ async function renderProjects() {
       open.className =
         "project-open";
 
+      open.type =
+        "button";
+
       open.textContent =
         "Open";
 
@@ -5423,10 +4080,11 @@ async function renderProjects() {
 
           askConfirm(
             "Open this project?",
-            "Your current work will be replaced by the selected saved project.",
-            () => loadProject(
-              project.id
-            )
+            "Your current working image will be replaced.",
+            () =>
+              loadProject(
+                project.id
+              )
           );
         }
       );
@@ -5438,6 +4096,9 @@ async function renderProjects() {
 
       remove.className =
         "project-delete";
+
+      remove.type =
+        "button";
 
       remove.textContent =
         "×";
@@ -5456,17 +4117,6 @@ async function renderProjects() {
                 project.id
               );
 
-              if (
-                currentProjectId ===
-                project.id
-              ) {
-                currentProjectId =
-                  null;
-
-                saveBtn.textContent =
-                  "Save Image";
-              }
-
               await renderProjects();
 
               showToast(
@@ -5483,7 +4133,7 @@ async function renderProjects() {
       );
 
       card.append(
-        image,
+        preview,
         name,
         actions
       );
@@ -5508,42 +4158,46 @@ async function loadProject(id) {
     return;
   }
 
-  closeProjectsModal();
+  state =
+    cloneState(
+      project.state
+    );
 
-  restoring = true;
+  currentProjectId =
+    project.id;
 
-  canvas.loadFromJSON(
-    project.canvasJson,
-    () => {
+  selected =
+    null;
 
-      normalizeObjects();
+  dirty =
+    false;
 
-      canvas.renderAll();
+  currentMainTool =
+    "projects";
 
-      restoring = false;
+  saveBtn.textContent =
+    "Update Image";
 
-      currentProjectId =
-        project.id;
+  projectsModal.classList.remove(
+    "show"
+  );
 
-      dirty = false;
+  activateMainTool(
+    "projects"
+  );
 
-      saveBtn.textContent =
-        "Update Image";
+  imageCache.clear();
 
-      updateEmpty();
+  await renderCanvas();
 
-      updateLockButton();
+  renderContext();
 
-      resetHistory();
+  updateLockButton();
 
-      renderContext();
+  await saveWorkingSession();
 
-      saveWorkingSession();
-
-      showToast(
-        "Project opened"
-      );
-    }
+  showToast(
+    "Project opened"
   );
 }
 
@@ -5558,7 +4212,7 @@ useReelBtn.addEventListener(
 
     askConfirm(
       "Use this image in your reel?",
-      "A 1080×1080 copy will be sent to the Viral1s Reel Editor. Your editable project will stay here.",
+      "A 1080×1080 copy will be sent to the Viral1s Reel Editor.",
       sendToReel
     );
   }
@@ -5568,33 +4222,27 @@ useReelBtn.addEventListener(
 async function sendToReel() {
 
   if (!db) {
-
-    showToast(
-      "Storage is not ready"
-    );
-
     return;
   }
 
   try {
 
-    canvas.discardActiveObject();
+    selected = null;
 
-    canvas.requestRenderAll();
+    await renderCanvas();
 
     await saveWorkingSession();
 
-    const dataUrl =
-      canvas.toDataURL({
-        format: "png",
-        multiplier: 1
-      });
-
-    const response =
-      await fetch(dataUrl);
-
     const blob =
-      await response.blob();
+      await new Promise(
+        resolve => {
+
+          canvas.toBlob(
+            resolve,
+            "image/png"
+          );
+        }
+      );
 
     await dbPut(
       "reel_transfer",
@@ -5621,29 +4269,6 @@ async function sendToReel() {
 
 
 /* =========================================
-   BOTTOM ACTIVE
-========================================= */
-
-function activateBottomTool(name) {
-
-  document
-    .querySelectorAll(
-      ".main-tool"
-    )
-    .forEach(
-      button => {
-
-        button.classList.toggle(
-          "active",
-          button.dataset.main ===
-          name
-        );
-      }
-    );
-}
-
-
-/* =========================================
    INIT
 ========================================= */
 
@@ -5654,37 +4279,32 @@ async function init() {
     db =
       await openDatabase();
 
+    await document.fonts.ready;
+
     const restored =
       await restoreWorkingSession();
 
     if (!restored) {
 
-      canvas.backgroundColor =
-        "#ffffff";
-
-      canvas.renderAll();
-
-      resetHistory();
-
-      updateEmpty();
+      await renderCanvas();
 
       renderContext();
+
+      updateLockButton();
     }
 
   } catch (error) {
 
     console.error(error);
 
+    await renderCanvas();
+
+    renderContext();
+
     showToast(
       "Local storage unavailable"
     );
-
-    resetHistory();
-
-    renderContext();
   }
-
-  resizeCanvasDisplay();
 }
 
 
