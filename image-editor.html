@@ -3997,7 +3997,34 @@ function normalizeColor(
 
   return fallback;
 }
+function fixArabicText(object) {
 
+  if (!isText(object)) {
+    return;
+  }
+
+  const text =
+    object.text || "";
+
+  const hasArabic =
+    /[\u0600-\u06FF]/.test(text);
+
+  if (hasArabic) {
+
+    object.set({
+      direction: "rtl",
+      textAlign: "right"
+    });
+
+  } else {
+
+    object.set({
+      direction: "ltr"
+    });
+  }
+
+  object.setCoords();
+}
 
 /* =========================================
    BACKGROUND COLOR
