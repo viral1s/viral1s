@@ -2498,12 +2498,20 @@ function openTextColorTool() {
         </span>
 
         <select id="fontTool">
-          <option value="Arial">Arial</option>
-          <option value="Georgia">Georgia</option>
-          <option value="Impact">Impact</option>
-          <option value="Courier New">Courier New</option>
-          <option value="Trebuchet MS">Trebuchet</option>
-        </select>
+  <optgroup label="English Fonts">
+    <option value="system">System</option>
+    <option value="inter">Inter</option>
+    <option value="georgia">Georgia</option>
+    <option value="courier">Courier New</option>
+  </optgroup>
+
+  <optgroup label="الخطوط العربية">
+    <option value="cairo">Cairo</option>
+    <option value="tajawal">Tajawal</option>
+    <option value="noto-kufi">Noto Kufi Arabic</option>
+    <option value="amiri">Amiri</option>
+  </optgroup>
+</select>
       </div>
     `
   );
