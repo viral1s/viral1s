@@ -2527,7 +2527,7 @@ function openTextColorTool() {
     );
 
   font.value =
-    object.fontFamily || "Arial";
+  object.v1FontKey || "system";
 
   color.addEventListener(
     "input",
@@ -2543,17 +2543,49 @@ function openTextColorTool() {
   );
 
   font.addEventListener(
-    "change",
-    () => {
+  "change",
+  () => {
 
-      object.set(
-        "fontFamily",
-        font.value
-      );
+    const fonts = {
+      system:
+        'Arial, Helvetica, sans-serif',
 
-      canvas.requestRenderAll();
-    }
-  );
+      inter:
+        'Inter, Arial, sans-serif',
+
+      georgia:
+        'Georgia, serif',
+
+      courier:
+        '"Courier New", monospace',
+
+      cairo:
+        '"Cairo", sans-serif',
+
+      tajawal:
+        '"Tajawal", sans-serif',
+
+      "noto-kufi":
+        '"Noto Kufi Arabic", sans-serif',
+
+      amiri:
+        '"Amiri", serif'
+    };
+
+    object.v1FontKey =
+      font.value;
+
+    object.set({
+      fontFamily:
+        fonts[font.value] ||
+        fonts.system
+    });
+
+    fixArabicText(object);
+
+    canvas.requestRenderAll();
+  }
+);
 }
 
 
