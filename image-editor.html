@@ -1135,7 +1135,40 @@
 
 </div>
 
+<div
+  id="saveChoiceModal"
+  class="modal-backdrop"
+>
+  <div class="confirm">
 
+    <h3>Save Image</h3>
+
+    <p>
+      Choose how you want to save your changes.
+    </p>
+
+    <div class="confirm-actions">
+
+      <button
+        id="saveAsNewBtn"
+        class="confirm-cancel"
+        type="button"
+      >
+        Save as New
+      </button>
+
+      <button
+        id="updateCurrentBtn"
+        class="confirm-ok"
+        type="button"
+      >
+        Update Image
+      </button>
+
+    </div>
+
+  </div>
+</div>
 <div
   id="confirmModal"
   class="modal-backdrop"
@@ -3998,11 +4031,98 @@ async function clearWorkingSession() {
    SAVE PROJECT
 ========================================= */
 
+const saveChoiceModal =
+  document.getElementById(
+    "saveChoiceModal"
+  );
+
+const saveAsNewBtn =
+  document.getElementById(
+    "saveAsNewBtn"
+  );
+
+const updateCurrentBtn =
+  document.getElementById(
+    "updateCurrentBtn"
+  );
+
+
 saveBtn.addEventListener(
   "click",
-  saveProject
+  () => {
+
+    updateCurrentBtn.disabled =
+      !currentProjectId;
+
+    saveChoiceModal.classList.add(
+      "show"
+    );
+  }
 );
 
+
+saveChoiceModal.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target ===
+      saveChoiceModal
+    ) {
+      saveChoiceModal.classList.remove(
+        "show"
+      );
+    }
+  }
+);
+
+
+saveAsNewBtn.addEventListener(
+  "click",
+  async () => {
+
+    saveChoiceModal.classList.remove(
+      "show"
+    );
+
+    currentProjectId = null;
+
+    await saveProject();
+
+    saveBtn.textContent =
+      "Save";
+  }
+);
+
+
+updateCurrentBtn.addEventListener(
+  "click",
+  () => {
+
+    saveChoiceModal.classList.remove(
+      "show"
+    );
+
+    if (!currentProjectId) {
+      showToast(
+        "Save the image first"
+      );
+      return;
+    }
+
+    askConfirm(
+      "Update Image?",
+      "This will replace the current saved version.",
+      async () => {
+
+        await saveProject();
+
+        saveBtn.textContent =
+          "Save";
+      }
+    );
+  }
+);
 
 async function saveProject() {
 
