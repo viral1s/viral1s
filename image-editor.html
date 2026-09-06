@@ -1848,57 +1848,92 @@ function drawTextObject(
   }
 
 
-  if (
-    text.strokeWidth > 0
-  ) {
+  const lines =
+  String(text.text || "").split(/\r?\n/);
 
-    ctx.lineWidth =
-      text.strokeWidth;
+const lineHeight =
+  text.size * 1.35;
 
-    ctx.strokeStyle =
-      text.strokeColor;
+const totalTextHeight =
+  (lines.length - 1) * lineHeight;
 
-    ctx.lineJoin =
-      "round";
-
-    ctx.strokeText(
-      text.text,
-      text.x,
-      text.y
-    );
-  }
+const startY =
+  text.y - totalTextHeight / 2;
 
 
-  ctx.fillStyle =
-    text.color;
+/* TEXT STROKE */
 
-  ctx.fillText(
-    text.text,
-    text.x,
-    text.y
-  );
+if (text.strokeWidth > 0) {
 
+  ctx.lineWidth =
+    text.strokeWidth;
 
-  if (selectedNow) {
+  ctx.strokeStyle =
+    text.strokeColor;
 
-    const metrics =
-      ctx.measureText(
-        text.text || " "
+  ctx.lineJoin =
+    "round";
+
+  lines.forEach(
+    (line, index) => {
+
+      ctx.strokeText(
+        line,
+        text.x,
+        startY +
+          index * lineHeight
       );
+    }
+  );
+}
 
-    const width =
-      metrics.width + 34;
 
-    const height =
-      text.size * 1.35;
+/* TEXT FILL */
 
-    drawSelectionBox(
-      text.x - width / 2,
-      text.y - height / 2,
-      width,
-      height
+ctx.fillStyle =
+  text.color;
+
+lines.forEach(
+  (line, index) => {
+
+    ctx.fillText(
+      line,
+      text.x,
+      startY +
+        index * lineHeight
     );
   }
+);
+
+
+/* SELECTION BOX */
+
+if (selectedNow) {
+
+  const widths =
+    lines.map(
+      line =>
+        ctx.measureText(
+          line || " "
+        ).width
+    );
+
+  const width =
+    Math.max(...widths) + 34;
+
+  const height =
+    text.size +
+    (lines.length - 1) *
+      lineHeight +
+    18;
+
+  drawSelectionBox(
+    text.x - width / 2,
+    text.y - height / 2,
+    width,
+    height
+  );
+}
 
   ctx.restore();
 }
