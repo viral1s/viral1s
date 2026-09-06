@@ -976,7 +976,22 @@
     font-size: 12px;
   }
 }
-    
+    #textEditInput {
+  width: 100%;
+  min-height: 86px;
+  max-height: 140px;
+
+  padding: 12px 14px;
+
+  resize: vertical;
+
+  border-radius: 12px;
+
+  line-height: 1.45;
+
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
   </style>
 </head>
 
@@ -2918,11 +2933,11 @@ function openTextEdit() {
           Text
         </span>
 
-        <input
-          id="textEditInput"
-          type="text"
-          maxlength="120"
-        >
+        <textarea
+  id="textEditInput"
+  maxlength="300"
+  rows="3"
+></textarea>
 
       </div>
     `
