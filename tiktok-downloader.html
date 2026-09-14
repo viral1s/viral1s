@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    TikTok Downloader — Viral1s
+  </title>
+
+  <meta
+    name="description"
+    content="Download TikTok videos quickly with Viral1s. Paste a TikTok link and get your video in seconds."
+  >
+
+  <link
+    rel="canonical"
+    href="https://viral1s.com/tiktok-downloader.html"
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="viral1s-icon.png"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+      color: #ffffff;
+
+      background:
+        radial-gradient(
+          circle at 50% 15%,
+          rgba(118, 92, 255, 0.18),
+          transparent 32%
+        ),
+        #070711;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 760px;
+
+      margin: 0 auto;
+      padding:
+        18px
+        16px
+        40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 54px;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #765cff;
+    }
+
+    .back-link {
+      color: #9696aa;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero {
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+
+      min-height: 30px;
+
+      padding: 0 12px;
+
+      border:
+        1px solid
+        rgba(118, 92, 255, 0.25);
+
+      border-radius: 999px;
+
+      background:
+        rgba(118, 92, 255, 0.08);
+
+      color: #a99dff;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      max-width: 620px;
+
+      margin:
+        0
+        auto;
+
+      font-size: 42px;
+      line-height: 1.05;
+
+      letter-spacing: -1.8px;
+    }
+
+    .gradient-text {
+      background:
+        linear-gradient(
+          135deg,
+          #8e77ff,
+          #527cff
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 540px;
+
+      margin:
+        16px
+        auto
+        0;
+
+      color: #9898aa;
+
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .download-card {
+      margin-top: 34px;
+
+      padding: 18px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.035),
+          rgba(255, 255, 255, 0.018)
+        );
+
+      box-shadow:
+        0 18px 50px
+        rgba(0, 0, 0, 0.28);
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      padding:
+        8px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+      border-radius: 14px;
+
+      background: #0d0d18;
+    }
+
+    #tiktokUrl {
+      flex: 1;
+
+      min-width: 0;
+
+      height: 46px;
+
+      border: 0;
+      outline: 0;
+
+      padding:
+        0
+        10px;
+
+      background: transparent;
+
+      color: #ffffff;
+
+      font-size: 14px;
+    }
+
+    #tiktokUrl::placeholder {
+      color: #666678;
+    }
+
+    #downloadBtn {
+      flex: 0 0 auto;
+
+      height: 46px;
+
+      padding:
+        0
+        18px;
+
+      border: 0;
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #765cff,
+          #527cff
+        );
+
+      color: #ffffff;
+
+      font-size: 13px;
+      font-weight: 850;
+
+      cursor: pointer;
+    }
+
+    .helper {
+      margin-top: 10px;
+
+      color: #747486;
+
+      font-size: 11px;
+      line-height: 1.5;
+
+      text-align: left;
+    }
+
+    .result {
+      display: none;
+
+      margin-top: 14px;
+
+      padding: 14px;
+
+      border-radius: 14px;
+
+      background:
+        rgba(118, 92, 255, 0.07);
+
+      border:
+        1px solid
+        rgba(118, 92, 255, 0.16);
+
+      text-align: left;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result-title {
+      color: #ffffff;
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .result-text {
+      margin-top: 4px;
+
+      color: #89899a;
+
+      font-size: 11px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+      margin-top: 28px;
+    }
+
+    .feature {
+      padding: 14px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+
+      border-radius: 14px;
+
+      background:
+        rgba(255, 255, 255, 0.02);
+    }
+
+    .feature strong {
+      display: block;
+
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .feature span {
+      color: #7f7f91;
+
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    footer {
+      margin-top: 42px;
+
+      text-align: center;
+
+      color: #666678;
+
+      font-size: 11px;
+    }
+
+    @media (max-width: 600px) {
+
+      .app {
+        padding-top: 14px;
+      }
+
+      .topbar {
+        margin-bottom: 42px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .hero p {
+        font-size: 13px;
+      }
+
+      .download-card {
+        padding: 12px;
+      }
+
+      .input-wrap {
+        display: block;
+
+        padding: 8px;
+      }
+
+      #tiktokUrl {
+        width: 100%;
+      }
+
+      #downloadBtn {
+        width: 100%;
+
+        margin-top: 8px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <header class="topbar">
+
+      <a
+        href="index.html"
+        class="logo"
+      >
+        Viral<span>1s</span>
+      </a>
+
+      <a
+        href="index.html"
+        class="back-link"
+      >
+        Back to home
+      </a>
+
+    </header>
+
+    <section class="hero">
+
+      <div class="badge">
+        FREE TIKTOK TOOL
+      </div>
+
+      <h1>
+        Download TikTok videos
+        <span class="gradient-text">
+          in seconds.
+        </span>
+      </h1>
+
+      <p>
+        Paste a TikTok video link and download
+        your video quickly with Viral1s.
+      </p>
+
+      <div class="download-card">
+
+        <div class="input-wrap">
+
+          <input
+            id="tiktokUrl"
+            type="url"
+            placeholder="Paste TikTok link here..."
+            autocomplete="off"
+          >
+
+          <button
+            id="downloadBtn"
+            type="button"
+          >
+            Download
+          </button>
+
+        </div>
+
+        <div class="helper">
+          Example:
+          https://www.tiktok.com/@user/video/...
+        </div>
+
+        <div
+          id="result"
+          class="result"
+        >
+          <div class="result-title">
+            Downloader not connected yet
+          </div>
+
+          <div class="result-text">
+            The Viral1s download engine will be connected in the next step.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="features">
+
+        <div class="feature">
+          <strong>
+            Fast
+          </strong>
+
+          <span>
+            Paste a link and process the video in seconds.
+          </span>
+        </div>
+
+        <div class="feature">
+          <strong>
+            Simple
+          </strong>
+
+          <span>
+            No complicated editor or unnecessary steps.
+          </span>
+        </div>
+
+        <div class="feature">
+          <strong>
+            Mobile Friendly
+          </strong>
+
+          <span>
+            Designed to work cleanly on phones and desktop.
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <footer>
+      © Viral1s
+    </footer>
+
+  </main>
+
+  <script>
+    const downloadBtn =
+      document.getElementById(
+        "downloadBtn"
+      );
+
+    const tiktokUrl =
+      document.getElementById(
+        "tiktokUrl"
+      );
+
+    const result =
+      document.getElementById(
+        "result"
+      );
+
+    downloadBtn.addEventListener(
+      "click",
+      () => {
+
+        const url =
+          tiktokUrl.value.trim();
+
+        if (!url) {
+          tiktokUrl.focus();
+          return;
+        }
+
+        result.classList.add(
+          "show"
+        );
+      }
+    );
+  </script>
+
+</body>
+</html>
