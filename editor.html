@@ -2047,7 +2047,21 @@ if (!codecSupported) {
     `No supported ${selectedExportQuality}p video encoder was found on this device.`
   );
 }
+exportIsWebM =
+  selectedVideoCodec === "vp9" ||
+  selectedVideoCodec === "vp8";
 
+output = new Output({
+  format: exportIsWebM
+    ? new WebMOutputFormat()
+    : new Mp4OutputFormat({
+        fastStart: "in-memory"
+      }),
+
+  target: new BufferTarget()
+});
+
+          
 const videoSource =
   new CanvasSource(
     canvas,
