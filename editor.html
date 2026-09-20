@@ -1861,9 +1861,9 @@ exportStopBtn.textContent = "Cancel Export";
   ALL_FORMATS,
   BufferSource,
   EncodedPacketSink,
-  Quality
+Quality,
+canEncodeVideo
 } = M;
-
     /* =========================
        VIDEO SETTINGS
     ========================= */
@@ -2015,21 +2015,36 @@ if (selectedExportQuality === 480) {
           }
 
     
-    const videoSource =
-      new CanvasSource(
-        canvas,
-        {
-          codec: "avc",
-          
-
-          quality:
+    const videoQuality =
   new Quality({
-    
     bitrate: videoBitrate
-  })
-        }
-      );
+  });
 
+const avcSupported =
+  await canEncodeVideo(
+    "avc",
+    {
+      width: VIDEO_WIDTH,
+      height: VIDEO_HEIGHT,
+      frameRate: FPS,
+      quality: videoQuality
+    }
+  );
+
+if (!avcSupported) {
+  throw new Error(
+    `This device cannot export ${selectedExportQuality}p with H.264.`
+  );
+}
+
+const videoSource =
+  new CanvasSource(
+    canvas,
+    {
+      codec: "avc",
+      quality: videoQuality
+    }
+  );
     output.addVideoTrack(
       videoSource
     );
