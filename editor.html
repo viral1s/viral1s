@@ -2249,6 +2249,26 @@ if (exportIsWebM) {
     const audioPromise =
   (async () => {
 
+    if (exportIsWebM) {
+
+      const maxDuration =
+        Math.min(
+          REEL_END,
+          webmAudioBuffer.duration
+        );
+
+      await audioSource.add(
+        webmAudioBuffer,
+        {
+          timestamp: 0,
+          duration: maxDuration
+        }
+      );
+
+      audioSource.close();
+      return;
+    }
+
     let firstPacket = true;
     let audioStartTime = null;
 
@@ -2293,7 +2313,6 @@ if (exportIsWebM) {
         await audioSource.add(
           fixedPacket
         );
-
       }
     }
 
