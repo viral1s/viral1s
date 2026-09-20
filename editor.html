@@ -2020,53 +2020,51 @@ if (selectedExportQuality === 480) {
     bitrate: videoBitrate
   });
 
-let videoEncoderOptions = {
-  codec: "avc",
-  quality: videoQuality
-};
+let selectedVideoCodec = "avc";
 
-let avcSupported = await canEncodeVideo("avc", {
+let codecSupported = await canEncodeVideo("avc", {
   width: VIDEO_WIDTH,
   height: VIDEO_HEIGHT,
   frameRate: FPS,
   quality: videoQuality
 });
 
-if (!avcSupported) {
-  const samsungCodec =
-    selectedExportQuality === 1080
-      ? "avc1.420028"
-      : "avc1.42001f";
+if (!codecSupported) {
+  const hevcSupported = await canEncodeVideo("hevc", {
+    width: VIDEO_WIDTH,
+    height: VIDEO_HEIGHT,
+    frameRate: FPS,
+    quality: videoQuality
+  });
 
-  const fallbackSupported =
-    await canEncodeVideo("avc", {
-      width: VIDEO_WIDTH,
-      height: VIDEO_HEIGHT,
-      frameRate: FPS,
-      quality: videoQuality,
-      fullCodecString: samsungCodec,
-      hardwareAcceleration: "prefer-software"
-    });
-
-  if (!fallbackSupported) {
-    throw new Error(
-      `This device cannot export ${selectedExportQuality}p with H.264.`
-    );
+  if (hevcSupported) {
+    selectedVideoCodec = "hevc";
+    codecSupported = true;
   }
+}
 
-  videoEncoderOptions = {
-    codec: "avc",
-    quality: videoQuality,
-    fullCodecString: samsungCodec,
-    hardwareAcceleration: "prefer-software"
-  };
+if (!codecSupported) {
+  throw new Error(
+    `This device cannot export ${selectedExportQuality}p with a supported MP4 encoder.`
+  );
 }
 
 const videoSource =
   new CanvasSource(
     canvas,
-    videoEncoderOptions
+    {
+      codec: selectedVideoCodec,
+      quality: videoQuality
+    }
   );
+
+
+
+
+
+
+
+  
     output.addVideoTrack(
       videoSource
     );
