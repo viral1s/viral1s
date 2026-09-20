@@ -2020,30 +2020,52 @@ if (selectedExportQuality === 480) {
     bitrate: videoBitrate
   });
 
-const avcSupported =
-  await canEncodeVideo(
-    "avc",
-    {
+let videoEncoderOptions = {
+  codec: "avc",
+  quality: videoQuality
+};
+
+let avcSupported = await canEncodeVideo("avc", {
+  width: VIDEO_WIDTH,
+  height: VIDEO_HEIGHT,
+  frameRate: FPS,
+  quality: videoQuality
+});
+
+if (!avcSupported) {
+  const samsungCodec =
+    selectedExportQuality === 1080
+      ? "avc1.420028"
+      : "avc1.42001f";
+
+  const fallbackSupported =
+    await canEncodeVideo("avc", {
       width: VIDEO_WIDTH,
       height: VIDEO_HEIGHT,
       frameRate: FPS,
-      quality: videoQuality
-    }
-  );
+      quality: videoQuality,
+      fullCodecString: samsungCodec,
+      hardwareAcceleration: "prefer-software"
+    });
 
-if (!avcSupported) {
-  throw new Error(
-    `This device cannot export ${selectedExportQuality}p with H.264.`
-  );
+  if (!fallbackSupported) {
+    throw new Error(
+      `This device cannot export ${selectedExportQuality}p with H.264.`
+    );
+  }
+
+  videoEncoderOptions = {
+    codec: "avc",
+    quality: videoQuality,
+    fullCodecString: samsungCodec,
+    hardwareAcceleration: "prefer-software"
+  };
 }
 
 const videoSource =
   new CanvasSource(
     canvas,
-    {
-      codec: "avc",
-      quality: videoQuality
-    }
+    videoEncoderOptions
   );
     output.addVideoTrack(
       videoSource
