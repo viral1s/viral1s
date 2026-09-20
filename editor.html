@@ -2475,28 +2475,30 @@ exportProgressText.textContent =
        GET MP4
     ========================= */
 
-    const mp4Buffer =
-      output.target.buffer;
+    
+const videoBuffer =
+  output.target.buffer;
 
-    if (!mp4Buffer) {
-      throw new Error(
-        "MP4 could not be created"
-      );
+if (!videoBuffer) {
+  throw new Error(
+    "Video could not be created"
+  );
+}
+
+const videoBlob =
+  new Blob(
+    [videoBuffer],
+    {
+      type: exportIsWebM
+        ? "video/webm"
+        : "video/mp4"
     }
+  );
 
-    const videoBlob =
-      new Blob(
-        [mp4Buffer],
-        {
-          type: "video/mp4"
-        }
-      );
-
-    const videoUrl =
-      URL.createObjectURL(
-        videoBlob
-      );
-
+const videoUrl =
+  URL.createObjectURL(
+    videoBlob
+  );
 
     /* =========================
        DOWNLOAD
@@ -2511,7 +2513,9 @@ exportProgressText.textContent =
       videoUrl;
 
     downloadLink.download =
-      "viral1s-reel.mp4";
+  exportIsWebM
+    ? "viral1s-reel.webm"
+    : "viral1s-reel.mp4";
 
     document.body.appendChild(
       downloadLink
