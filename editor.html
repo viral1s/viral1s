@@ -2141,19 +2141,44 @@ if (!audioDecoderConfig) {
   );
 }
 
-const audioPacketSink =
-  new EncodedPacketSink(
-    audioTrack
-  );
+let audioPacketSink = null;
+let audioSource = null;
+let webmAudioBuffer = null;
 
-const audioSource =
-  new EncodedAudioPacketSource(
-    "aac"
-  );
+if (exportIsWebM) {
+  const audioContext =
+    new (window.AudioContext || window.webkitAudioContext)();
 
-output.addAudioTrack(
-  audioSource
-);
+  webmAudioBuffer =
+    await audioContext.decodeAudioData(
+      musicArrayBuffer.slice(0)
+    );
+
+  audioSource =
+    new AudioBufferSource({
+      codec: "opus",
+      quality: new Quality({
+        bitrate: 128000
+      })
+    });
+
+  output.addAudioTrack(audioSource);
+
+  await audioContext.close();
+
+} else {
+  audioPacketSink =
+    new EncodedPacketSink(
+      audioTrack
+    );
+
+  audioSource =
+    new EncodedAudioPacketSource(
+      "aac"
+    );
+
+  output.addAudioTrack(audioSource);
+}
 
 
     /* =========================
