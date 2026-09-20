@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI Image Generator — Viral1s</title>
+  <meta name="description" content="Create AI images from a simple prompt with Viral1s AI Image Generator.">
+  <link rel="canonical" href="https://viral1s.com/ai-image.html">
+  <link rel="icon" type="image/png" href="viral1s-icon.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, #20134c 0%, #0c0b19 42%, #07070d 100%);
+      color: #fff;
+    }
+
+    .topbar {
+      height: 68px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(8,8,16,.72);
+      backdrop-filter: blur(15px);
+    }
+
+    .logo {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    .back {
+      color: #aaa7b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .page {
+      width: min(100%, 620px);
+      margin: 0 auto;
+      padding: 38px 18px 50px;
+    }
+
+    .badge {
+      width: fit-content;
+      margin: 0 auto 13px;
+      padding: 7px 12px;
+      border: 1px solid rgba(151,111,255,.35);
+      border-radius: 999px;
+      background: rgba(122,74,255,.12);
+      color: #bda8ff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(30px, 8vw, 45px);
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      max-width: 460px;
+      margin: 0 auto 27px;
+      text-align: center;
+      color: #9996a8;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .generator {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 20px;
+      background: rgba(255,255,255,.045);
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 115px;
+      resize: none;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      outline: none;
+      padding: 15px;
+      background: #11101c;
+      color: white;
+      font: inherit;
+      font-size: 15px;
+      line-height: 1.5;
+      transition: .2s;
+    }
+
+    textarea:focus {
+      border-color: #7857ff;
+      box-shadow: 0 0 0 3px rgba(120,87,255,.12);
+    }
+
+    textarea::placeholder {
+      color: #666373;
+    }
+
+    .generate {
+      width: 100%;
+      height: 52px;
+      margin-top: 12px;
+      border: 0;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #7657ff, #9a5cff);
+      color: white;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .generate:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .status {
+      display: none;
+      padding: 20px 5px 5px;
+      text-align: center;
+      color: #aaa7b8;
+      font-size: 14px;
+    }
+
+    .loader {
+      width: 25px;
+      height: 25px;
+      margin: 0 auto 10px;
+      border: 3px solid rgba(255,255,255,.12);
+      border-top-color: #8d6cff;
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255,85,85,.25);
+      border-radius: 11px;
+      background: rgba(255,60,60,.08);
+      color: #ff9d9d;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+    }
+
+    .image-wrap {
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 16px;
+      background: #0b0a12;
+      border: 1px solid rgba(255,255,255,.09);
+    }
+
+    .image-wrap img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 50px;
+      margin-top: 11px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 13px;
+      background: rgba(255,255,255,.07);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .note {
+      margin-top: 18px;
+      color: #656270;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    @media (min-width: 700px) {
+      .page {
+        padding-top: 55px;
+      }
+
+      .generator {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a href="/">
+    <img class="logo" src="viral1s-logo.webp" alt="Viral1s">
+  </a>
+
+  <a class="back" href="/">← Back</a>
+</header>
+
+<main class="page">
+
+  <div class="badge">VIRAL1S AI</div>
+
+  <h1>Create an image<br>from a prompt.</h1>
+
+  <p class="subtitle">
+    Describe what you want to see and let AI create it for you.
+  </p>
+
+  <section class="generator">
+
+    <textarea
+      id="prompt"
+      maxlength="2048"
+      placeholder="Example: A luxury black perfume bottle on a dark cinematic background..."
+    ></textarea>
+
+    <button class="generate" id="generateBtn">
+      Generate Image ✦
+    </button>
+
+    <div class="status" id="status">
+      <div class="loader"></div>
+      Creating your image...
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <div class="result" id="result">
+
+      <div class="image-wrap">
+        <img id="resultImage" alt="AI generated image">
+      </div>
+
+      <a class="download" id="downloadBtn" download="viral1s-ai-image.jpg">
+        ↓ Download Image
+      </a>
+
+    </div>
+
+  </section>
+
+  <div class="note">
+    AI-generated content may contain unexpected details.
+  </div>
+
+</main>
+
+<script>
+  const API_URL =
+    "https://viral1s-image-ai.lovgle-com.workers.dev/";
+
+  const promptInput = document.getElementById("prompt");
+  const generateBtn = document.getElementById("generateBtn");
+  const statusBox = document.getElementById("status");
+  const errorBox = document.getElementById("error");
+  const resultBox = document.getElementById("result");
+  const resultImage = document.getElementById("resultImage");
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  generateBtn.addEventListener("click", generateImage);
+
+  promptInput.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+      generateImage();
+    }
+  });
+
+  async function generateImage() {
+    const prompt = promptInput.value.trim();
+
+    if (!prompt) {
+      showError("Write a prompt first.");
+      promptInput.focus();
+      return;
+    }
+
+    generateBtn.disabled = true;
+    generateBtn.textContent = "Generating...";
+    statusBox.style.display = "block";
+    errorBox.style.display = "none";
+    resultBox.style.display = "none";
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success || !data.image) {
+        throw new Error(data.error || "Image generation failed.");
+      }
+
+      resultImage.src = data.image;
+      downloadBtn.href = data.image;
+
+      resultBox.style.display = "block";
+
+      resultBox.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+
+    } catch (error) {
+      showError(
+        error.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      statusBox.style.display = "none";
+      generateBtn.disabled = false;
+      generateBtn.textContent = "Generate Image ✦";
+    }
+  }
+
+  function showError(message) {
+    errorBox.textContent = message;
+    errorBox.style.display = "block";
+  }
+</script>
+
+</body>
+</html>
