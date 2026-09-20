@@ -1862,7 +1862,8 @@ exportStopBtn.textContent = "Cancel Export";
   BufferSource,
   EncodedPacketSink,
 Quality,
-canEncodeVideo
+canEncodeVideo,
+WebMOutputFormat
 } = M;
     /* =========================
        VIDEO SETTINGS
@@ -1989,17 +1990,10 @@ const IMAGE_SIZE = VIDEO_WIDTH;
        MP4 OUTPUT
     ========================= */
 
-    const output =
-      new Output({
-        format:
-          new Mp4OutputFormat({
-            fastStart: "in-memory"
-          }),
+    let output = null;
+let exportIsWebM = false;
 
-        target:
-          new BufferTarget()
-      });
-
+        
 
     /* =========================
        VIDEO ENCODER
@@ -2030,22 +2024,27 @@ let codecSupported = await canEncodeVideo("avc", {
 });
 
 if (!codecSupported) {
-  const hevcSupported = await canEncodeVideo("hevc", {
-    width: VIDEO_WIDTH,
-    height: VIDEO_HEIGHT,
-    frameRate: FPS,
-    quality: videoQuality
-  });
+  const codecsToTry = ["hevc", "vp9", "vp8"];
 
-  if (hevcSupported) {
-    selectedVideoCodec = "hevc";
-    codecSupported = true;
+  for (const codec of codecsToTry) {
+    const supported = await canEncodeVideo(codec, {
+      width: VIDEO_WIDTH,
+      height: VIDEO_HEIGHT,
+      frameRate: FPS,
+      quality: videoQuality
+    });
+
+    if (supported) {
+      selectedVideoCodec = codec;
+      codecSupported = true;
+      break;
+    }
   }
 }
 
 if (!codecSupported) {
   throw new Error(
-    `This device cannot export ${selectedExportQuality}p with a supported MP4 encoder.`
+    `No supported ${selectedExportQuality}p video encoder was found on this device.`
   );
 }
 
