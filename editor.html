@@ -205,6 +205,56 @@
 }
 
 
+
+  .reel-cta {
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 5px 8px;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.reel-cta.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta-controls {
+  margin-top: 8px;
+}
+
+.cta-controls textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cta-font-control {
+  margin-top: 6px;
+}
+
+.cta-font-control label {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 9px;
+}
+
+.cta-font-control select {
+  width: 100%;
+  min-height: 34px;
+  height: 34px;
+  padding: 0 9px;
+  border-radius: 9px;
+  font-size: 10px;
+}
+
 </style>
 
 
@@ -408,7 +458,46 @@
 
       <div class="compact-fields">
 
+<div class="compact-field cta-controls">
 
+  <label for="ctaInput">
+    CTA
+  </label>
+
+  <textarea
+    id="ctaInput"
+    rows="1"
+    maxlength="80"
+    placeholder="Write your CTA..."
+  >Your CTA</textarea>
+
+  <div class="cta-font-control">
+
+    <label for="ctaFont">
+      CTA Font
+    </label>
+
+    <select id="ctaFont">
+
+      <optgroup label="English Fonts">
+        <option value="system">System</option>
+        <option value="inter">Inter</option>
+        <option value="georgia">Georgia</option>
+        <option value="courier">Courier New</option>
+      </optgroup>
+
+      <optgroup label="الخطوط العربية">
+        <option value="cairo">Cairo</option>
+        <option value="tajawal">Tajawal</option>
+        <option value="noto-kufi">Noto Kufi Arabic</option>
+        <option value="amiri">Amiri</option>
+      </optgroup>
+
+    </select>
+
+  </div>
+
+</div>
         <!-- HOOK INPUT -->
 
         <div class="compact-field hook-field">
@@ -756,7 +845,15 @@ const hookHeight =
 
 const hookHeightValue =
   document.getElementById("hookHeightValue");
+    
+const ctaInput =
+  document.getElementById("ctaInput");
 
+const ctaOutput =
+  document.getElementById("ctaOutput");
+
+const ctaFont =
+  document.getElementById("ctaFont");
     
     const imageInput =
       document.getElementById("imageInput");
@@ -1027,7 +1124,75 @@ hookHeight.addEventListener(
 
 applyHookHeight();
 
-    
+    /* ==============================
+   CTA
+============================== */
+
+const savedCTA =
+  localStorage.getItem("viral1s_cta_text");
+
+if (savedCTA !== null) {
+  ctaInput.value = savedCTA;
+}
+
+const savedCTAFont =
+  localStorage.getItem("viral1s_cta_font");
+
+if (savedCTAFont) {
+  ctaFont.value = savedCTAFont;
+}
+
+function applyCTA() {
+
+  const value =
+    ctaInput.value.trim();
+
+  ctaOutput.textContent =
+    value;
+
+  if (containsArabic(value)) {
+    ctaOutput.dir = "rtl";
+  } else {
+    ctaOutput.dir = "ltr";
+  }
+
+  const fonts = {
+    system: "Arial, Helvetica, sans-serif",
+    inter: "Inter, Arial, sans-serif",
+    georgia: "Georgia, serif",
+    courier: '"Courier New", monospace',
+    cairo: '"Cairo", sans-serif',
+    tajawal: '"Tajawal", sans-serif',
+    "noto-kufi": '"Noto Kufi Arabic", sans-serif',
+    amiri: '"Amiri", serif'
+  };
+
+  ctaOutput.style.fontFamily =
+    fonts[ctaFont.value] ||
+    fonts.system;
+
+  localStorage.setItem(
+    "viral1s_cta_text",
+    ctaInput.value
+  );
+
+  localStorage.setItem(
+    "viral1s_cta_font",
+    ctaFont.value
+  );
+}
+
+ctaInput.addEventListener(
+  "input",
+  applyCTA
+);
+
+ctaFont.addEventListener(
+  "change",
+  applyCTA
+);
+
+applyCTA();
     /* ==============================
        IMAGE
     ============================== */
