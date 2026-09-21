@@ -457,47 +457,61 @@
       <!-- EDIT FIELDS -->
 
       <div class="compact-fields">
+<div class="compact-field hook-field">
 
-<div class="compact-field cta-controls">
-
-  <label for="ctaInput">
-    CTA
+  <label id="textControlLabel" for="hookInput">
+    Hook
   </label>
 
   <textarea
+    id="hookInput"
+    rows="2"
+    maxlength="120"
+    placeholder="Write your hook..."
+  ></textarea>
+
+  <textarea
     id="ctaInput"
-    rows="1"
+    rows="2"
     maxlength="80"
     placeholder="Write your CTA..."
+    style="display:none;"
   >Your CTA</textarea>
 
-  <div class="cta-font-control">
-
-    <label for="ctaFont">
-      CTA Font
+  <div class="hook-size-control">
+    <label for="hookSize">
+      Text Size
+      <span id="hookSizeValue">100%</span>
     </label>
 
-    <select id="ctaFont">
+    <input
+      id="hookSize"
+      type="range"
+      min="40"
+      max="150"
+      value="100"
+      step="5"
+    >
+  </div>
 
-      <optgroup label="English Fonts">
-        <option value="system">System</option>
-        <option value="inter">Inter</option>
-        <option value="georgia">Georgia</option>
-        <option value="courier">Courier New</option>
-      </optgroup>
+  <div class="hook-height-control">
+    <label for="hookHeight">
+      <span id="heightControlLabel">Hook Height</span>
+      <span id="hookHeightValue">40px</span>
+    </label>
 
-      <optgroup label="الخطوط العربية">
-        <option value="cairo">Cairo</option>
-        <option value="tajawal">Tajawal</option>
-        <option value="noto-kufi">Noto Kufi Arabic</option>
-        <option value="amiri">Amiri</option>
-      </optgroup>
-
-    </select>
-
+    <input
+      id="hookHeight"
+      type="range"
+      min="0"
+      max="120"
+      value="40"
+      step="5"
+    >
   </div>
 
 </div>
+
         <!-- HOOK INPUT -->
 
         <div class="compact-field hook-field">
