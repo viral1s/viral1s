@@ -1256,10 +1256,13 @@ hookHeight.addEventListener(
     const height =
       Number(hookHeight.value);
 
+    
+
     hookHeightValue.textContent =
-      `${height}px`;
+  `${Math.round(height)}px`;
 
-
+    
+  
     if (activeTextControl === "cta") {
 
       ctaSettings.height =
