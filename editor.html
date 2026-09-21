@@ -2807,6 +2807,28 @@ if (
   timestamp >= CTA_START
 ) {
 
+
+
+const ctaAnimationDuration = 0.22;
+
+const ctaProgress =
+  Math.min(
+    1,
+    (timestamp - CTA_START) /
+    ctaAnimationDuration
+  );
+
+ctx.globalAlpha =
+  ctaProgress;
+
+const ctaAnimationY =
+  -6 *
+  ctaScale *
+  (1 - ctaProgress);
+
+
+
+    
   ctx.globalAlpha = 1;
 
   ctx.fillStyle = "#ffffff";
