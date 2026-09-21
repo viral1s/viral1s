@@ -1095,7 +1095,15 @@ function selectTextControl(type) {
     isCTA
       ? ctaSettings
       : hookSettings;
-
+if (isCTA) {
+  hookHeight.min = "-120";
+  hookHeight.max = "120";
+  hookHeight.step = "5";
+} else {
+  hookHeight.min = "0";
+  hookHeight.max = "120";
+  hookHeight.step = "5";
+    }
 
   hookSize.value =
     settings.size;
