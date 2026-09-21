@@ -908,73 +908,243 @@ let activeTextControl = "hook";
        HOOK
     ============================== */
 
-    function updateHook() {
+    
 
-      const value =
-        hookInput.value.trim();
+/* ==============================
+   HOOK + CTA SHARED CONTROLS
+============================== */
 
-
-      if (!value) {
-
-        hookOutput.textContent =
-          "Your hook goes here";
-
-
-        hookOutput.classList.remove(
-          "arabic-hook"
-        );
-
-
-        hookOutput.dir =
-          "ltr";
+const fonts = {
+  system: "Arial, Helvetica, sans-serif",
+  inter: "Inter, Arial, sans-serif",
+  georgia: "Georgia, serif",
+  courier: '"Courier New", monospace',
+  cairo: '"Cairo", sans-serif',
+  tajawal: '"Tajawal", sans-serif',
+  "noto-kufi": '"Noto Kufi Arabic", sans-serif',
+  amiri: '"Amiri", serif'
+};
 
 
-        return;
+/* ==============================
+   SAVED VALUES
+============================== */
 
-      }
-
-
-      hookOutput.textContent =
-        value;
-
-
-      if (
-        containsArabic(value)
-      ) {
-
-        hookOutput.classList.add(
-          "arabic-hook"
-        );
-
-
-        hookOutput.dir =
-          "rtl";
-
-      } else {
-
-        hookOutput.classList.remove(
-          "arabic-hook"
-        );
-
-
-        hookOutput.dir =
-          "ltr";
-
-      }
-
-    }
-
-
-    const savedHook =
+const savedHook =
   localStorage.getItem("viral1s_hook_text");
 
 if (savedHook !== null) {
   hookInput.value = savedHook;
 }
 
+
+const savedCTA =
+  localStorage.getItem("viral1s_cta_text");
+
+if (savedCTA !== null) {
+  ctaInput.value = savedCTA;
+}
+
+
+let hookSettings = {
+  size: Number(
+    localStorage.getItem("reelflow_hook_size") || 100
+  ),
+
+  height: Number(
+    localStorage.getItem("reelflow_hook_height") || 40
+  ),
+
+  font:
+    localStorage.getItem("reelflow_hook_font") ||
+    "system"
+};
+
+
+let ctaSettings = {
+  size: Number(
+    localStorage.getItem("viral1s_cta_size") || 100
+  ),
+
+  height: Number(
+    localStorage.getItem("viral1s_cta_height") || 40
+  ),
+
+  font:
+    localStorage.getItem("viral1s_cta_font") ||
+    "system"
+};
+
+
+/* ==============================
+   UPDATE TEXT
+============================== */
+
+function updateHook() {
+
+  const value =
+    hookInput.value.trim();
+
+  hookOutput.textContent =
+    value || "Your hook goes here";
+
+  hookOutput.dir =
+    containsArabic(value)
+      ? "rtl"
+      : "ltr";
+
+  hookOutput.classList.toggle(
+    "arabic-hook",
+    containsArabic(value)
+  );
+}
+
+
+function updateCTA() {
+
+  const value =
+    ctaInput.value.trim();
+
+  ctaOutput.textContent =
+    value;
+
+  ctaOutput.dir =
+    containsArabic(value)
+      ? "rtl"
+      : "ltr";
+}
+
+
+/* ==============================
+   APPLY SETTINGS
+============================== */
+
+function applyHookSettings() {
+
+  hookOutput.style.fontSize =
+    `${hookSettings.size}%`;
+
+  hookOutput.style.fontFamily =
+    fonts[hookSettings.font] ||
+    fonts.system;
+
+  const padding =
+    4 + 6 * (hookSettings.height / 40);
+
+  hookOutput.style.paddingTop =
+    `${padding}px`;
+
+  hookOutput.style.paddingBottom =
+    `${padding}px`;
+}
+
+
+function applyCTASettings() {
+
+  ctaOutput.style.fontSize =
+    `${ctaSettings.size}%`;
+
+  ctaOutput.style.fontFamily =
+    fonts[ctaSettings.font] ||
+    fonts.system;
+
+  const padding =
+    4 + 6 * (ctaSettings.height / 40);
+
+  ctaOutput.style.paddingTop =
+    `${padding}px`;
+
+  ctaOutput.style.paddingBottom =
+    `${padding}px`;
+}
+
+
+/* ==============================
+   SELECT HOOK / CTA
+============================== */
+
+function selectTextControl(type) {
+
+  activeTextControl = type;
+
+  const isCTA =
+    type === "cta";
+
+
+  textControlLabel.textContent =
+    isCTA
+      ? "CTA"
+      : "Hook";
+
+  heightControlLabel.textContent =
+    isCTA
+      ? "CTA Height"
+      : "Hook Height";
+
+
+  hookInput.style.display =
+    isCTA
+      ? "none"
+      : "";
+
+  ctaInput.style.display =
+    isCTA
+      ? ""
+      : "none";
+
+
+  const settings =
+    isCTA
+      ? ctaSettings
+      : hookSettings;
+
+
+  hookSize.value =
+    settings.size;
+
+  hookHeight.value =
+    settings.height;
+
+  hookFont.value =
+    settings.font;
+
+
+  hookSizeValue.textContent =
+    `${settings.size}%`;
+
+  hookHeightValue.textContent =
+    `${settings.height}px`;
+}
+
+
+/* ==============================
+   CLICK PREVIEW
+============================== */
+
+hookOutput.addEventListener(
+  "click",
+  () => {
+    selectTextControl("hook");
+  }
+);
+
+
+ctaOutput.addEventListener(
+  "click",
+  () => {
+    selectTextControl("cta");
+  }
+);
+
+
+/* ==============================
+   TEXT INPUT
+============================== */
+
 hookInput.addEventListener(
   "input",
   () => {
+
     updateHook();
 
     localStorage.setItem(
@@ -984,187 +1154,158 @@ hookInput.addEventListener(
   }
 );
 
-updateHook();
-
-const savedHookSize =
-  localStorage.getItem("reelflow_hook_size");
-
-if (savedHookSize) {
-  hookSize.value = savedHookSize;
-}
-
-function applyHookSize() {
-  const size = Number(hookSize.value);
-
-  hookOutput.style.fontSize =
-    `${size}%`;
-
-  hookSizeValue.textContent =
-    `${size}%`;
-
-  localStorage.setItem(
-    "reelflow_hook_size",
-    String(size)
-  );
-}
-
-hookSize.addEventListener(
-  "input",
-  applyHookSize
-);
-
-applyHookSize();
-
-function applyHookFont() {
-  const fonts = {
-  system: 'Arial, Helvetica, sans-serif',
-  inter: 'Inter, Arial, sans-serif',
-  georgia: 'Georgia, serif',
-  courier: '"Courier New", monospace',
-
-  cairo: '"Cairo", sans-serif',
-  tajawal: '"Tajawal", sans-serif',
-  "noto-kufi": '"Noto Kufi Arabic", sans-serif',
-  amiri: '"Amiri", serif'
-};
-
-  
-  hookOutput.style.fontFamily =
-    fonts[hookFont.value] || fonts.system;
-
-  localStorage.setItem(
-    "reelflow_hook_font",
-    hookFont.value
-  );
-}
-
-const savedHookFont =
-  localStorage.getItem("reelflow_hook_font");
-
-if (savedHookFont) {
-  hookFont.value = savedHookFont;
-}
-
-hookFont.addEventListener(
-  "change",
-  applyHookFont
-);
-
-applyHookFont();
-
-    
-const savedHookHeight =
-  localStorage.getItem("reelflow_hook_height");
-
-if (savedHookHeight) {
-  hookHeight.value = savedHookHeight;
-}
-
-function applyHookHeight() {
-  const height = Number(hookHeight.value);
-
-  const safePadding = 4;
-
-const adjustablePadding =
-  6 * (height / 40);
-
-const padding =
-  safePadding + adjustablePadding;
-
-  hookOutput.style.minHeight = "";
-
-  hookOutput.style.paddingTop =
-    `${padding}px`;
-
-  hookOutput.style.paddingBottom =
-    `${padding}px`;
-
-  hookHeightValue.textContent =
-    `${height}px`;
-
-  localStorage.setItem(
-    "reelflow_hook_height",
-    String(height)
-  );
-}
-
-    
-hookHeight.addEventListener(
-  "input",
-  applyHookHeight
-);
-
-applyHookHeight();
-
-    /* ==============================
-   CTA
-============================== */
-
-const savedCTA =
-  localStorage.getItem("viral1s_cta_text");
-
-if (savedCTA !== null) {
-  ctaInput.value = savedCTA;
-}
-
-const savedCTAFont =
-  localStorage.getItem("viral1s_cta_font");
-
-if (savedCTAFont) {
-  ctaFont.value = savedCTAFont;
-}
-
-function applyCTA() {
-
-  const value =
-    ctaInput.value.trim();
-
-  ctaOutput.textContent =
-    value;
-
-  if (containsArabic(value)) {
-    ctaOutput.dir = "rtl";
-  } else {
-    ctaOutput.dir = "ltr";
-  }
-
-  const fonts = {
-    system: "Arial, Helvetica, sans-serif",
-    inter: "Inter, Arial, sans-serif",
-    georgia: "Georgia, serif",
-    courier: '"Courier New", monospace',
-    cairo: '"Cairo", sans-serif',
-    tajawal: '"Tajawal", sans-serif',
-    "noto-kufi": '"Noto Kufi Arabic", sans-serif',
-    amiri: '"Amiri", serif'
-  };
-
-  ctaOutput.style.fontFamily =
-    fonts[ctaFont.value] ||
-    fonts.system;
-
-  localStorage.setItem(
-    "viral1s_cta_text",
-    ctaInput.value
-  );
-
-  localStorage.setItem(
-    "viral1s_cta_font",
-    ctaFont.value
-  );
-}
 
 ctaInput.addEventListener(
   "input",
-  applyCTA
+  () => {
+
+    updateCTA();
+
+    localStorage.setItem(
+      "viral1s_cta_text",
+      ctaInput.value
+    );
+  }
 );
 
-ctaFont.addEventListener(
+
+/* ==============================
+   TEXT SIZE
+============================== */
+
+hookSize.addEventListener(
+  "input",
+  () => {
+
+    const size =
+      Number(hookSize.value);
+
+    hookSizeValue.textContent =
+      `${size}%`;
+
+
+    if (activeTextControl === "cta") {
+
+      ctaSettings.size =
+        size;
+
+      localStorage.setItem(
+        "viral1s_cta_size",
+        String(size)
+      );
+
+      applyCTASettings();
+
+    } else {
+
+      hookSettings.size =
+        size;
+
+      localStorage.setItem(
+        "reelflow_hook_size",
+        String(size)
+      );
+
+      applyHookSettings();
+    }
+  }
+);
+
+
+/* ==============================
+   HEIGHT
+============================== */
+
+hookHeight.addEventListener(
+  "input",
+  () => {
+
+    const height =
+      Number(hookHeight.value);
+
+    hookHeightValue.textContent =
+      `${height}px`;
+
+
+    if (activeTextControl === "cta") {
+
+      ctaSettings.height =
+        height;
+
+      localStorage.setItem(
+        "viral1s_cta_height",
+        String(height)
+      );
+
+      applyCTASettings();
+
+    } else {
+
+      hookSettings.height =
+        height;
+
+      localStorage.setItem(
+        "reelflow_hook_height",
+        String(height)
+      );
+
+      applyHookSettings();
+    }
+  }
+);
+
+
+/* ==============================
+   FONT
+============================== */
+
+hookFont.addEventListener(
   "change",
-  applyCTA
+  () => {
+
+    if (activeTextControl === "cta") {
+
+      ctaSettings.font =
+        hookFont.value;
+
+      localStorage.setItem(
+        "viral1s_cta_font",
+        hookFont.value
+      );
+
+      applyCTASettings();
+
+    } else {
+
+      hookSettings.font =
+        hookFont.value;
+
+      localStorage.setItem(
+        "reelflow_hook_font",
+        hookFont.value
+      );
+
+      applyHookSettings();
+    }
+  }
 );
 
-applyCTA();
+
+/* ==============================
+   INITIAL STATE
+============================== */
+
+updateHook();
+updateCTA();
+
+applyHookSettings();
+applyCTASettings();
+
+selectTextControl("hook");
+
+    
+
+
     /* ==============================
        IMAGE
     ============================== */
