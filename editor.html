@@ -1732,6 +1732,10 @@ exportBtn.addEventListener(
       return;
     }
 
+    if (playing) {
+  stopPreview();
+    }
+
     exportModal.classList.add(
       "show"
     );
