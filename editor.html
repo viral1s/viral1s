@@ -1646,7 +1646,16 @@ loadImageCreatorTransfer();
     ============================== */
 
     function updatePreview(time) {
+const CTA_START = 3.8;
 
+if (
+  ctaInput.value.trim() &&
+  time >= CTA_START
+) {
+  ctaOutput.classList.add("show");
+} else {
+  ctaOutput.classList.remove("show");
+    }
       currentTime.textContent =
         formatTime(time);
 
@@ -1714,7 +1723,7 @@ loadImageCreatorTransfer();
     ============================== */
 
     function resetVisuals() {
-
+ctaOutput.classList.remove("show");
       currentTime.textContent =
         "0:00";
 
