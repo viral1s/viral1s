@@ -1048,16 +1048,14 @@ function applyCTASettings() {
     fonts[ctaSettings.font] ||
     fonts.system;
 
-  const padding =
-    4 + 6 * (ctaSettings.height / 40);
+  ctaOutput.style.paddingTop = "5px";
+  ctaOutput.style.paddingBottom = "5px";
 
-  ctaOutput.style.paddingTop =
-    `${padding}px`;
+  ctaOutput.style.position = "relative";
 
-  ctaOutput.style.paddingBottom =
-    `${padding}px`;
+  ctaOutput.style.transform =
+    `translateY(${ctaSettings.height}px)`;
 }
-
 
 /* ==============================
    SELECT HOOK / CTA
@@ -1078,7 +1076,7 @@ function selectTextControl(type) {
 
   heightControlLabel.textContent =
     isCTA
-      ? "CTA Height"
+      ? "CTA Position"
       : "Hook Height";
 
 
