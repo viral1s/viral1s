@@ -1118,7 +1118,17 @@ function selectTextControl(type) {
   hookHeight.max = "120";
   hookHeight.step = "5";
     }
+if (isCTA) {
+  const minPosition = Number(hookHeight.min);
+  const maxPosition = Number(hookHeight.max);
 
+  ctaSettings.height = Math.max(
+    minPosition,
+    Math.min(maxPosition, ctaSettings.height)
+  );
+
+  applyCTASettings();
+    }
   hookSize.value =
     settings.size;
 
