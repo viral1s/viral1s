@@ -1094,11 +1094,26 @@ function selectTextControl(type) {
     isCTA
       ? ctaSettings
       : hookSettings;
-if (isCTA) {
-  hookHeight.min = "-120";
-  hookHeight.max = "120";
-  hookHeight.step = "5";
-} else {
+    
+  
+  if (isCTA) {
+  const topSpace =
+    document.querySelector(".reel-space-top");
+
+  const ctaHeight =
+    ctaOutput.getBoundingClientRect().height;
+
+  const availableHeight =
+    topSpace.getBoundingClientRect().height;
+
+  hookHeight.min =
+    `${-(availableHeight - ctaHeight)}`;
+
+  hookHeight.max = "0";
+  hookHeight.step = "1";
+}
+  
+  else {
   hookHeight.min = "0";
   hookHeight.max = "120";
   hookHeight.step = "5";
