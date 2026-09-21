@@ -2795,6 +2795,50 @@ drawWrappedText(
   hookLineHeight
 );
 
+
+
+  /* CTA */
+
+const ctaText =
+  ctaInput.value.trim();
+
+if (
+  ctaText &&
+  timestamp >= CTA_START
+) {
+
+  ctx.globalAlpha = 1;
+
+  ctx.fillStyle = "#ffffff";
+
+  ctx.font =
+    `${ctaStyle.fontWeight} ${ctaFontSize}px ${ctaStyle.fontFamily}`;
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.direction =
+    containsArabic(ctaText)
+      ? "rtl"
+      : "ltr";
+
+  const previewCTAHeight =
+    ctaOutput.getBoundingClientRect().height;
+
+  const exportCTAHeight =
+    previewCTAHeight * ctaScale;
+
+  const ctaY =
+    hookY -
+    exportCTAHeight / 2 +
+    ctaPositionY;
+
+  ctx.fillText(
+    ctaText,
+    VIDEO_WIDTH / 2,
+    ctaY
+  );
+}
       /* IMAGE REVEAL */
 
       let imageOpacity = 0;
