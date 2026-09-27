@@ -632,6 +632,13 @@ button {
 
   font-size: 11px;
 }
+
+#currentStyleNumber {
+  margin-top: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
 .style-switch-btn {
   width: 42px;
   height: 42px;
