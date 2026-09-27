@@ -2128,7 +2128,7 @@ button {
   margin: 0 auto 14px;
 
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) auto;
+  grid-template-columns: 44px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 11px;
 
