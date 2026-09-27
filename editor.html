@@ -986,6 +986,8 @@ styleSwitchBtn.addEventListener("click", () => {
   applyStyleTiming(nextStyle);
   applyStyleAudio(nextStyle);
 
+  localStorage.setItem("viral1s_current_style", nextStyle);
+
   currentTime.textContent = "0:00";
   progressFill.style.width = "0%";
 });
