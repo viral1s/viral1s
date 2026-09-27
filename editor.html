@@ -1108,6 +1108,37 @@ function saveStyleData(styleNumber) {
 
 
 
+    function loadStyleData(styleNumber) {
+  const data = getStyleData(styleNumber);
+
+  hookInput.value = data.hook;
+  ctaInput.value = data.cta;
+
+  hookSettings = {
+    size: data.hookSize,
+    height: data.hookHeight,
+    font: data.hookFont
+  };
+
+  ctaSettings = {
+    size: data.ctaSize,
+    height: data.ctaHeight,
+    font: data.ctaFont
+  };
+
+  updateHook();
+  updateCTA();
+
+  applyHookSettings();
+  applyCTASettings();
+
+  selectTextControl("hook");
+}
+
+
+
+
+
     
     
 /* ==============================
