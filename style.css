@@ -632,7 +632,34 @@ button {
 
   font-size: 11px;
 }
+.style-switch-btn {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
 
+  border: 1px solid #29292f;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #151517;
+  color: #9b8cff;
+
+  padding: 0;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.style-switch-btn:active {
+  transform: scale(0.94);
+  background: #1d1b25;
+  border-color: #5f50bd;
+}
 .top-export-btn {
   min-height: 42px;
 
