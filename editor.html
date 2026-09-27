@@ -992,7 +992,14 @@ styleSwitchBtn.addEventListener("click", () => {
   progressFill.style.width = "0%";
 });
 
+const savedStyle =
+  Number(localStorage.getItem("viral1s_current_style")) || 1;
 
+applyStyleTiming(savedStyle);
+
+if (savedStyle !== 1) {
+  applyStyleAudio(savedStyle);
+}
     
     totalTime.textContent =
       formatTime(REEL_END);
