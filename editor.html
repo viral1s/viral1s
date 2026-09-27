@@ -971,6 +971,26 @@ function applyStyleAudio(styleNumber) {
 
   totalTime.textContent = formatTime(REEL_END);
 });
+
+
+
+styleSwitchBtn.addEventListener("click", () => {
+  const nextStyle = currentStyle === 1 ? 2 : 1;
+
+  playing = false;
+  cancelAnimationFrame(animationFrame);
+
+  templateAudio.pause();
+  templateAudio.currentTime = 0;
+
+  applyStyleTiming(nextStyle);
+  applyStyleAudio(nextStyle);
+
+  currentTime.textContent = "0:00";
+  progressFill.style.width = "0%";
+});
+
+
     
     totalTime.textContent =
       formatTime(REEL_END);
