@@ -945,6 +945,23 @@ let REVEAL_DURATION =
   currentStyleNumber.textContent = styleNumber;
 }
 
+
+function applyStyleAudio(styleNumber) {
+  const settings = STYLE_SETTINGS[styleNumber];
+
+  if (!settings) return;
+
+  templateAudio.pause();
+  templateAudio.currentTime = 0;
+
+  templateAudio.innerHTML = `
+    <source src="${settings.audioMp3}" type="audio/mpeg">
+    <source src="${settings.audioM4a}" type="audio/mp4">
+  `;
+
+  templateAudio.load();
+}
+    
     totalTime.textContent =
       formatTime(REEL_END);
 
