@@ -1084,6 +1084,31 @@ function getStyleData(styleNumber) {
 }
 
 
+
+
+function saveStyleData(styleNumber) {
+  const data = {
+    hook: hookInput.value,
+    cta: ctaInput.value,
+
+    hookSize: hookSettings.size,
+    hookHeight: hookSettings.height,
+    hookFont: hookSettings.font,
+
+    ctaSize: ctaSettings.size,
+    ctaHeight: ctaSettings.height,
+    ctaFont: ctaSettings.font
+  };
+
+  localStorage.setItem(
+    getStyleStorageKey(styleNumber),
+    JSON.stringify(data)
+  );
+}
+
+
+
+    
     
 /* ==============================
    SAVED VALUES
