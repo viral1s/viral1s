@@ -1,1665 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
-  <title>Viral1s — Create Viral Reels in Seconds</title>
-<link rel="icon" type="image/png" href="viral1s-icon.png">
+  <title>Viral1s — Create Scroll-Stopping Reels</title>
+
   <meta
     name="description"
-    content="Create scroll-stopping reels in seconds with ready-made Viral1s templates. Add your content, customize your reel and export directly from your device."
-  />
-<link rel="canonical" href="https://viral1s.com/" />
-
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Viral1s" />
-<meta property="og:title" content="Viral1s — Create Viral Reels in Seconds" />
-<meta
-  property="og:description"
-  content="Create scroll-stopping reels in seconds with ready-made Viral1s templates. Add your content, customize your reel and export fast."
-/>
-<meta property="og:url" content="https://viral1s.com/" />
-
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Viral1s — Create Viral Reels in Seconds" />
-<meta
-  name="twitter:description"
-  content="Create scroll-stopping reels in seconds with ready-made Viral1s templates."
-/>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Viral1s",
-  "url": "https://viral1s.com/",
-  "applicationCategory": "MultimediaApplication",
-  "operatingSystem": "Web",
-  "description": "Create scroll-stopping reels in seconds with ready-made Viral1s templates."
-}
-</script>
-
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Viral1s",
-  "alternateName": "Viral1s",
-  "url": "https://viral1s.com/"
-}
-</script>
-
-
-
-  
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #070711;
-      --card: #11111d;
-      --card-2: #151523;
-      --border: rgba(255,255,255,0.08);
-      --text: #ffffff;
-      --muted: #9696aa;
-      --purple: #7c5cff;
-      --blue: #3f8cff;
-      --green: #27d980;
-    }
-
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(
-          circle at 50% -10%,
-          rgba(124,92,255,0.20),
-          transparent 34%
-        ),
-        var(--bg);
-
-      color: var(--text);
-
-      font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 520px;
-      min-height: 100vh;
-
-      margin: 0 auto;
-
-      padding:
-        calc(18px + env(safe-area-inset-top))
-        16px
-        28px;
-    }
-
-    /* HEADER */
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 28px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-
-      text-decoration: none;
-      color: white;
-    }
-
-    .logo-icon {
-      width: 34px;
-      height: 34px;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 10px;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--purple),
-          var(--blue)
-        );
-
-      font-size: 18px;
-      font-weight: 900;
-
-      box-shadow:
-        0 8px 24px rgba(89,76,255,0.28);
-    }
-
-    .logo-name {
-      font-size: 21px;
-      font-weight: 850;
-      letter-spacing: -0.8px;
-    }
-
-
-.brand-logo {
-  display: block;
-  width: 145px;
-  max-width: 42vw;
-  height: auto;
-  object-fit: contain;
-}
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-
-    
-    .beta {
-      padding: 5px 8px;
-
-      border: 1px solid var(--border);
-      border-radius: 999px;
-
-      background: rgba(255,255,255,0.04);
-
-      color: var(--muted);
-
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.7px;
-    }
-
-    /* HERO */
-
-    .hero {
-      margin-bottom: 28px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-
-      margin-bottom: 12px;
-
-      color: #b9adff;
-
-      font-size: 12px;
-      font-weight: 750;
-    }
-
-    .eyebrow-dot {
-      width: 7px;
-      height: 7px;
-
-      border-radius: 50%;
-
-      background: var(--purple);
-
-      box-shadow:
-        0 0 14px rgba(124,92,255,0.8);
-    }
-
-    h1 {
-      max-width: 430px;
-
-      margin-bottom: 10px;
-
-      font-size: clamp(31px, 9vw, 43px);
-      line-height: 1.02;
-      letter-spacing: -1.8px;
-
-      font-weight: 900;
-    }
-
-    .gradient-text {
-      background:
-        linear-gradient(
-          90deg,
-          #ffffff 0%,
-          #aa9aff 50%,
-          #6aa5ff 100%
-        );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero p {
-      max-width: 420px;
-
-      color: var(--muted);
-
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    /* SECTION */
-
-    .section-header {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-
-      margin-bottom: 13px;
-    }
-
-    .section-title {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -0.4px;
-    }
-
-    .section-count {
-      color: var(--muted);
-
-      font-size: 11px;
-      font-weight: 650;
-    }
-
-    /* TEMPLATE GRID */
-
-    .templates {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-
-      gap: 11px;
-    }
-
-    .template-card {
-      position: relative;
-
-      min-width: 0;
-
-      overflow: hidden;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 18px;
-
-      background:
-        linear-gradient(
-          160deg,
-          rgba(255,255,255,0.055),
-          rgba(255,255,255,0.018)
-        ),
-        var(--card);
-
-      text-decoration: none;
-      color: white;
-    }
-
-    .template-card.active {
-      transition:
-        transform 0.18s ease,
-        border-color 0.18s ease,
-        box-shadow 0.18s ease;
-    }
-
-    .template-card.active:active {
-      transform: scale(0.975);
-    }
-
-    /* PREVIEW */
-
-    .preview {
-      position: relative;
-
-      width: 100%;
-      aspect-ratio: 4 / 5;
-
-      overflow: hidden;
-
-      background: #0c0c15;
-    }
-
-    .preview-one {
-      display: flex;
-      flex-direction: column;
-
-      padding: 14px 11px 11px;
-    }
-
-    .fake-video {
-      flex: 1;
-
-      display: flex;
-      flex-direction: column;
-
-      overflow: hidden;
-
-      border-radius: 12px;
-
-      background: #050505;
-
-      box-shadow:
-        0 14px 32px rgba(0,0,0,0.35);
-    }
-
-    .fake-top {
-      flex: 0.42;
-      background: #080808;
-    }
-
-    .fake-hook {
-      padding: 8px 7px;
-
-      background: white;
-      color: #080808;
-
-      text-align: center;
-
-      font-size: 8px;
-      line-height: 1.15;
-      font-weight: 900;
-    }
-
-    .fake-image {
-      position: relative;
-
-      flex: 1;
-
-      overflow: hidden;
-
-      background:
-        radial-gradient(
-          circle at 68% 33%,
-          rgba(117,90,255,0.65),
-          transparent 27%
-        ),
-        linear-gradient(
-          135deg,
-          #17172a,
-          #292058 55%,
-          #10101c
-        );
-    }
-
-    .fake-image::before {
-      content: "";
-
-      position: absolute;
-      width: 58%;
-      height: 58%;
-
-      top: 20%;
-      left: 21%;
-
-      border-radius: 50% 50% 45% 45%;
-
-      background:
-        linear-gradient(
-          140deg,
-          rgba(255,255,255,0.20),
-          rgba(255,255,255,0.03)
-        );
-
-      filter: blur(0.3px);
-    }
-
-    .fake-bottom {
-      flex: 0.43;
-      background: #080808;
-    }
-
-    .free-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-
-      z-index: 3;
-
-      padding: 6px 8px;
-
-      border:
-        1px solid rgba(67,255,161,0.25);
-
-      border-radius: 999px;
-
-      background:
-        rgba(13,45,31,0.90);
-
-      color: #61f2aa;
-
-      font-size: 9px;
-      line-height: 1;
-      font-weight: 850;
-      letter-spacing: 0.25px;
-
-      backdrop-filter: blur(8px);
-    }
-
-    /* LOCKED CARDS */
-
-    .coming-preview {
-      display: grid;
-      place-items: center;
-
-      background:
-        radial-gradient(
-          circle at 50% 30%,
-          rgba(124,92,255,0.13),
-          transparent 42%
-        ),
-        #0d0d18;
-    }
-
-    .coming-shape {
-      width: 58%;
-      aspect-ratio: 9 / 12;
-
-      border:
-        1px solid rgba(255,255,255,0.07);
-
-      border-radius: 13px;
-
-      background:
-        linear-gradient(
-          150deg,
-          rgba(255,255,255,0.055),
-          rgba(255,255,255,0.012)
-        );
-
-      transform: rotate(3deg);
-
-      box-shadow:
-        0 18px 30px rgba(0,0,0,0.35);
-    }
-
-    .coming-overlay {
-      position: absolute;
-      inset: 0;
-
-      display: grid;
-      place-items: center;
-
-      background:
-        rgba(5,5,11,0.38);
-
-      backdrop-filter: blur(2px);
-    }
-
-    .coming-pill {
-      padding: 7px 10px;
-
-      border:
-        1px solid rgba(255,255,255,0.10);
-
-      border-radius: 999px;
-
-      background:
-        rgba(15,15,27,0.88);
-
-      color: #c4c4d0;
-
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-    }
-
-    /* CARD INFO */
-
-    .card-info {
-      padding: 11px 11px 12px;
-    }
-
-    .card-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 7px;
-    }
-
-    .template-name {
-      overflow: hidden;
-
-      font-size: 13px;
-      font-weight: 800;
-
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .arrow {
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      width: 23px;
-      height: 23px;
-
-      border-radius: 7px;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--purple),
-          var(--blue)
-        );
-
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .template-status {
-      margin-top: 5px;
-
-      color: var(--muted);
-
-      font-size: 10px;
-      font-weight: 550;
-    }
-
-    /* HOW IT WORKS */
-
-    .how {
-      margin-top: 28px;
-
-      padding: 17px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 18px;
-
-      background:
-        rgba(255,255,255,0.025);
-    }
-
-    .how-title {
-      margin-bottom: 14px;
-
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 8px;
-    }
-
-    .step {
-      text-align: center;
-    }
-
-    .step-number {
-      width: 30px;
-      height: 30px;
-
-      display: grid;
-      place-items: center;
-
-      margin: 0 auto 7px;
-
-      border:
-        1px solid rgba(124,92,255,0.22);
-
-      border-radius: 9px;
-
-      background:
-        rgba(124,92,255,0.10);
-
-      color: #b9adff;
-
-      font-size: 11px;
-      font-weight: 850;
-    }
-
-    .step-text {
-      color: #b1b1c0;
-
-      font-size: 10px;
-      line-height: 1.35;
-      font-weight: 600;
-    }
-
-    /* FOOTER */
-
-    footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-
-      margin-top: 26px;
-
-      color: #666678;
-
-      font-size: 10px;
-    }
-
-    footer span {
-      width: 3px;
-      height: 3px;
-
-      border-radius: 50%;
-
-      background: #444455;
-    }
-
-    @media (min-width: 520px) {
-      .app {
-        padding-left: 22px;
-        padding-right: 22px;
-      }
-    }
-
-
-
-/* VIRAL1S APP LOADER */
-
-.app-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-
-  background:
-    radial-gradient(
-      circle at 50% 35%,
-      rgba(118, 92, 255, 0.14),
-      transparent 34%
-    ),
-    #070711;
-
-  opacity: 1;
-  visibility: visible;
-
-  transition:
-    opacity 0.35s ease,
-    visibility 0.35s ease;
-}
-
-.app-loader.is-hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.loader-brand {
-  color: #ffffff;
-  font-size: 28px;
-  font-weight: 900;
-  letter-spacing: -1px;
-}
-
-.loader-brand span {
-  background:
-    linear-gradient(
-      135deg,
-      #765cff,
-      #527cff
-    );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.loader-line {
-  width: 92px;
-  height: 3px;
-  overflow: hidden;
-
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.loader-line-fill {
-  width: 42%;
-  height: 100%;
-
-  border-radius: inherit;
-
-  background:
-    linear-gradient(
-      90deg,
-      #765cff,
-      #527cff
-    );
-
-  animation:
-    viralLoaderMove 0.85s ease-in-out infinite;
-}
-
-@keyframes viralLoaderMove {
-  0% {
-    transform: translateX(-130%);
+    content="Create scroll-stopping short-form videos with Viral1s. Add your hook and image, customize your reel and export a beat-synced video directly from your browser."
+  >
+
+  <link
+    rel="canonical"
+    href="https://viral1s.com/"
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="viral1s-icon.png"
+  >
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+
+  <!-- Open Graph -->
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <meta
+    property="og:site_name"
+    content="Viral1s"
+  >
+
+  <meta
+    property="og:title"
+    content="Viral1s — Create Scroll-Stopping Reels"
+  >
+
+  <meta
+    property="og:description"
+    content="Create beat-synced short-form videos directly from your browser."
+  >
+
+  <meta
+    property="og:url"
+    content="https://viral1s.com/"
+  >
+
+  <!-- Twitter -->
+  <meta
+    name="twitter:card"
+    content="summary"
+  >
+
+  <meta
+    name="twitter:title"
+    content="Viral1s — Create Scroll-Stopping Reels"
+  >
+
+  <meta
+    name="twitter:description"
+    content="Create beat-synced short-form videos directly from your browser."
+  >
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Viral1s",
+    "url": "https://viral1s.com/",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web",
+    "description": "Create beat-synced short-form videos directly from your browser."
   }
+  </script>
 
-  50% {
-    transform: translateX(140%);
-  }
-
-  100% {
-    transform: translateX(330%);
-  }
-}
-
-
-
-.seo-intro {
-  margin-top: 28px;
-  padding: 22px 18px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(124, 92, 255, 0.07),
-      rgba(255, 255, 255, 0.02)
-    );
-}
-
-.seo-intro h2 {
-  margin: 0 0 12px;
-  color: var(--text);
-  font-size: 22px;
-  line-height: 1.2;
-  font-weight: 850;
-  letter-spacing: -0.4px;
-}
-
-.seo-intro p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.seo-intro p + p {
-  margin-top: 10px;
-}
-    
-/* =========================
-   MOBILE FOOTER
-========================= */
-
-/* =========================
-   HOME FOOTER - SAME AS PAGES
-========================= */
-
-footer {
-  margin-top: 38px !important;
-  padding: 24px 10px 10px !important;
-
-  display: block !important;
-
-  width: 100% !important;
-
-  text-align: center !important;
-}
-
-footer .footer-links {
-  display: flex !important;
-
-  justify-content: center !important;
-  align-items: center !important;
-
-  flex-wrap: wrap !important;
-
-  gap: 10px 18px !important;
-
-  width: 100% !important;
-
-  margin: 0 !important;
-}
-
-footer .footer-links a {
-  color: #a3a3b3 !important;
-
-  text-decoration: none !important;
-
-  font-size: 14px !important;
-  font-weight: 700 !important;
-}
-
-footer .footer-brand {
-  display: block !important;
-
-  width: 100% !important;
-
-  margin-top: 20px !important;
-
-  color: #6f6f80 !important;
-
-  font-size: 14px !important;
-
-  text-align: center !important;
-}
-
-footer .footer-brand a {
-  color: inherit !important;
-
-  text-decoration: none !important;
-
-  font-size: inherit !important;
-}
-
-
-
-
-/* =========================================
-   VIRAL1S — DESKTOP HOME
-   Mobile remains unchanged
-========================================= */
-
-@media (min-width: 900px) {
-
-  body {
-    background:
-      radial-gradient(
-        circle at 50% -15%,
-        rgba(124, 92, 255, 0.22),
-        transparent 38%
-      ),
-      var(--bg);
-  }
-
-  .app {
-    width: 100%;
-    max-width: 1180px;
-    min-height: 100vh;
-
-    margin: 0 auto;
-
-    padding:
-      28px
-      34px
-      42px;
-  }
-
-
-  /* HEADER */
-
-  .topbar {
-    margin-bottom: 68px;
-  }
-
-  .brand-logo {
-    width: 185px;
-    max-width: none;
-  }
-
-  .beta {
-    padding: 6px 10px;
-
-    font-size: 11px;
-  }
-
-
-  /* HERO */
-
-  .hero {
-    max-width: 820px;
-
-    margin:
-      0 auto
-      70px;
-
-    text-align: center;
-  }
-
-  .eyebrow {
-    justify-content: center;
-
-    margin-bottom: 18px;
-
-    font-size: 13px;
-  }
-
-  h1 {
-    max-width: 820px;
-
-    margin:
-      0 auto
-      20px;
-
-    font-size: clamp(
-      54px,
-      5.3vw,
-      76px
-    );
-
-    line-height: 0.98;
-
-    letter-spacing: -3.2px;
-  }
-
-  .hero p {
-    max-width: 650px;
-
-    margin: 0 auto;
-
-    font-size: 17px;
-    line-height: 1.65;
-  }
-
-
-  /* TEMPLATE SECTION */
-
-  .section-header {
-    margin-bottom: 18px;
-  }
-
-  .section-title {
-    font-size: 21px;
-  }
-
-  .section-count {
-    font-size: 12px;
-  }
-
-  .templates {
-    grid-template-columns:
-      repeat(4, minmax(0, 1fr));
-
-    gap: 16px;
-  }
-
-  .template-card {
-    border-radius: 21px;
-  }
-
-  .template-card.active:hover {
-    transform: translateY(-5px);
-
-    border-color:
-      rgba(124, 92, 255, 0.34);
-
-    box-shadow:
-      0 20px 45px
-      rgba(0, 0, 0, 0.28);
-  }
-
-  .preview-one {
-    padding: 17px 14px 14px;
-  }
-
-  .fake-video {
-    border-radius: 14px;
-  }
-
-  .fake-hook {
-    padding: 10px 8px;
-
-    font-size: 10px;
-  }
-
-  .free-badge {
-    top: 13px;
-    left: 13px;
-
-    padding: 7px 9px;
-
-    font-size: 10px;
-  }
-
-  .coming-pill {
-    padding: 8px 12px;
-
-    font-size: 10px;
-  }
-
-  .card-info {
-    padding:
-      14px
-      14px
-      15px;
-  }
-
-  .template-name {
-    font-size: 15px;
-  }
-
-  .template-status {
-    margin-top: 6px;
-
-    font-size: 11px;
-  }
-
-  .arrow {
-    width: 28px;
-    height: 28px;
-
-    border-radius: 8px;
-
-    font-size: 14px;
-  }
-
-
-  /* HOW IT WORKS */
-
-  .how {
-    margin-top: 55px;
-
-    padding: 28px 30px;
-
-    border-radius: 22px;
-  }
-
-  .how-title {
-    margin-bottom: 25px;
-
-    font-size: 20px;
-
-    text-align: center;
-  }
-
-  .steps {
-    gap: 26px;
-  }
-
-  .step {
-    padding: 8px 20px 4px;
-  }
-
-  .step-number {
-    width: 42px;
-    height: 42px;
-
-    margin-bottom: 12px;
-
-    border-radius: 12px;
-
-    font-size: 14px;
-  }
-
-  .step-text {
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-
-  /* SEO SECTION */
-
-  .seo-intro {
-    max-width: 900px;
-
-    margin:
-      55px auto
-      0;
-
-    padding:
-      32px
-      36px;
-
-    border-radius: 22px;
-
-    text-align: center;
-  }
-
-  .seo-intro h2 {
-    margin-bottom: 15px;
-
-    font-size: 27px;
-  }
-
-  .seo-intro p {
-    max-width: 760px;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    font-size: 15px;
-    line-height: 1.75;
-  }
-
-  .seo-intro p + p {
-    margin-top: 12px;
-  }
-
-
-  /* FOOTER */
-
-  footer {
-    margin-top: 55px !important;
-
-    padding-top: 28px !important;
-  }
-
-  footer .footer-links {
-    gap: 24px !important;
-  }
-
-  footer .footer-links a {
-    font-size: 14px !important;
-
-    transition:
-      color 0.18s ease;
-  }
-
-  footer .footer-links a:hover {
-    color: #ffffff !important;
-  }
-
-  footer .footer-brand {
-    margin-top: 22px !important;
-  }
-
-}
-
-
-
-/* =========================================
-   HOME — IMAGE CREATOR
-========================================= */
-
-.image-creator-home {
-  margin-top: 26px;
-}
-
-.image-creator-home-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 14px;
-
-  border: 1px solid var(--border);
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(124, 92, 255, 0.10),
-      rgba(77, 130, 255, 0.04)
-    );
-}
-
-.image-creator-home-icon {
-  flex: 0 0 42px;
-
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 12px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7c5cff,
-      #4d82ff
-    );
-
-  color: #ffffff;
-
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.image-creator-home-text {
-  min-width: 0;
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.image-creator-home-text strong {
-  color: var(--text);
-
-  font-size: 14px;
-  line-height: 1.15;
-  font-weight: 850;
-}
-
-.image-creator-home-text span {
-  color: var(--muted);
-
-  font-size: 11px;
-  line-height: 1.3;
-}
-
-.image-creator-home-btn {
-  flex: 0 0 auto;
-
-  min-height: 38px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0 12px;
-
-  border: 1px solid rgba(124, 92, 255, 0.28);
-  border-radius: 10px;
-
-  background:
-    rgba(124, 92, 255, 0.12);
-
-  color: #ffffff;
-
-  text-decoration: none;
-
-  font-size: 11px;
-  font-weight: 800;
-
-  -webkit-tap-highlight-color: transparent;
-}
-
-.image-creator-home-btn:active {
-  transform: scale(0.98);
-}
-
-/* MOBILE */
-
-@media (max-width: 520px) {
-
-  .image-creator-home-content {
-    gap: 9px;
-    padding: 12px;
-  }
-
-  .image-creator-home-icon {
-    flex-basis: 38px;
-
-    width: 38px;
-    height: 38px;
-
-    font-size: 16px;
-  }
-
-  .image-creator-home-text strong {
-    font-size: 13px;
-  }
-
-  .image-creator-home-text span {
-    font-size: 10px;
-  }
-
-  .image-creator-home-btn {
-    min-height: 36px;
-    padding: 0 10px;
-
-    font-size: 10px;
-  }
-}
-
-
-
-    
-  </style>
 </head>
+
 
 <body>
 
+  <!-- =========================
+       LOADING SCREEN
+  ========================== -->
 
+  <div
+    id="appLoader"
+    class="app-loader"
+    aria-hidden="true"
+  >
 
+    <div class="loader-brand">
+      Viral<span>1s</span>
+    </div>
 
-  <div id="appLoader" class="app-loader">
-  <div class="loader-brand">
-    Viral<span>1s</span>
+    <div class="loader-line">
+      <div class="loader-line-fill"></div>
+    </div>
+
   </div>
 
-  <div class="loader-line">
-    <div class="loader-line-fill"></div>
-  </div>
-</div>
+
+  <!-- =========================
+       PAGE
+  ========================== -->
+
   <main class="app">
 
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
     <header class="topbar">
-      <a class="logo" href="index.html" aria-label="Viral1s Home">
-  <img
-    src="viral1s-logo.webp"
-    alt="Viral1s"
-    class="brand-logo"
-  >
-</a>
-      <div class="beta">BETA</div>
+
+      <a
+        href="index.html"
+        class="logo"
+        aria-label="Viral1s Home"
+      >
+
+        <img
+          src="viral1s-logo.webp"
+          alt="Viral1s"
+          class="brand-logo"
+        >
+
+      </a>
+
+      <div class="beta">
+        BETA
+      </div>
+
     </header>
 
+
+    <!-- =========================
+         HERO
+    ========================== -->
 
     <section class="hero">
 
       <div class="eyebrow">
+
         <span class="eyebrow-dot"></span>
-        Ready-made reel templates
+
+        Reel creator for short-form content
+
       </div>
+
 
       <h1>
-        Create reels
+
+        Create reels that
+
         <span class="gradient-text">
-          that stop the scroll.
+          stop the scroll.
         </span>
+
       </h1>
 
-      <p>
-  Viral1s helps you create scroll-stopping reels
-  with ready-made templates. Add your content,
-  customize your reel and export in seconds.
-</p>
-    </section>
+
+      <p class="hero-description">
+
+        Add your hook and image, customize your video,
+        and reveal your content on the beat.
+        Viral1s turns it into a ready-to-post vertical reel
+        directly from your browser.
+
+      </p>
 
 
-    <section>
+      <a
+        href="editor.html"
+        class="primary-button"
+      >
 
-      <div class="section-header">
-        <div class="section-title">
-          Templates
-        </div>
+        <span>
+          Create Your Reel
+        </span>
 
-        <div class="section-count">
-          1 available
-        </div>
-      </div>
-
-
-      <div class="templates">
-
-
-        <!-- TEMPLATE 1 -->
-
-        <a
-          class="template-card active"
-          href="editor.html"
+        <span
+          class="button-arrow"
+          aria-hidden="true"
         >
+          →
+        </span>
 
-          <div class="preview preview-one">
+      </a>
 
-            <div class="free-badge">
-              100% FREE
-            </div>
-
-            <div class="fake-video">
-
-              <div class="fake-top"></div>
-
-              <div class="fake-hook">
-                YOUR HOOK GOES HERE
-              </div>
-
-              <div class="fake-image"></div>
-
-              <div class="fake-bottom"></div>
-
-            </div>
-
-          </div>
-
-          <div class="card-info">
-
-            <div class="card-row">
-
-              <div class="template-name">
-                Beat Reveal
-              </div>
-
-              <div class="arrow">
-                →
-              </div>
-
-            </div>
-
-            <div class="template-status">
-              Image + Hook · 5 sec
-            </div>
-
-          </div>
-
-        </a>
-
-
-        <!-- TEMPLATE 2 -->
-
-        <div class="template-card">
-
-          <div class="preview coming-preview">
-
-            <div class="coming-shape"></div>
-
-            <div class="coming-overlay">
-              <div class="coming-pill">
-                COMING SOON
-              </div>
-            </div>
-
-          </div>
-
-          <div class="card-info">
-
-            <div class="template-name">
-              Story Reveal
-            </div>
-
-            <div class="template-status">
-              Coming soon
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- TEMPLATE 3 -->
-
-        <div class="template-card">
-
-          <div class="preview coming-preview">
-
-            <div
-              class="coming-shape"
-              style="transform: rotate(-3deg);"
-            ></div>
-
-            <div class="coming-overlay">
-              <div class="coming-pill">
-                COMING SOON
-              </div>
-            </div>
-
-          </div>
-
-          <div class="card-info">
-
-            <div class="template-name">
-              Fast Facts
-            </div>
-
-            <div class="template-status">
-              Coming soon
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- TEMPLATE 4 -->
-
-        <div class="template-card">
-
-          <div class="preview coming-preview">
-
-            <div
-              class="coming-shape"
-              style="transform: rotate(2deg);"
-            ></div>
-
-            <div class="coming-overlay">
-              <div class="coming-pill">
-                COMING SOON
-              </div>
-            </div>
-
-          </div>
-
-          <div class="card-info">
-
-            <div class="template-name">
-              Viral List
-            </div>
-
-            <div class="template-status">
-              Coming soon
-            </div>
-
-          </div>
-
-        </div>
-
-
-      </div>
     </section>
 
 
-    <section class="how">
+    <!-- =========================
+         REEL PREVIEW
+    ========================== -->
 
-      <div class="how-title">
-        Create in 3 steps
+    <section
+      class="demo-section"
+      aria-labelledby="demoTitle"
+    >
+
+      <div class="section-heading">
+
+        <span class="section-label">
+          BEAT REVEAL
+        </span>
+
+        <h2 id="demoTitle">
+          See what you can create
+        </h2>
+
+        <p>
+          A simple vertical format built around a strong hook,
+          a timed reveal and your own content.
+        </p>
+
       </div>
+
+
+      <div class="demo-area">
+
+        <div class="phone-preview">
+
+          <div class="phone-screen">
+
+            <!-- CTA -->
+            <div class="demo-cta">
+              WAIT FOR IT...
+            </div>
+
+
+            <!-- TOP SPACE -->
+            <div class="demo-top-space"></div>
+
+
+            <!-- HOOK -->
+            <div class="demo-hook">
+
+              3 THINGS PEOPLE
+              NOTICE ABOUT YOU
+              INSTANTLY
+
+            </div>
+
+
+            <!-- IMAGE -->
+            <div class="demo-image">
+
+              <div class="demo-image-glow"></div>
+
+              <div class="demo-image-shape"></div>
+
+              <div class="demo-image-label">
+                YOUR IMAGE
+              </div>
+
+            </div>
+
+
+            <!-- BOTTOM SPACE -->
+            <div class="demo-bottom-space"></div>
+
+          </div>
+
+        </div>
+
+
+        <div class="demo-info">
+
+          <div class="feature">
+
+            <div class="feature-icon">
+              01
+            </div>
+
+            <div>
+
+              <h3>
+                Start with a hook
+              </h3>
+
+              <p>
+                Write the opening text that viewers
+                see before the reveal.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="feature">
+
+            <div class="feature-icon">
+              02
+            </div>
+
+            <div>
+
+              <h3>
+                Add your image
+              </h3>
+
+              <p>
+                Upload the visual you want to reveal
+                inside the reel.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="feature">
+
+            <div class="feature-icon">
+              03
+            </div>
+
+            <div>
+
+              <h3>
+                Reveal it on the beat
+              </h3>
+
+              <p>
+                Viral1s handles the timed visual reveal
+                while you preview the result.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         HOW IT WORKS
+    ========================== -->
+
+    <section
+      class="how-section"
+      aria-labelledby="howTitle"
+    >
+
+      <div class="section-heading">
+
+        <span class="section-label">
+          SIMPLE WORKFLOW
+        </span>
+
+        <h2 id="howTitle">
+          Create your reel in 3 steps
+        </h2>
+
+        <p>
+          No complicated timeline.
+          Open the editor, add your content and export.
+        </p>
+
+      </div>
+
 
       <div class="steps">
 
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-text">
-            Pick a template
-          </div>
-        </div>
+        <article class="step">
 
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-text">
+          <div class="step-number">
+            1
+          </div>
+
+          <h3>
+            Write your hook
+          </h3>
+
+          <p>
+            Add the text that appears before your
+            visual reveal and customize its look.
+          </p>
+
+        </article>
+
+
+        <article class="step">
+
+          <div class="step-number">
+            2
+          </div>
+
+          <h3>
             Add your content
+          </h3>
+
+          <p>
+            Upload your image and customize the reel
+            directly in the live preview.
+          </p>
+
+        </article>
+
+
+        <article class="step">
+
+          <div class="step-number">
+            3
           </div>
+
+          <h3>
+            Preview & export
+          </h3>
+
+          <p>
+            Watch the full result and export your
+            finished vertical video from your device.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PRODUCT INFO
+    ========================== -->
+
+    <section
+      class="product-section"
+      aria-labelledby="productTitle"
+    >
+
+      <div class="product-content">
+
+        <span class="section-label">
+          BUILT FOR SHORT-FORM
+        </span>
+
+        <h2 id="productTitle">
+          A focused reel editor without the complicated timeline
+        </h2>
+
+        <p>
+          Viral1s is designed for creators who want to build
+          short vertical videos quickly. Instead of starting
+          with an empty editing timeline, you start with a
+          ready-made reel structure and customize the parts
+          that matter.
+        </p>
+
+        <p>
+          Change your hook, CTA, typography and visual,
+          preview the timing directly in your browser,
+          and export the finished video when it is ready.
+        </p>
+
+      </div>
+
+
+      <div class="product-points">
+
+        <div class="product-point">
+
+          <span class="point-mark">
+            ✓
+          </span>
+
+          <div>
+            <strong>
+              Beat-synced reveal
+            </strong>
+
+            <span>
+              Preview your content reveal with the reel timing.
+            </span>
+          </div>
+
         </div>
 
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-text">
-            Export your reel
+
+        <div class="product-point">
+
+          <span class="point-mark">
+            ✓
+          </span>
+
+          <div>
+            <strong>
+              Custom hook & CTA
+            </strong>
+
+            <span>
+              Control the text, typography and placement.
+            </span>
           </div>
+
+        </div>
+
+
+        <div class="product-point">
+
+          <span class="point-mark">
+            ✓
+          </span>
+
+          <div>
+            <strong>
+              Multiple export qualities
+            </strong>
+
+            <span>
+              Export your finished reel in the available
+              video quality you need.
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="product-point">
+
+          <span class="point-mark">
+            ✓
+          </span>
+
+          <div>
+            <strong>
+              Works in your browser
+            </strong>
+
+            <span>
+              Create from your phone or computer
+              without a traditional editing timeline.
+            </span>
+          </div>
+
         </div>
 
       </div>
 
     </section>
 
-<section class="image-creator-home">
-  <div class="image-creator-home-content">
-    <div class="image-creator-home-icon">✦</div>
 
-    <div class="image-creator-home-text">
-      <strong>Image Creator</strong>
-      <span>Create images for your reels</span>
-    </div>
+    <!-- =========================
+         FINAL CTA
+    ========================== -->
 
-    <a
-      href="image-editor.html"
-      class="image-creator-home-btn"
-    >
-      Create Image →
-    </a>
-  </div>
-</section>
-    
-<section class="seo-intro">
-  <h2>Create Reels Online with Viral1s</h2>
+    <section class="final-cta">
 
-  <p>
-    Viral1s makes it easy to create short-form reels using
-    ready-made templates. Choose a format, add your own content,
-    customize your reel and export it directly from your device.
-  </p>
+      <div class="final-glow"></div>
 
-  <p>
-    Our templates are designed for quick TikTok, Instagram Reels
-    and short-form social media content without complicated
-    editing tools.
-  </p>
-</section>
+      <div class="final-content">
+
+        <span class="section-label">
+          READY TO CREATE?
+        </span>
+
+        <h2>
+          Turn your idea into a reel.
+        </h2>
+
+        <p>
+          Open the Viral1s editor and start creating
+          your video directly from your browser.
+        </p>
 
 
+        <a
+          href="editor.html"
+          class="primary-button"
+        >
+
+          <span>
+            Open Reel Editor
+          </span>
+
+          <span
+            class="button-arrow"
+            aria-hidden="true"
+          >
+            →
+          </span>
+
+        </a>
+
+      </div>
+
+    </section>
 
 
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+      <nav
+        class="footer-links"
+        aria-label="Footer navigation"
+      >
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+        <a href="terms.html">
+          Terms
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+      </nav>
 
 
-<footer>
-  <nav class="footer-links" aria-label="Footer navigation">
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="terms.html">Terms</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+      <div class="footer-brand">
 
-  <div class="footer-brand">
-    <a href="index.html">© Viral1s</a>
-  </div>
-</footer>
+        <a href="index.html">
+          © Viral1s
+        </a>
+
+      </div>
+
+    </footer>
 
 
+  </main>
 
-  <script>
-  const appLoader =
-  document.getElementById("appLoader");
 
-const loaderStartTime = performance.now();
-const minimumLoaderTime = 400;
+  <script src="script.js"></script>
 
-window.addEventListener(
-  "load",
-  () => {
-    if (!appLoader) return;
-
-    const elapsedTime =
-      performance.now() - loaderStartTime;
-
-    const remainingTime =
-      Math.max(
-        0,
-        minimumLoaderTime - elapsedTime
-      );
-
-    setTimeout(() => {
-      appLoader.classList.add("is-hidden");
-    }, remainingTime);
-  }
-);
-</script>
-
-  
 </body>
+
 </html>
