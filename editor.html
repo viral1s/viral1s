@@ -1067,7 +1067,21 @@ function getStyleStorageKey(styleNumber) {
 
 
 
+function getStyleData(styleNumber) {
+  const saved =
+    localStorage.getItem(getStyleStorageKey(styleNumber));
 
+  if (saved) {
+    try {
+      return {
+        ...STYLE_DEFAULTS[styleNumber],
+        ...JSON.parse(saved)
+      };
+    } catch (error) {}
+  }
+
+  return { ...STYLE_DEFAULTS[styleNumber] };
+}
 
 
     
