@@ -975,6 +975,8 @@ function applyStyleAudio(styleNumber) {
 
 
 styleSwitchBtn.addEventListener("click", () => {
+
+  saveStyleData(currentStyle);
   const nextStyle = currentStyle === 1 ? 2 : 1;
 
   playing = false;
