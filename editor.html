@@ -961,6 +961,16 @@ function applyStyleAudio(styleNumber) {
 
   templateAudio.load();
 }
+
+
+    templateAudio.addEventListener("loadedmetadata", () => {
+  if (!Number.isFinite(templateAudio.duration)) return;
+
+  REEL_END = templateAudio.duration;
+  REVEAL_DURATION = REEL_END - REVEAL_START;
+
+  totalTime.textContent = formatTime(REEL_END);
+});
     
     totalTime.textContent =
       formatTime(REEL_END);
