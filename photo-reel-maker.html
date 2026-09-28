@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8BSHLB5FC6"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag("js", new Date());
+
+  gtag("config", "G-8BSHLB5FC6");
+</script>
+
+<meta charset="UTF-8" />
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+/>
+
+<title>
+  Free Photo Reel Maker Online | Viral1s
+</title>
+
+<meta
+  name="description"
+  content="Create short-form reels from photos with Viral1s. Add a hook, upload your image, choose a reel style, preview the timing and export your video online."
+/>
+
+<link
+  rel="canonical"
+  href="https://viral1s.com/photo-reel-maker.html"
+/>
+
+<link
+  rel="icon"
+  type="image/png"
+  href="viral1s-icon.png"
+/>
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Viral1s" />
+
+<meta
+  property="og:title"
+  content="Free Photo Reel Maker Online | Viral1s"
+/>
+
+<meta
+  property="og:description"
+  content="Turn a photo, hook and music into a short-form reel with Viral1s."
+/>
+
+<meta
+  property="og:url"
+  content="https://viral1s.com/photo-reel-maker.html"
+/>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #070812;
+  --card: #0e1020;
+  --border: rgba(255,255,255,0.09);
+
+  --text: #f7f7fb;
+  --muted: #a7a9bb;
+
+  --purple: #765cff;
+  --blue: #527cff;
+  --soft: #9b8cff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(118,92,255,0.18),
+      transparent 30%
+    ),
+    var(--bg);
+
+  color: var(--text);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.page {
+  width: min(100% - 32px, 1040px);
+  margin: 0 auto;
+  padding: 22px 0 46px;
+}
+
+
+/* HEADER */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  margin-bottom: 42px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brand img {
+  display: block;
+  width: 120px;
+  height: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nav-cta {
+  padding: 10px 14px;
+  border-radius: 11px;
+
+  color: #fff !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--purple),
+      var(--blue)
+    );
+}
+
+
+/* HERO */
+
+.hero {
+  max-width: 850px;
+
+  margin: 0 auto;
+
+  padding: 46px 0 30px;
+
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 32px;
+
+  margin-bottom: 18px;
+  padding: 0 13px;
+
+  border:
+    1px solid
+    rgba(155,140,255,0.24);
+
+  border-radius: 999px;
+
+  background:
+    rgba(118,92,255,0.08);
+
+  color: #b9afff;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  letter-spacing: 0.45px;
+}
+
+h1 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      42px,
+      8vw,
+      74px
+    );
+
+  line-height: 0.98;
+  letter-spacing: -3px;
+}
+
+.gradient {
+  background:
+    linear-gradient(
+      90deg,
+      var(--purple),
+      var(--blue)
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.hero-text {
+  max-width: 700px;
+
+  margin: 22px auto 0;
+
+  color: var(--muted);
+
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 50px;
+
+  padding: 0 20px;
+
+  border-radius: 13px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.button-primary {
+  color: #fff;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--purple),
+      var(--blue)
+    );
+
+  box-shadow:
+    0 12px 34px
+    rgba(96,91,255,0.25);
+}
+
+.button-secondary {
+  border: 1px solid var(--border);
+
+  background:
+    rgba(255,255,255,0.035);
+
+  color: #d8d9e4;
+}
+
+
+/* WORKFLOW */
+
+.workflow {
+  max-width: 820px;
+
+  margin: 28px auto 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.workflow-card {
+  padding: 20px;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background:
+    rgba(14,16,32,0.82);
+
+  text-align: left;
+}
+
+.workflow-card span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  margin-bottom: 14px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(118,92,255,0.12);
+
+  color: #a99aff;
+
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.workflow-card h2 {
+  margin: 0;
+
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.workflow-card p {
+  margin: 9px 0 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+
+/* CONTENT */
+
+.content-section {
+  padding-top: 72px;
+}
+
+.section-head {
+  max-width: 720px;
+
+  margin-bottom: 24px;
+}
+
+.section-head h2 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      30px,
+      5vw,
+      46px
+    );
+
+  line-height: 1.05;
+  letter-spacing: -1.7px;
+}
+
+.section-head p {
+  margin: 14px 0 0;
+
+  color: var(--muted);
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.card {
+  padding: 22px;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(118,92,255,0.06),
+      rgba(14,16,32,0.78)
+    );
+}
+
+.card h3 {
+  margin: 0;
+
+  font-size: 18px;
+}
+
+.card p {
+  margin: 9px 0 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+
+/* TEXT BLOCK */
+
+.text-block {
+  padding: 26px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background:
+    rgba(14,16,32,0.72);
+}
+
+.text-block p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.text-block p + p {
+  margin-top: 16px;
+}
+
+
+/* FAQ */
+
+.faq {
+  display: grid;
+  gap: 10px;
+}
+
+details {
+  padding: 0 18px;
+
+  border: 1px solid var(--border);
+  border-radius: 15px;
+
+  background:
+    rgba(14,16,32,0.72);
+}
+
+summary {
+  cursor: pointer;
+
+  list-style: none;
+
+  padding: 18px 0;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+details p {
+  margin:
+    -4px
+    0
+    18px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+
+/* FINAL CTA */
+
+.final-cta {
+  margin-top: 72px;
+
+  padding: 34px 24px;
+
+  border:
+    1px solid
+    rgba(118,92,255,0.20);
+
+  border-radius: 22px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(118,92,255,0.16),
+      transparent 55%
+    ),
+    var(--card);
+
+  text-align: center;
+}
+
+.final-cta h2 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      30px,
+      5vw,
+      44px
+    );
+
+  letter-spacing: -1.5px;
+}
+
+.final-cta p {
+  max-width: 590px;
+
+  margin:
+    13px auto
+    22px;
+
+  color: var(--muted);
+
+  line-height: 1.65;
+}
+
+
+/* FOOTER */
+
+footer {
+  margin-top: 42px;
+
+  padding:
+    24px
+    10px
+    8px;
+
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 10px 18px;
+}
+
+.footer-links a {
+  color: #a3a3b3;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.footer-brand {
+  margin-top: 18px;
+
+  color: #6f6f80;
+
+  font-size: 13px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+
+  .page {
+    width:
+      min(
+        100% - 24px,
+        1040px
+      );
+
+    padding-top: 17px;
+  }
+
+  .topbar {
+    margin-bottom: 24px;
+  }
+
+  .nav a:not(.nav-cta) {
+    display: none;
+  }
+
+  .hero {
+    padding:
+      30px
+      0
+      18px;
+  }
+
+  h1 {
+    letter-spacing: -2.1px;
+  }
+
+  .workflow,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-section {
+    padding-top: 58px;
+  }
+
+  .final-cta {
+    margin-top: 58px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<main class="page">
+
+
+<header class="topbar">
+
+  <a
+    class="brand"
+    href="/"
+    aria-label="Viral1s Home"
+  >
+    <img
+      src="viral1s-logo.webp"
+      alt="Viral1s"
+    />
+  </a>
+
+
+  <nav
+    class="nav"
+    aria-label="Main navigation"
+  >
+
+    <a href="faceless-reel-maker.html">
+      Faceless Reels
+    </a>
+
+    <a href="about.html">
+      About
+    </a>
+
+    <a
+      class="nav-cta"
+      href="editor.html"
+    >
+      Open Editor
+    </a>
+
+  </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+  <div class="eyebrow">
+    Photo to short-form video
+  </div>
+
+
+  <h1>
+
+    Turn a Photo Into a
+
+    <span class="gradient">
+      Reel
+    </span>
+
+  </h1>
+
+
+  <p class="hero-text">
+
+    Create a short-form video from a photo
+    without dealing with a complicated editing timeline.
+
+    Add your hook, upload your image,
+    choose a Viral1s style and preview
+    the reel before exporting it.
+
+  </p>
+
+
+  <div class="hero-actions">
+
+    <a
+      class="button button-primary"
+      href="editor.html"
+    >
+      Make a Photo Reel Free
+    </a>
+
+
+    <a
+      class="button button-secondary"
+      href="image-editor.html"
+    >
+      Create Your Image First
+    </a>
+
+  </div>
+
+</section>
+
+
+
+<section
+  class="workflow"
+  aria-label="Photo reel workflow"
+>
+
+  <article class="workflow-card">
+
+    <span>
+      1
+    </span>
+
+    <h2>
+      Add a hook
+    </h2>
+
+    <p>
+      Start with the line viewers see before
+      your photo is revealed.
+    </p>
+
+  </article>
+
+
+  <article class="workflow-card">
+
+    <span>
+      2
+    </span>
+
+    <h2>
+      Upload your photo
+    </h2>
+
+    <p>
+      Add the square image you want to use
+      as the visual payoff in your reel.
+    </p>
+
+  </article>
+
+
+  <article class="workflow-card">
+
+    <span>
+      3
+    </span>
+
+    <h2>
+      Preview and export
+    </h2>
+
+    <p>
+      Check the timing and export your finished
+      vertical video when it is ready.
+    </p>
+
+  </article>
+
+</section>
+
+
+
+<section class="content-section">
+
+  <div class="section-head">
+
+    <h2>
+      A simple photo reel maker for short-form content
+    </h2>
+
+    <p>
+      Viral1s focuses on a repeatable format:
+      text first, visual reveal next,
+      then a clean export for short-form platforms.
+    </p>
+
+  </div>
+
+
+  <div class="text-block">
+
+    <p>
+
+      Photo reels can work well when one strong
+      visual carries the main idea of the video.
+
+      Instead of building a large multi-clip project,
+      you can focus on the opening hook,
+      the timing of the image reveal
+      and the final call to action.
+
+    </p>
+
+
+    <p>
+
+      Viral1s is built for creators who want
+      to turn one image into a vertical reel
+      for Instagram, TikTok or YouTube Shorts
+      using a fast, focused workflow.
+
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<section class="content-section">
+
+  <div class="section-head">
+
+    <h2>
+      What can you make with a photo reel?
+    </h2>
+
+  </div>
+
+
+  <div class="grid">
+
+
+    <article class="card">
+
+      <h3>
+        Product reveal reels
+      </h3>
+
+      <p>
+        Start with a curiosity-driven hook,
+        then reveal the product photo
+        at the key moment.
+      </p>
+
+    </article>
+
+
+    <article class="card">
+
+      <h3>
+        Educational reels
+      </h3>
+
+      <p>
+        Use a headline to introduce a fact,
+        lesson or tip, then show the supporting
+        visual.
+      </p>
+
+    </article>
+
+
+    <article class="card">
+
+      <h3>
+        Psychology content
+      </h3>
+
+      <p>
+        Create faceless human-behavior
+        or psychology videos using text,
+        one visual and music.
+      </p>
+
+    </article>
+
+
+    <article class="card">
+
+      <h3>
+        Quotes and storytelling
+      </h3>
+
+      <p>
+        Build anticipation with a short setup
+        before revealing the image
+        that completes the idea.
+      </p>
+
+    </article>
+
+
+  </div>
+
+</section>
+
+
+
+<section class="content-section">
+
+  <div class="section-head">
+
+    <h2>
+      Prepare your reel image with Viral1s
+    </h2>
+
+    <p>
+
+      Need a square visual before starting the video?
+
+      Use the Viral1s Image Creator,
+      then continue in the reel editor.
+
+    </p>
+
+  </div>
+
+
+  <a
+    class="button button-secondary"
+    href="image-editor.html"
+  >
+    Open Image Creator
+  </a>
+
+</section>
+
+
+
+<section class="content-section">
+
+  <div class="section-head">
+
+    <h2>
+      Photo reel maker FAQ
+    </h2>
+
+  </div>
+
+
+  <div class="faq">
+
+
+    <details>
+
+      <summary>
+        Can I make a reel from one photo?
+      </summary>
+
+      <p>
+
+        Yes.
+
+        Viral1s is designed around a simple
+        short-form format where a hook appears first
+        and your image is revealed during the reel.
+
+      </p>
+
+    </details>
+
+
+    <details>
+
+      <summary>
+        Can I use the reel on TikTok and Instagram?
+      </summary>
+
+      <p>
+
+        Yes.
+
+        Viral1s uses a vertical short-form format
+        that can be used for Instagram Reels,
+        TikTok and YouTube Shorts.
+
+      </p>
+
+    </details>
+
+
+    <details>
+
+      <summary>
+        Do I need video editing experience?
+      </summary>
+
+      <p>
+
+        No.
+
+        The editor is intentionally focused
+        on the essential parts of this reel format:
+        hook text, image, timing, style and export.
+
+      </p>
+
+    </details>
+
+
+    <details>
+
+      <summary>
+        Can I make faceless reels with photos?
+      </summary>
+
+      <p>
+
+        Yes.
+
+        Photo-based reels are useful for creators
+        who do not want to appear on camera.
+
+        You can also visit our
+        faceless reel maker page
+        to learn more about that workflow.
+
+      </p>
+
+    </details>
+
+
+  </div>
+
+</section>
+
+
+
+<section class="final-cta">
+
+  <h2>
+    Turn your photo into a reel
+  </h2>
+
+  <p>
+
+    Add your hook, choose a style,
+    upload your image and preview
+    your short-form video with Viral1s.
+
+  </p>
+
+
+  <a
+    class="button button-primary"
+    href="editor.html"
+  >
+    Create Your Photo Reel
+  </a>
+
+</section>
+
+
+
+<footer>
+
+  <nav
+    class="footer-links"
+    aria-label="Footer navigation"
+  >
+
+    <a href="faceless-reel-maker.html">
+      Faceless Reel Maker
+    </a>
+
+    <a href="about.html">
+      About
+    </a>
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <a href="terms.html">
+      Terms
+    </a>
+
+    <a href="contact.html">
+      Contact
+    </a>
+
+    <a href="image-editor.html">
+      Image Creator
+    </a>
+
+  </nav>
+
+
+  <div class="footer-brand">
+    © Viral1s
+  </div>
+
+</footer>
+
+
+</main>
+
+</body>
+</html>
