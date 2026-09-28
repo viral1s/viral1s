@@ -1245,9 +1245,86 @@ function switchToStyle(nextStyle) {
 }
 
 
+/* ==============================
+   TAP = NEXT STYLE
+   HOLD = OPEN PICKER
+================================ */
+
+let stylePressTimer = null;
+let styleLongPress = false;
+
+function switchToNextStyle() {
+
+  const styles =
+    getAvailableStyles();
+
+  const currentIndex =
+    styles.indexOf(currentStyle);
+
+  const nextStyle =
+    styles[
+      (currentIndex + 1) %
+      styles.length
+    ];
+
+  switchToStyle(nextStyle);
+}
+
+
 styleSwitchBtn.addEventListener(
-  "click",
-  openStylePicker
+  "pointerdown",
+  () => {
+
+    styleLongPress = false;
+
+    clearTimeout(stylePressTimer);
+
+    stylePressTimer =
+      setTimeout(() => {
+
+        styleLongPress = true;
+        openStylePicker();
+
+      }, 500);
+  }
+);
+
+
+styleSwitchBtn.addEventListener(
+  "pointerup",
+  () => {
+
+    clearTimeout(stylePressTimer);
+
+    stylePressTimer = null;
+
+    if (styleLongPress) {
+      styleLongPress = false;
+      return;
+    }
+
+    switchToNextStyle();
+  }
+);
+
+
+styleSwitchBtn.addEventListener(
+  "pointercancel",
+  () => {
+
+    clearTimeout(stylePressTimer);
+
+    stylePressTimer = null;
+    styleLongPress = false;
+  }
+);
+
+
+styleSwitchBtn.addEventListener(
+  "contextmenu",
+  event => {
+    event.preventDefault();
+  }
 );
 
 
