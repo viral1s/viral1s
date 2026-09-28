@@ -2281,8 +2281,11 @@ if (imageInitParams.get("from") === "image-creator") {
     ============================== */
 
     function updatePreview(time) {
-const CTA_START = 3.8;
-
+const CTA_START =
+  Math.max(
+    0,
+    REEL_END - CTA_VISIBLE_DURATION
+  );
 if (
   ctaInput.value.trim() &&
   time >= CTA_START
