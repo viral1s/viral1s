@@ -1954,7 +1954,14 @@ async function loadImageCreatorTransfer() {
 }
 
 
-loadImageCreatorTransfer();
+const imageInitParams =
+  new URLSearchParams(window.location.search);
+
+if (imageInitParams.get("from") === "image-creator") {
+  loadImageCreatorTransfer();
+} else {
+  loadStyleImage(savedStyle);
+}
 
     /* ==============================
        PLAY BUTTON
