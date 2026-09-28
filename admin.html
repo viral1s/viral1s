@@ -784,7 +784,13 @@
     doc
   } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app-check.js";
 
+
+  
   const firebaseConfig = {
     apiKey: "AIzaSyC4Qp_MUcky6di-rWBBCmBiRICaYsNXi0w",
     authDomain: "viral1s.firebaseapp.com",
@@ -796,13 +802,31 @@
 
 
   const app =
-    initializeApp(firebaseConfig);
+  initializeApp(firebaseConfig);
 
-  const auth =
-    getAuth(app);
 
-  const db =
-    getFirestore(app);
+const appCheck =
+  initializeAppCheck(
+    app,
+    {
+      provider:
+        new ReCaptchaEnterpriseProvider(
+          "PASTE_YOUR_SITE_KEY_HERE"
+        ),
+
+      isTokenAutoRefreshEnabled:
+        true
+    }
+  );
+
+
+const auth =
+  getAuth(app);
+
+
+const db =
+  getFirestore(app);
+  
 
   const provider =
     new GoogleAuthProvider();
