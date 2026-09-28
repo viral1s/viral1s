@@ -533,6 +533,25 @@ footer {
   align-items: center;
   text-decoration: none;
 }
+
+
+
+/* Anti-spam honeypot */
+.honeypot-field {
+  position: absolute !important;
+  left: -10000px !important;
+  top: auto !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  overflow: hidden !important;
+  opacity: 0 !important;
+
+  pointer-events: none !important;
+}
+
+    
   </style>
 </head>
 
@@ -592,7 +611,24 @@ footer {
 
       <form id="contactForm">
 
-        <div class="form-grid">
+  <div
+    class="honeypot-field"
+    aria-hidden="true"
+  >
+    <label for="companyWebsite">
+      Website
+    </label>
+
+    <input
+      id="companyWebsite"
+      name="website"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="form-grid">
 
           <div class="field">
             <label for="name">
@@ -746,6 +782,18 @@ footer {
     const formStatus =
       document.getElementById("formStatus");
 
+    const formOpenedAt =
+  Date.now();
+
+const MIN_SUBMIT_TIME =
+  1200;
+
+const SEND_COOLDOWN =
+  60 * 1000;
+
+const LAST_SEND_KEY =
+  "viral1s_contact_last_send";
+
 
     function showStatus(
       message,
@@ -766,6 +814,61 @@ footer {
       async (event) => {
 
         event.preventDefault();
+
+        const honeypot =
+  document
+    .getElementById("companyWebsite")
+    .value
+    .trim();
+
+
+if (honeypot) {
+
+  contactForm.reset();
+
+  showStatus(
+    "Your message was sent successfully. Thank you!",
+    "success"
+  );
+
+  return;
+}
+
+
+if (
+  Date.now() - formOpenedAt <
+  MIN_SUBMIT_TIME
+) {
+
+  showStatus(
+    "Please wait a moment and try again.",
+    "error"
+  );
+
+  return;
+}
+
+
+const lastSend =
+  Number(
+    localStorage.getItem(
+      LAST_SEND_KEY
+    )
+  ) || 0;
+
+
+if (
+  Date.now() - lastSend <
+  SEND_COOLDOWN
+) {
+
+  showStatus(
+    "Please wait a minute before sending another message.",
+    "error"
+  );
+
+  return;
+}
 
 
         if (!contactForm.checkValidity()) {
@@ -849,7 +952,10 @@ footer {
                 serverTimestamp()
             }
           );
-
+localStorage.setItem(
+  LAST_SEND_KEY,
+  String(Date.now())
+);
 
           contactForm.reset();
 
