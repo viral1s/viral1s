@@ -996,8 +996,21 @@ function playStyleSwitchAnimation() {
 styleSwitchBtn.addEventListener("click", () => {
 
   saveStyleData(currentStyle);
-  const nextStyle = currentStyle === 1 ? 2 : 1;
+  const styleNumbers =
+  Object.keys(STYLE_SETTINGS)
+    .map(Number)
+    .sort((a, b) => a - b);
 
+const currentIndex =
+  styleNumbers.indexOf(currentStyle);
+
+const nextStyle =
+  styleNumbers[
+    (currentIndex + 1) %
+    styleNumbers.length
+  ];
+
+  
   stopPreview();
 templateAudio.currentTime = 0;
 
