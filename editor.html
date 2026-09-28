@@ -938,6 +938,15 @@ const STYLE_SETTINGS = {
 
 let REEL_END = 5.04;
 
+
+    const CTA_VISIBLE_DURATION = 1.24;
+
+let CTA_START =
+  Math.max(
+    0,
+    REEL_END - CTA_VISIBLE_DURATION
+  );
+
 let REVEAL_DURATION =
   REEL_END - REVEAL_START;
 
@@ -976,6 +985,12 @@ function applyStyleAudio(styleNumber) {
 
   REEL_END = templateAudio.duration;
   REVEAL_DURATION = REEL_END - REVEAL_START;
+
+      CTA_START =
+  Math.max(
+    0,
+    REEL_END - CTA_VISIBLE_DURATION
+  );
 
   totalTime.textContent = formatTime(REEL_END);
 });
