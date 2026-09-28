@@ -767,8 +767,22 @@ import {
 
 
     const app =
-      initializeApp(firebaseConfig);
+  initializeApp(firebaseConfig);
 
+
+const appCheck =
+  initializeAppCheck(
+    app,
+    {
+      provider:
+        new ReCaptchaEnterpriseProvider(
+          "PASTE_YOUR_SITE_KEY_HERE"
+        ),
+
+      isTokenAutoRefreshEnabled:
+        true
+    }
+  );
 
     const db =
       getFirestore(app);
