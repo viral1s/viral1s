@@ -1641,6 +1641,130 @@ function getStyleImageKey(styleNumber) {
   return `viral1s_style_${styleNumber}_image`;
 }
 
+
+function openStyleImageDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(
+      "viral1s_style_images",
+      1
+    );
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+
+      if (!db.objectStoreNames.contains("images")) {
+        db.createObjectStore("images");
+      }
+    };
+
+    request.onsuccess = () =>
+      resolve(request.result);
+
+    request.onerror = () =>
+      reject(request.error);
+  });
+}
+
+
+async function saveStyleImage(styleNumber, file) {
+  if (!file) return;
+
+  const db = await openStyleImageDB();
+
+  await new Promise((resolve, reject) => {
+    const transaction = db.transaction(
+      "images",
+      "readwrite"
+    );
+
+    const store = transaction.objectStore("images");
+
+    const request = store.put(
+      file,
+      getStyleImageKey(styleNumber)
+    );
+
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+
+  db.close();
+}
+    
+
+
+async function getStyleImage(styleNumber) {
+  const db = await openStyleImageDB();
+
+  const image = await new Promise((resolve, reject) => {
+    const transaction = db.transaction(
+      "images",
+      "readonly"
+    );
+
+    const store = transaction.objectStore("images");
+
+    const request = store.get(
+      getStyleImageKey(styleNumber)
+    );
+
+    request.onsuccess = () =>
+      resolve(request.result || null);
+
+    request.onerror = () =>
+      reject(request.error);
+  });
+
+  db.close();
+
+  return image;
+}
+
+
+function clearSelectedImage() {
+  selectedImage = null;
+
+  if (selectedImageUrl) {
+    URL.revokeObjectURL(selectedImageUrl);
+    selectedImageUrl = null;
+  }
+
+  previewImage.removeAttribute("src");
+  previewImage.style.display = "none";
+  imagePlaceholder.style.display = "";
+
+  imageUploadBox.classList.remove("has-image");
+  imageUploadIcon.textContent = "+";
+  imageUploadTitle.textContent = "Add Image";
+  imageUploadName.textContent = "";
+
+  imageInput.value = "";
+}
+
+
+
+async function loadStyleImage(styleNumber) {
+  try {
+    const image = await getStyleImage(styleNumber);
+
+    if (!image) {
+      clearSelectedImage();
+      return;
+    }
+
+    setSelectedImage(image);
+
+  } catch (error) {
+    console.error("Style image load failed:", error);
+    clearSelectedImage();
+  }
+}
+
+
+
+    
+    
+    
     
 function setSelectedImage(file) {
 
@@ -1650,6 +1774,11 @@ function setSelectedImage(file) {
     return;
   }
 
+
+saveStyleImage(currentStyle, selectedImage).catch(error => {
+  console.error("Style image save failed:", error);
+});
+    
   imageUploadBox.classList.add(
     "has-image"
   );
