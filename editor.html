@@ -1078,33 +1078,215 @@ function playStyleSwitchAnimation() {
   );
 }
     
-styleSwitchBtn.addEventListener("click", () => {
+/* ==============================
+   STYLE PICKER
+================================ */
+
+const stylePicker =
+  document.getElementById(
+    "stylePicker"
+  );
+
+const stylePickerGrid =
+  document.getElementById(
+    "stylePickerGrid"
+  );
+
+const stylePickerBackdrop =
+  document.getElementById(
+    "stylePickerBackdrop"
+  );
+
+const closeStylePickerBtn =
+  document.getElementById(
+    "closeStylePickerBtn"
+  );
+
+
+function getAvailableStyles() {
+
+  return Object.keys(
+    STYLE_SETTINGS
+  )
+    .map(Number)
+    .sort(
+      (a, b) => a - b
+    );
+}
+
+
+function renderStylePicker() {
+
+  const styles =
+    getAvailableStyles();
+
+  stylePickerGrid.innerHTML =
+    styles.map(styleNumber => {
+
+      const active =
+        styleNumber === currentStyle;
+
+      return `
+        <button
+          class="
+            style-picker-card
+            ${active ? "active" : ""}
+          "
+          type="button"
+          data-style="${styleNumber}"
+        >
+
+          <span
+            class="style-picker-number"
+          >
+            ${styleNumber}
+          </span>
+
+          <span
+            class="style-picker-copy"
+          >
+            <strong>
+              Style ${styleNumber}
+            </strong>
+
+            <small>
+              ${
+                active
+                  ? "Current style"
+                  : "Tap to use"
+              }
+            </small>
+          </span>
+
+          <span
+            class="style-picker-check"
+          >
+            ✓
+          </span>
+
+        </button>
+      `;
+    })
+    .join("");
+}
+
+
+function openStylePicker() {
+
+  renderStylePicker();
+
+  stylePicker.classList.add(
+    "show"
+  );
+
+  stylePicker.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+}
+
+
+function closeStylePicker() {
+
+  stylePicker.classList.remove(
+    "show"
+  );
+
+  stylePicker.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+}
+
+
+function switchToStyle(nextStyle) {
+
+  if (
+    !STYLE_SETTINGS[nextStyle]
+  ) {
+    return;
+  }
+
+  if (
+    nextStyle === currentStyle
+  ) {
+    closeStylePicker();
+    return;
+  }
 
   saveStyleData(currentStyle);
-  const styleNumbers =
-  Object.keys(STYLE_SETTINGS)
-    .map(Number)
-    .sort((a, b) => a - b);
 
-const currentIndex =
-  styleNumbers.indexOf(currentStyle);
-
-const nextStyle =
-  styleNumbers[
-    (currentIndex + 1) %
-    styleNumbers.length
-  ];
-
-  
   stopPreview();
-templateAudio.currentTime = 0;
+
+  templateAudio.currentTime = 0;
 
   applyStyleTiming(nextStyle);
+
   applyStyleAudio(nextStyle);
 
+  loadStyleData(nextStyle);
 
-    loadStyleData(nextStyle);
   loadStyleImage(nextStyle);
+
+  playStyleSwitchAnimation();
+
+  localStorage.setItem(
+    "viral1s_current_style",
+    nextStyle
+  );
+
+  currentTime.textContent =
+    "0:00";
+
+  progressFill.style.width =
+    "0%";
+
+  closeStylePicker();
+}
+
+
+styleSwitchBtn.addEventListener(
+  "click",
+  openStylePicker
+);
+
+
+closeStylePickerBtn
+  .addEventListener(
+    "click",
+    closeStylePicker
+  );
+
+
+stylePickerBackdrop
+  .addEventListener(
+    "click",
+    closeStylePicker
+  );
+
+
+stylePickerGrid
+  .addEventListener(
+    "click",
+    event => {
+
+      const button =
+        event.target.closest(
+          "[data-style]"
+        );
+
+      if (!button) return;
+
+      const nextStyle =
+        Number(
+          button.dataset.style
+        );
+
+      switchToStyle(
+        nextStyle
+      );
+    }
+  );
 
 playStyleSwitchAnimation();
 
