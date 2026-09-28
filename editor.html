@@ -1851,6 +1851,8 @@ imageInput.addEventListener(
 
 async function loadImageCreatorTransfer() {
 
+  const targetStyle = currentStyle;
+
   const params =
     new URLSearchParams(
       window.location.search
@@ -1942,7 +1944,11 @@ async function loadImageCreatorTransfer() {
       );
 
 
-    setSelectedImage(file);
+    await saveStyleImage(targetStyle, file);
+
+if (currentStyle === targetStyle) {
+  setSelectedImage(file);
+}
 
   } catch (error) {
 
