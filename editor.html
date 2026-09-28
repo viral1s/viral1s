@@ -2576,7 +2576,16 @@ exportStopBtn.textContent = "Cancel Export";
     editorPopup.classList.add("show");
     return;
   }
+const exportStyle = currentStyle;
 
+const exportSettings =
+  STYLE_SETTINGS[exportStyle];
+
+if (!exportSettings) {
+  throw new Error(
+    `Export settings missing for Style ${exportStyle}`
+  );
+  }
   const originalButtonText =
     exportBtn.textContent;
 
@@ -2634,9 +2643,7 @@ const IMAGE_SIZE = VIDEO_WIDTH;
     const REEL_END = 5.04;
 
     const revealStart =
-      typeof REVEAL_START === "number"
-        ? REVEAL_START
-        : 0.75;
+  exportSettings.revealStart;
 
 
     /* =========================
@@ -2851,7 +2858,7 @@ const videoSource =
 ======================= */
 
 const musicResponse =
-  await fetch("./template1.m4a");
+  await fetch(exportSettings.audioM4a);
 
 if (!musicResponse.ok) {
   throw new Error(
