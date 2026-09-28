@@ -3852,6 +3852,13 @@ const videoUrl =
 
     downloadLink.click();
 
+    if (typeof gtag === "function") {
+  gtag(
+    "event",
+    `export_style_${exportStyle}`
+  );
+    }
+
     downloadLink.remove();
 
     setTimeout(
