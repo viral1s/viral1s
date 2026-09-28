@@ -2811,7 +2811,11 @@ const IMAGE_SIZE = VIDEO_WIDTH;
       emptySpace +
       exportHookHeight;
 
-const CTA_START = 3.8;
+const CTA_START =
+  Math.max(
+    0,
+    REEL_END - CTA_VISIBLE_DURATION
+  );
 
 const ctaStyle =
   getComputedStyle(ctaOutput);
