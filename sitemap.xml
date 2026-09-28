@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://viral1s.com/</loc>
   </url>
@@ -9,6 +10,15 @@
   </url>
 
   <url>
-  <loc>https://viral1s.com/image-editor.html</loc>
-</url>
+    <loc>https://viral1s.com/image-editor.html</loc>
+  </url>
+
+  <url>
+    <loc>https://viral1s.com/about.html</loc>
+  </url>
+
+  <url>
+    <loc>https://viral1s.com/contact.html</loc>
+  </url>
+
 </urlset>
