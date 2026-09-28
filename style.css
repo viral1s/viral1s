@@ -634,10 +634,32 @@ button {
 }
 
 #currentStyleNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 22px;
+  height: 22px;
+
   margin-top: 0;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
+  margin-left: 3px;
+  padding: 0 6px;
+
+  border: 1px solid rgba(118, 92, 255, 0.25);
+  border-radius: 999px;
+
+  background: rgba(118, 92, 255, 0.12);
+
+  color: #a99aff;
+
+  font-size: 13px;
+  font-weight: 900;
+
+  box-shadow:
+    0 0 14px
+    rgba(118, 92, 255, 0.12);
+
+  transform-origin: center;
 }
 .style-switch-btn {
   width: 42px;
@@ -667,6 +689,173 @@ button {
   background: #1d1b25;
   border-color: #5f50bd;
 }
+
+
+
+/* ==============================
+   STYLE SWITCH ANIMATION
+================================ */
+
+.compact-editor.style-switching
+#currentStyleNumber {
+  animation:
+    styleNumberPop
+    0.52s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.compact-editor.style-switching
+.style-switch-btn svg {
+  animation:
+    styleSwitchIcon
+    0.52s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.compact-editor.style-switching
+.compact-reel {
+  animation:
+    styleReelEnter
+    0.48s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.compact-editor.style-switching
+.video-player-controls {
+  animation:
+    styleControlsEnter
+    0.45s
+    0.04s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+.compact-editor.style-switching
+.compact-fields {
+  animation:
+    styleControlsEnter
+    0.48s
+    0.08s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+
+@keyframes styleNumberPop {
+
+  0% {
+    opacity: 0;
+    transform:
+      translateY(-6px)
+      scale(0.65)
+      rotateX(60deg);
+  }
+
+  60% {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1.18)
+      rotateX(0deg);
+
+    box-shadow:
+      0 0 0 6px
+      rgba(118, 92, 255, 0.12),
+      0 0 22px
+      rgba(118, 92, 255, 0.30);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+
+    box-shadow:
+      0 0 14px
+      rgba(118, 92, 255, 0.12);
+  }
+
+}
+
+
+@keyframes styleSwitchIcon {
+
+  0% {
+    transform:
+      rotate(0deg)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      rotate(90deg)
+      scale(0.82);
+  }
+
+  100% {
+    transform:
+      rotate(180deg)
+      scale(1);
+  }
+
+}
+
+
+@keyframes styleReelEnter {
+
+  0% {
+    opacity: 0.35;
+
+    transform:
+      translateY(8px)
+      scale(0.985);
+
+    box-shadow:
+      0 0 0
+      rgba(118, 92, 255, 0);
+  }
+
+  65% {
+    opacity: 1;
+
+    transform:
+      translateY(-2px)
+      scale(1.006);
+
+    box-shadow:
+      0 18px 50px
+      rgba(118, 92, 255, 0.22);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    box-shadow:
+      0 18px 45px
+      rgba(0, 0, 0, 0.55);
+  }
+
+}
+
+
+@keyframes styleControlsEnter {
+
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
 .top-export-btn {
   min-height: 42px;
 
