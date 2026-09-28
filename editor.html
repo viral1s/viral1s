@@ -1921,7 +1921,7 @@ async function loadImageCreatorTransfer() {
       );
 
 
-    database.close();
+    
 
 
     if (
@@ -1945,6 +1945,27 @@ async function loadImageCreatorTransfer() {
 
 
     await saveStyleImage(targetStyle, file);
+    await new Promise((resolve, reject) => {
+  const transaction = database.transaction(
+    "reel_transfer",
+    "readwrite"
+  );
+
+  const request = transaction
+    .objectStore("reel_transfer")
+    .delete("current");
+
+  request.onsuccess = () => resolve();
+  request.onerror = () => reject(request.error);
+});
+
+database.close();
+
+window.history.replaceState(
+  {},
+  "",
+  "editor.html"
+);
 
 if (currentStyle === targetStyle) {
   setSelectedImage(file);
