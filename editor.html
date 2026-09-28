@@ -1553,6 +1553,37 @@ hookFont.addEventListener(
 );
 
 
+
+function saveCurrentStyleData() {
+  saveStyleData(currentStyle);
+}
+
+hookInput.addEventListener(
+  "input",
+  saveCurrentStyleData
+);
+
+ctaInput.addEventListener(
+  "input",
+  saveCurrentStyleData
+);
+
+hookSize.addEventListener(
+  "input",
+  saveCurrentStyleData
+);
+
+hookHeight.addEventListener(
+  "input",
+  saveCurrentStyleData
+);
+
+hookFont.addEventListener(
+  "change",
+  saveCurrentStyleData
+);
+    
+
 /* ==============================
    INITIAL STATE
 ============================== */
