@@ -1239,6 +1239,12 @@ function switchToStyle(nextStyle) {
 
   applyStyleTiming(nextStyle);
 
+  if (typeof gtag === "function") {
+  gtag("event", "style_selected", {
+    style_number: nextStyle
+  });
+  }
+
   applyStyleAudio(nextStyle);
 
   loadStyleData(nextStyle);
