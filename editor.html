@@ -659,7 +659,57 @@
 
   </main>
 
+<!-- ==============================
+     STYLE PICKER
+================================ -->
 
+<div
+  id="stylePicker"
+  class="style-picker"
+  aria-hidden="true"
+>
+  <button
+    id="stylePickerBackdrop"
+    class="style-picker-backdrop"
+    type="button"
+    aria-label="Close style picker"
+  ></button>
+
+  <div
+    class="style-picker-sheet"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="stylePickerTitle"
+  >
+    <div class="style-picker-handle"></div>
+
+    <div class="style-picker-head">
+      <div>
+        <strong id="stylePickerTitle">
+          Choose Style
+        </strong>
+
+        <span>
+          Pick your reel format
+        </span>
+      </div>
+
+      <button
+        id="closeStylePickerBtn"
+        class="style-picker-close"
+        type="button"
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </div>
+
+    <div
+      id="stylePickerGrid"
+      class="style-picker-grid"
+    ></div>
+  </div>
+</div>
   
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
