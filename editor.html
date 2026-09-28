@@ -973,7 +973,26 @@ function applyStyleAudio(styleNumber) {
 });
 
 
+function playStyleSwitchAnimation() {
 
+  const editor =
+    document.querySelector(
+      ".compact-editor"
+    );
+
+  if (!editor) return;
+
+  editor.classList.remove(
+    "style-switching"
+  );
+
+  void editor.offsetWidth;
+
+  editor.classList.add(
+    "style-switching"
+  );
+}
+    
 styleSwitchBtn.addEventListener("click", () => {
 
   saveStyleData(currentStyle);
@@ -989,7 +1008,7 @@ templateAudio.currentTime = 0;
     loadStyleData(nextStyle);
   loadStyleImage(nextStyle);
 
-
+playStyleSwitchAnimation();
 
 
   
