@@ -979,11 +979,8 @@ styleSwitchBtn.addEventListener("click", () => {
   saveStyleData(currentStyle);
   const nextStyle = currentStyle === 1 ? 2 : 1;
 
-  playing = false;
-  cancelAnimationFrame(animationFrame);
-
-  templateAudio.pause();
-  templateAudio.currentTime = 0;
+  stopPreview();
+templateAudio.currentTime = 0;
 
   applyStyleTiming(nextStyle);
   applyStyleAudio(nextStyle);
