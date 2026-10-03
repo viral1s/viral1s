@@ -745,57 +745,291 @@
        DESKTOP
     ========================= */
 
-    @media (min-width: 900px) {
-      .app {
-        max-width: 1180px;
-        margin: 0 auto;
-        padding: 16px 22px;
-        gap: 10px;
-      }
+   @media (min-width: 900px) {
 
-      .brand img {
-        width: 130px;
-      }
+  .app {
+    max-width: 1400px;
+    margin: 0 auto;
 
-      .workspace {
-        display: grid;
-        grid-template-columns: minmax(0,1fr) 390px;
-        gap: 14px;
-      }
+    padding: 22px 28px;
 
-      .canvas-area {
-        border: 1px solid var(--border);
-        border-radius: 17px;
-        background: rgba(17,17,29,.55);
-      }
+    gap: 12px;
+  }
 
-      .canvas-shell {
-        width: min(62vh,610px);
-      }
 
-      .controls {
-        align-self: end;
-      }
+  /* HEADER */
 
-      .projects-grid {
-        grid-template-columns: repeat(3,minmax(0,1fr));
-      }
-    }
+  .topbar {
+    min-height: 64px;
 
-    @media (max-width: 370px) {
-      .brand img {
-        width: 86px;
-      }
+    padding: 10px 14px;
 
-      .page-title {
-        font-size: 8px;
-      }
+    border-radius: 18px;
 
-      .canvas-shell {
-        width: min(73vw,40dvh,320px);
-      }
-    }
+    background:
+      linear-gradient(
+        135deg,
+        rgba(20,20,35,.98),
+        rgba(15,15,27,.96)
+      );
 
+    box-shadow:
+      0 12px 35px rgba(0,0,0,.18);
+  }
+
+  .brand img {
+    width: 145px;
+  }
+
+  .page-title {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .save-btn {
+    min-height: 42px;
+
+    padding: 0 18px;
+
+    border-radius: 11px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+  }
+
+
+  /* SECOND BAR */
+
+  .subbar {
+    min-height: 50px;
+
+    padding: 7px 10px;
+
+    border-radius: 15px;
+  }
+
+  .sub-btn {
+    min-height: 35px;
+
+    padding: 0 14px;
+
+    border-radius: 9px;
+
+    font-size: 10px;
+
+    cursor: pointer;
+  }
+
+  .sub-btn.lock {
+    width: 42px;
+  }
+
+
+  /* MAIN DESKTOP LAYOUT */
+
+  .workspace {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      430px;
+
+    gap: 18px;
+
+    min-height: 0;
+  }
+
+
+  /* CANVAS SIDE */
+
+  .canvas-area {
+    min-height: 0;
+
+    padding: 28px;
+
+    border:
+      1px solid
+      rgba(255,255,255,.08);
+
+    border-radius: 22px;
+
+    background:
+      radial-gradient(
+        circle at 50% 45%,
+        rgba(124,92,255,.08),
+        transparent 45%
+      ),
+      rgba(17,17,29,.48);
+
+    box-shadow:
+      inset 0 1px 0
+      rgba(255,255,255,.025);
+  }
+
+  .canvas-shell {
+    width:
+      min(
+        68vh,
+        680px,
+        100%
+      );
+
+    border-radius: 18px;
+
+    box-shadow:
+      0 28px 70px
+      rgba(0,0,0,.42);
+  }
+
+
+  /* TOOLS SIDE */
+
+  .controls {
+    width: 100%;
+
+    align-self: center;
+
+    border-radius: 20px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(20,20,34,.99),
+        rgba(14,14,25,.99)
+      );
+
+    box-shadow:
+      0 24px 60px
+      rgba(0,0,0,.28);
+  }
+
+
+  /* CONTEXT TOOLS */
+
+  .context-strip {
+    height: 82px;
+
+    gap: 6px;
+
+    padding: 8px 9px;
+  }
+
+  .context-btn {
+    flex: 0 0 76px;
+    width: 76px;
+
+    border-radius: 11px;
+
+    cursor: pointer;
+  }
+
+  .context-btn:hover {
+    color: #fff;
+
+    background:
+      rgba(124,92,255,.10);
+  }
+
+  .context-icon {
+    font-size: 21px;
+  }
+
+  .context-name {
+    max-width: 70px;
+
+    font-size: 9px;
+  }
+
+
+  /* MAIN TOOL BAR */
+
+  .main-tools {
+    height: 82px;
+  }
+
+  .main-tool {
+    cursor: pointer;
+
+    transition:
+      background .18s ease,
+      color .18s ease;
+  }
+
+  .main-tool:hover {
+    color: #fff;
+
+    background:
+      rgba(255,255,255,.025);
+  }
+
+  .main-icon {
+    font-size: 23px;
+  }
+
+  .main-label {
+    font-size: 10px;
+  }
+
+
+  /* DETAIL PANEL */
+
+  .detail-tool {
+    min-height: 170px;
+
+    padding: 14px;
+  }
+
+  .detail-head {
+    margin-bottom: 14px;
+  }
+
+  .detail-title {
+    font-size: 12px;
+  }
+
+  .detail-head button {
+    min-height: 35px;
+
+    padding: 0 13px;
+
+    font-size: 9px;
+
+    cursor: pointer;
+  }
+
+  .detail-body {
+    min-height: 95px;
+  }
+
+  .control-label {
+    min-width: 68px;
+
+    font-size: 10px;
+  }
+
+  .control-value {
+    font-size: 9px;
+  }
+
+  .control-row input[type="text"],
+  .control-row select {
+    height: 39px;
+
+    font-size: 10px;
+  }
+
+
+  /* PROJECTS */
+
+  .projects-grid {
+    grid-template-columns:
+      repeat(2, minmax(0,1fr));
+
+    gap: 10px;
+  }
+
+}
 
 
 /* VIRAL1S APP LOADER */
